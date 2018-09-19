@@ -20,7 +20,7 @@ Spelet kommer att programmeras i OpenGL ES 3.0 och scenen kommer att projiceras 
 
 -------------------------------------------------------------------------------------------------------------------
 
-PROGRAMMERING
+**PROGRAMMERING**
 
 Rent programmeringsmässigt kommer spelet att baseras på komponenter så långt det går och även försöka använda ett designmönster utöver det komponentbaserade.
 
