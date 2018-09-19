@@ -1,20 +1,20 @@
-SPELIDÈ
+**SPELIDÃˆ**
 
 Shoot em up spel
 
-Man skulle kunna kalla det spaceshooter initialt så blir det lätt att förstå vad det handlar om.
+Man skulle kunna kalla det spaceshooter initialt sÃ¥ blir det lÃ¤tt att fÃ¶rstÃ¥ vad det handlar om.
 
-Skeppet färdas i yttre rymden eller främmande världar och stöter på diverse hinder på vägen som meteoriter, 
-fiender men även goda föremål som kan ge fler liv. poäng med mera.
+Skeppet fÃ¤rdas i yttre rymden eller frÃ¤mmande vÃ¤rldar och stÃ¶ter pÃ¥ diverse hinder pÃ¥ vÃ¤gen som meteoriter, 
+fiender men Ã¤ven goda fÃ¶remÃ¥l som kan ge fler liv. poÃ¤ng med mera.
 
-Det ska finnas olika nivåer (levels) och olika nivåer har olika svårighetsgrader
+Det ska finnas olika nivÃ¥er (levels) och olika nivÃ¥er har olika svÃ¥righetsgrader
 
-Målet skulle kunna vara att nå Utopia - en värld långt bortom denna där evig lycka och perfektion råder. 
-Skeppet har precis lämnat jorden som står i brand.<br>
+MÃ¥let skulle kunna vara att nÃ¥ Utopia - en vÃ¤rld lÃ¥ngt bortom denna dÃ¤r evig lycka och perfektion rÃ¥der. 
+Skeppet har precis lÃ¤mnat jorden som stÃ¥r i brand.<br>
 
 -------------------------------------------------------------------------------------------------------------------
 
-API
+**API**
 
 Spelet kommer att programmeras i OpenGL ES 3.0 och scenen kommer att projiceras orthografiskt. 
 
@@ -22,10 +22,10 @@ Spelet kommer att programmeras i OpenGL ES 3.0 och scenen kommer att projiceras 
 
 PROGRAMMERING
 
-Rent programmeringsmässigt kommer spelet att baseras på komponenter så långt det går och även försöka använda ett designmönster utöver det komponentbaserade.
+Rent programmeringsmÃ¤ssigt kommer spelet att baseras pÃ¥ komponenter sÃ¥ lÃ¥ngt det gÃ¥r och Ã¤ven fÃ¶rsÃ¶ka anvÃ¤nda ett designmÃ¶nster utÃ¶ver det komponentbaserade.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-TID
+**TID**
 
-Då tiden är mycket knapp med tanke på vad som ska göras så det kommer sannolikt bli enkelt MEN tanken är att det ska vara så pass bra uppbyggt kodmässigt att det relativt lätt ska kunna byggas ut och förfinas.
+DÃ¥ tiden Ã¤r mycket knapp med tanke pÃ¥ vad som ska gÃ¶ras sÃ¥ det kommer sannolikt bli enkelt MEN tanken Ã¤r att det ska vara sÃ¥ pass bra uppbyggt kodmÃ¤ssigt att det relativt lÃ¤tt ska kunna byggas ut och fÃ¶rfinas.
