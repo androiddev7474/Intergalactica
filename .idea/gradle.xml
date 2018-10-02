@@ -9,6 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bitmapdec" />
+            <option value="$PROJECT_DIR$/renderlib" />
+            <option value="$PROJECT_DIR$/shadercompile" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

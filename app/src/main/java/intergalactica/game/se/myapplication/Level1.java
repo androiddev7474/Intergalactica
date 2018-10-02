@@ -1,15 +1,20 @@
 package intergalactica.game.se.myapplication;
 
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 
 public class Level1 extends Level {
 
     public static final int LEVEL_ID = 1;
+    private Bitmap[] bitmaps;
 
-    public Level1() {
+    public Level1(Bitmap[] bitmaps) {
 
         super(LEVEL_ID);
+
+
+
     }
 
     @Override
