@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import renderlib.opengles.se.myapplication.GLprojection;
+
 public class GameManager {
 
     private Level level; //abstrakt basklass
@@ -22,6 +24,17 @@ public class GameManager {
         resourceLoader = new ResourceLoader(context);
         preLoadResources();
         nextLevel(level_id);
+
+
+
+    }
+
+    public void initLevelMap(GLprojection gLprojection) {
+
+        level.levelMap.setContext(context);
+        level.levelMap.setBackgroundBitmap(bitmaps[0]);
+        level.levelMap.setProjection(gLprojection);
+        level.levelMap.createTextures();
 
     }
 
