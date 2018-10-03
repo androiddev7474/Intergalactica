@@ -2,13 +2,17 @@ package intergalactica.game.se.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
-import android.os.Looper;
+import android.opengl.Matrix;
 import android.util.Log;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import renderlib.opengles.se.myapplication.GLprojection;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -21,6 +25,15 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private int frameCounter = 5;
     private float xPos, yPos;
     private boolean down, up, move;
+
+    private Bitmap levelMap;
+
+    private GLprojection gLprojection = new GLprojection();
+
+    public void setLevelMap(Bitmap levelMap) {
+
+        this.levelMap = levelMap;
+    }
 
     public GameRenderer(Context context) {
 
@@ -39,22 +52,46 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         level = prefs.getInt(GameActivity.MY_PREFS_STORED_LEVEL_ID, DEFAULT_LEVEL);
 
         gameManager = new GameManager(context, level);
+        getGameManager().initLevelMap(gLprojection);
 
-        int width = context.getResources().getDisplayMetrics().widthPixels;
-        int height = context.getResources().getDisplayMetrics().heightPixels;
-        //float[][] bitmapDimens, String[] bitmapNames, String resFolderName
-        int[][] bitmapDimens = { {width, height} };
-        String[] bitmapNames = {"level_map"};
-        //Context context, String fileName, String resFolderName, int width, int height, int type, int minFilter, int magFilter, int wrapMode
-        TextureFactory.initialize();
-        Texture myTexture = TextureFactory.getInstance().createTexture(context, bitmapNames[0], "drawable", bitmapDimens[0][0], bitmapDimens[0][1], GLES30.GL_TEXTURE_2D, GLES30.GL_LINEAR, GLES30.GL_LINEAR, GLES30.GL_CLAMP_TO_EDGE);
-        int y = 1;
+        GLES20.glEnable(GLES30.GL_BLEND);
+        GLES20.glBlendFunc(GLES30.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
     }
 
     @Override
-    public void onSurfaceChanged(GL10 gl10, int i, int i1) {
+    public void onSurfaceChanged(GL10 gl10, int width, int height) {
 
+        GLES30.glViewport(0, 0, width, height);
+        orthoProject(width, height, -1, 1);
+    }
+
+
+    public void orthoProject(int width, int height, float near, float far) {
+
+
+        /*final float ratio = (float) width / height;
+        final float left = -ratio;
+        final float right = ratio;
+        */
+        final float ratio = (float) height / width;
+        final float bottom = 0f;
+        final float top = 10f;
+        final float left = 0;
+        final float right = top / ratio;
+        //this.right = right;
+        //this.top = top;
+
+        //CollisionWalls.setWallParams(0, right, top, bottom);
+        //projicering
+        //Matrix.frustumM(gLprojection.getmProjectionMatrix(), 0, left, right, bottom, top, near, far);
+        /*Matrix.orthoM(gLprojection.getmProjectionMatrix(), 0,  0, width,
+                0, height,  near, far);
+                */
+
+        Matrix.orthoM(gLprojection.getmProjectionMatrix(), 0,  0, right, bottom, top,  -1, 1);
+
+        int y = 111;
     }
 
     @Override

@@ -1,104 +1,51 @@
 package intergalactica.game.se.myapplication;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES30;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-import java.util.List;
-
 public class Texture {
+
+    private TextureData data;
+    //förinställda flaggor (=lättare anrop)
+    private static final int TYPE = GLES30.GL_TEXTURE_2D;
+    private static final int MINFILTER = GLES30.GL_LINEAR;
+    private static final int MAGFILTER = GLES30.GL_LINEAR;
+    private static final int WRAPMODE = GLES30.GL_CLAMP_TO_EDGE;
+
+
+
     /*
-     * this texture's data storage
+     * Lagring av texturdata
      */
-    public class Data {
-        public int[] ID = new int[1];
-        public int width = 0;
-        public int height = 0;
-        public int type = 0;
-        public int minFilter = 0;
-        public int magFilter = 0;
-        public int wrapMode = 0;
+    private class TextureData {
+        private int[] ID = new int[1]; //texturnamn
+        private int type;
+        private int minFilter;
+        private int magFilter;
+        private int wrapMode;
     }
 
-    private Data data;
 
-    public Texture() {
+    public TextureData getTextureData() {
 
+        return data;
     }
 
     /**
-     * Creates this texture
      *
-     * @param context       The OpenGL context
-     * @param fileName      The texture filename
-     * @param resFolderName The resource folder's name in which the texture file is placed in
-     * @param width         The requested texture width
-     * @param height        The requested texture height
-     * @param type          The texture's type (GL_TEXTURE_2D, GL_TEXTURE_3D etc)
-     * @param minFilter     The texture's minification filter mode
-     * @param magFilter     The texture's magnification filter mode
-     * @param wrapMode      The texture's wrap mode
-     * @return true if this texture was successfully created, false otherwise
+     * @param bitmap
+     * @param type
+     * @param minFilter
+     * @param magFilter
+     * @param wrapMode
+     * @return
      */
-    public boolean create(Context context, String fileName, String resFolderName, int width, int height, int type, int minFilter, int magFilter, int wrapMode) {
-        if (fileName.isEmpty()) {
-            if (BuildConfig.DEBUG) {
-                String message = "Error: no texture filename supplied";
+    public boolean create(Bitmap bitmap, int type, int minFilter, int magFilter, int wrapMode) {
 
-                Log.e("Texture", message);
-            }
+        data = new TextureData();
 
-            return false;
-        }
-
-        int resourceID = context.getResources().getIdentifier(fileName, resFolderName, context.getPackageName());
-
-        if (BuildConfig.DEBUG)
-            Log.e("Texture", fileName + " - resourceID: " + resourceID);
-
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(), resourceID, options);
-
-        options.inSampleSize = calculateInSampleSize(options, width, height);
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        options.inDither = true;
-        options.inScaled = false;
-        options.inJustDecodeBounds = false;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceID, options);
-
-        if (bitmap == null) {
-            if (BuildConfig.DEBUG) {
-                String message = "Error: " + fileName + "- failed to create bitmap";
-
-                Log.e("Texture", message);
-
-                return false;
-            }
-
-            return false;
-        }
-
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
-
-        if (scaledBitmap == null) {
-            if (BuildConfig.DEBUG) {
-                String message = "Error: " + fileName + "- failed to create scaled bitmap";
-
-                Log.e("Texture", message);
-
-                return false;
-            }
-        }
-
-        data = new Data();
-
-        data.width = scaledBitmap.getWidth();
-        data.height = scaledBitmap.getHeight();
         data.type = type;
         data.minFilter = minFilter;
         data.magFilter = magFilter;
@@ -108,24 +55,21 @@ public class Texture {
 
         if (data.ID[0] == 0) {
             if (BuildConfig.DEBUG) {
-                String message = "Error: " + fileName + "- glGenTextures() - failed to generate texture";
-
+                String message = "Error: failed to generate texture";
                 Log.e("Texture", message);
             }
-
             return false;
         }
 
         GLES30.glBindTexture(type, data.ID[0]);
-
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_MIN_FILTER, minFilter);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_MAG_FILTER, magFilter);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_WRAP_S, wrapMode);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_WRAP_T, wrapMode);
 
-        GLUtils.texImage2D(type, 0, scaledBitmap, 0);
+        GLUtils.texImage2D(type, 0, bitmap, 0);
 
-        if (TextureFactory.getInstance().getMipmapEnabled())
+        if (TextureFactory_.getInstance().getMipmapEnabled())
             GLES30.glGenerateMipmap(type);
 
         GLES30.glBindTexture(type, 0);
@@ -133,39 +77,43 @@ public class Texture {
         return true;
     }
 
-    private int calculateInSampleSize(BitmapFactory.Options options, int requestedWidth, int requestedHeight) {
-        final int width = options.outWidth;
-        final int height = options.outHeight;
-        int inSampleSize = 1;
 
-        if ((width > requestedWidth) || (height > requestedHeight)) {
-            final int halfWidth = width / 2;
-            final int halfHeight = height / 2;
 
-            while ((halfWidth / inSampleSize) >= requestedWidth &&
-                    (halfHeight / inSampleSize) >= requestedHeight) {
-                inSampleSize *= 2;
+    public boolean create(Bitmap bitmap) {
+
+        data = new TextureData();
+
+        data.type = TYPE;
+        data.minFilter = MINFILTER;
+        data.magFilter = MAGFILTER;
+        data.wrapMode = WRAPMODE;
+
+        GLES30.glGenTextures(1, data.ID, 0);
+
+        if (data.ID[0] == 0) {
+            if (BuildConfig.DEBUG) {
+                String message = "Error: failed to generate texture";
+                Log.e("Texture", message);
             }
+            return false;
         }
 
-        return inSampleSize;
+        GLES30.glBindTexture(TYPE, data.ID[0]);
+        GLES30.glTexParameteri(TYPE, GLES30.GL_TEXTURE_MIN_FILTER, MINFILTER);
+        GLES30.glTexParameteri(TYPE, GLES30.GL_TEXTURE_MAG_FILTER, MAGFILTER);
+        GLES30.glTexParameteri(TYPE, GLES30.GL_TEXTURE_WRAP_S, WRAPMODE);
+        GLES30.glTexParameteri(TYPE, GLES30.GL_TEXTURE_WRAP_T, WRAPMODE);
+
+        GLUtils.texImage2D(TYPE, 0, bitmap, 0);
+
+
+        GLES30.glGenerateMipmap(TYPE);
+
+        GLES30.glBindTexture(TYPE, 0);
+
+        return true;
     }
 
-    public void bind(int textureUnit) {
-        if (data.ID[0] == 0)
-            return;
 
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0 + textureUnit);
-
-        GLES30.glBindTexture(data.type, data.ID[0]);
-    }
-
-    public void unbind() {
-        GLES30.glBindTexture(data.type, 0);
-    }
-
-    public Data getTextureData() {
-        return data;
-    }
 
 }
