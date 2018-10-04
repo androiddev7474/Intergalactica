@@ -25,6 +25,15 @@ public class LevelMap {
     private GLprojection gLprojection;
     private GLrender gLrender;
 
+    ActorFactory actorFactory = new ActorFactory();
+
+    public LevelMap() {
+
+        actorFactory.createActor("Background");
+
+
+    }
+
     public void draw() {
 
 
@@ -32,8 +41,9 @@ public class LevelMap {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         Matrix.setIdentityM(models.getmModelMatrix(), 0);
-        Matrix.translateM(models.getmModelMatrix(), 0, 0, 0, 0);
-        Matrix.scaleM(models.getmModelMatrix(), 0, 6.6f, 10f, 0f);
+        Matrix.translateM(models.getmModelMatrix(), 0, 3.22f, 5, 0);
+        //Matrix.scaleM(models.getmModelMatrix(), 0, 12.86f, 20f, 0f);
+        Matrix.scaleM(models.getmModelMatrix(), 0, 6.43f, 10f, 0f);
 
         gLrender.render();
     }
@@ -59,6 +69,7 @@ public class LevelMap {
     public void createTextures() {
 
         Texture texture = TextureFactory.createTexture(backgroundBitmap);
+
 
         String[] attributes = new String[] {"a_Position",  "a_Color", "a_Normal", "a_TexCoordinate"};
         Compile compile = new Compile(context, R.raw.per_pixel_vertex_shader, R.raw.per_pixel_fragment_shader, attributes);

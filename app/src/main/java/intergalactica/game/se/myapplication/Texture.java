@@ -109,7 +109,7 @@ public class Texture {
 
         GLES30.glGenerateMipmap(TYPE);
 
-        GLES30.glBindTexture(TYPE, 0);
+        //GLES30.glBindTexture(TYPE, 0);
 
         return true;
     }

@@ -17,6 +17,8 @@ public class GameManager {
     private ResourceLoader resourceLoader;
     private Bitmap[] bitmaps;
 
+    private GLprojection gLprojection = new GLprojection();
+
     public GameManager(Context context, int level_id) {
 
         Looper.prepare();
@@ -29,7 +31,12 @@ public class GameManager {
 
     }
 
-    public void initLevelMap(GLprojection gLprojection) {
+    public GLprojection getgLprojection() {
+
+        return this.gLprojection;
+    }
+
+    private void initLevelMap(GLprojection gLprojection) {
 
         level.levelMap.setContext(context);
         level.levelMap.setBackgroundBitmap(bitmaps[0]);
@@ -49,15 +56,18 @@ public class GameManager {
 
             case 1:
                 this.level = new Level1(bitmaps);
+                initLevelMap(gLprojection);
                 infoNewLevel("level1");
 
                 break;
             case 2:
                 this.level = new Level2();
+                initLevelMap(gLprojection);
                 infoNewLevel("level2");
                 break;
             case 3:
                 this.level = new Level3();
+                initLevelMap(gLprojection);
                 infoNewLevel("level3");
                 break;
 
