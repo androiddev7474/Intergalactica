@@ -28,7 +28,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private Bitmap levelMap;
 
-    private GLprojection gLprojection = new GLprojection();
+    private GLprojection gLprojection;
 
     public void setLevelMap(Bitmap levelMap) {
 
@@ -52,7 +52,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         level = prefs.getInt(GameActivity.MY_PREFS_STORED_LEVEL_ID, DEFAULT_LEVEL);
 
         gameManager = new GameManager(context, level);
-        getGameManager().initLevelMap(gLprojection);
+        gLprojection = gameManager.getgLprojection();
 
         GLES20.glEnable(GLES30.GL_BLEND);
         GLES20.glBlendFunc(GLES30.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
