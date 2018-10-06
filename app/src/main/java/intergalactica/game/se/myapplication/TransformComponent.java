@@ -1,5 +1,6 @@
 package intergalactica.game.se.myapplication;
 
+
 /**
  * Skapad: 2018-10-04
  * Björn Hallström
@@ -10,8 +11,14 @@ package intergalactica.game.se.myapplication;
 public class TransformComponent extends BaseComponent {
 
     private float[] mModelMatrix = new float[16];
+    private float x, y, z; // positioner
+    private float scaleX, scaleY, scaleZ; // skalning
+
+
 
     public void create() {
+
+
 
     }
 
@@ -25,7 +32,57 @@ public class TransformComponent extends BaseComponent {
 
     public float[] getMatrix() {
 
-        return this.mModelMatrix;
+        return mModelMatrix;
     }
+
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
+    }
+
+    public float getScaleX() {
+        return scaleX;
+    }
+
+    public void setScaleX(float scaleX) {
+        this.scaleX = scaleX;
+    }
+
+    public float getScaleY() {
+        return scaleY;
+    }
+
+    public void setScaleY(float scaleY) {
+        this.scaleY = scaleY;
+    }
+
+    public float getScaleZ() {
+        return scaleZ;
+    }
+
+    public void setScaleZ(float scaleZ) {
+        this.scaleZ = scaleZ;
+    }
+
 
 }

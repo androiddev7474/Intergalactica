@@ -12,8 +12,6 @@ import android.util.Log;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import renderlib.opengles.se.myapplication.GLprojection;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class GameRenderer implements GLSurfaceView.Renderer {
@@ -28,7 +26,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private Bitmap levelMap;
 
-    private GLprojection gLprojection;
+    //private GLprojection gLprojection;
 
     public void setLevelMap(Bitmap levelMap) {
 
@@ -52,10 +50,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         level = prefs.getInt(GameActivity.MY_PREFS_STORED_LEVEL_ID, DEFAULT_LEVEL);
 
         gameManager = new GameManager(context, level);
-        gLprojection = gameManager.getgLprojection();
+        //gLprojection = gameManager.getgLprojection();
 
         GLES20.glEnable(GLES30.GL_BLEND);
         GLES20.glBlendFunc(GLES30.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+        GLcamera.createCamera();
 
     }
 
@@ -63,36 +63,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
 
         GLES30.glViewport(0, 0, width, height);
-        orthoProject(width, height, -1, 1);
+        //orthoProject(width, height, -1, 1);
+        GLprojection.orthoProject(width, height, -1, 1, 10, 0);
     }
 
 
-    public void orthoProject(int width, int height, float near, float far) {
-
-
-        /*final float ratio = (float) width / height;
-        final float left = -ratio;
-        final float right = ratio;
-        */
-        final float ratio = (float) height / width;
-        final float bottom = 0f;
-        final float top = 10f;
-        final float left = 0;
-        final float right = top / ratio;
-        //this.right = right;
-        //this.top = top;
-
-        //CollisionWalls.setWallParams(0, right, top, bottom);
-        //projicering
-        //Matrix.frustumM(gLprojection.getmProjectionMatrix(), 0, left, right, bottom, top, near, far);
-        /*Matrix.orthoM(gLprojection.getmProjectionMatrix(), 0,  0, width,
-                0, height,  near, far);
-                */
-
-        Matrix.orthoM(gLprojection.getmProjectionMatrix(), 0,  0, right, bottom, top,  -1, 1);
-
-        int y = 111;
-    }
 
     @Override
     public void onDrawFrame(GL10 gl10) {

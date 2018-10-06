@@ -1,5 +1,7 @@
 package intergalactica.game.se.myapplication;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 
@@ -7,9 +9,11 @@ public class Level3 extends Level {
 
     public static final int LEVEL_ID = 3;
 
-    public Level3() {
+    public Level3(Context context, ActorFactory actorFactory) {
 
-        super(LEVEL_ID);
+        super(context, LEVEL_ID, actorFactory);
+
+
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import renderlib.opengles.se.myapplication.GLprojection;
+
 
 public class GameManager {
 
@@ -17,7 +17,7 @@ public class GameManager {
     private ResourceLoader resourceLoader;
     private Bitmap[] bitmaps;
 
-    private GLprojection gLprojection = new GLprojection();
+    private ActorFactory actorFactory;
 
     public GameManager(Context context, int level_id) {
 
@@ -25,25 +25,12 @@ public class GameManager {
         this.context = context;
         resourceLoader = new ResourceLoader(context);
         preLoadResources();
+        actorFactory = new ActorFactory(bitmaps);
         nextLevel(level_id);
 
 
-
     }
 
-    public GLprojection getgLprojection() {
-
-        return this.gLprojection;
-    }
-
-    private void initLevelMap(GLprojection gLprojection) {
-
-        level.levelMap.setContext(context);
-        level.levelMap.setBackgroundBitmap(bitmaps[0]);
-        level.levelMap.setProjection(gLprojection);
-        level.levelMap.createTextures();
-
-    }
 
     public Level getLevel() {
 
@@ -55,19 +42,19 @@ public class GameManager {
         switch (level) {
 
             case 1:
-                this.level = new Level1(bitmaps);
-                initLevelMap(gLprojection);
+                this.level = new Level1(context, actorFactory);
+                //initLevelMap(gLprojection);
                 infoNewLevel("level1");
 
                 break;
             case 2:
-                this.level = new Level2();
-                initLevelMap(gLprojection);
+                this.level = new Level2(context, actorFactory);
+                //initLevelMap(gLprojection);
                 infoNewLevel("level2");
                 break;
             case 3:
-                this.level = new Level3();
-                initLevelMap(gLprojection);
+                this.level = new Level3(context, actorFactory);
+                //initLevelMap(gLprojection);
                 infoNewLevel("level3");
                 break;
 
@@ -97,17 +84,12 @@ public class GameManager {
 
         float width = context.getResources().getDisplayMetrics().widthPixels;
         float height = context.getResources().getDisplayMetrics().heightPixels;
-        //float[][] bitmapDimens, String[] bitmapNames, String resFolderName
         float[][] bitmapDimens = { {width, height} };
         String[] bitmapNames = {"level_map"};
         bitmaps = resourceLoader.createBitmaps(bitmapDimens, bitmapNames, "drawable");
 
     }
 
-    public Bitmap[] getBitmaps() {
-
-        return this.bitmaps;
-    }
 
 
 }
