@@ -9,6 +9,13 @@ import java.util.ArrayList;
  */
 public class ComponentFactory
 {
+
+    public static final String TRANSFORMCOMPONENT = "TransformComponent";
+    public static final String RENDERCOMPONENT =  "RenderComponent";
+    public static final String MODELCOMPONENT = "PolygonDataComponent";
+    public static final String UVDATACOMPONENT = "UVdataComponent";
+    public static final String TEXTURECOMPONENT = "TextureComponent";
+
     ArrayList <String> componentTypeList = new ArrayList<>();
 
     public ComponentFactory()
@@ -16,8 +23,11 @@ public class ComponentFactory
 
         componentTypeList.add("DamageComponent");
         componentTypeList.add("LifeComponent");
-        componentTypeList.add("RenderComponent");
-        componentTypeList.add("TransformComponent");
+        componentTypeList.add(RENDERCOMPONENT);
+        componentTypeList.add(TRANSFORMCOMPONENT);
+        componentTypeList.add(MODELCOMPONENT);
+        componentTypeList.add(UVDATACOMPONENT);
+        componentTypeList.add(TEXTURECOMPONENT);
     }
 
     public BaseComponent createComponent(String type)
@@ -49,15 +59,30 @@ public class ComponentFactory
                 break;
             }
 
-            case "RenderComponent": {
+            case RENDERCOMPONENT: {
                 component = new RenderComponent();
-                component.setType("RenderComponent");
+                component.setType(RENDERCOMPONENT);
                 break;
             }
 
-            case "TransformComponent": {
+            case TRANSFORMCOMPONENT: {
                 component = new TransformComponent();
-                component.setType("TransformComponent");
+                component.setType(TRANSFORMCOMPONENT);
+                break;
+            }
+            case MODELCOMPONENT: {
+                component = new PolygonDataComponent();
+                component.setType(MODELCOMPONENT);
+                break;
+            }
+            case UVDATACOMPONENT: {
+                component = new UVdataComponent();
+                component.setType(UVDATACOMPONENT);
+                break;
+            }
+            case TEXTURECOMPONENT: {
+                component = new TextureComponent();
+                component.setType(TEXTURECOMPONENT);
                 break;
             }
 

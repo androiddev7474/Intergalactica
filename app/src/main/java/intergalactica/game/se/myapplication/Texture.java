@@ -19,12 +19,14 @@ public class Texture {
     /*
      * Lagring av texturdata
      */
-    private class TextureData {
-        private int[] ID = new int[1]; //texturnamn
-        private int type;
-        private int minFilter;
-        private int magFilter;
-        private int wrapMode;
+    public class TextureData {
+        protected int[] ID = new int[1]; //texturnamn
+        protected int type;
+        protected int minFilter;
+        protected int magFilter;
+        protected int wrapMode;
+
+
     }
 
 
@@ -69,8 +71,8 @@ public class Texture {
 
         GLUtils.texImage2D(type, 0, bitmap, 0);
 
-        if (TextureFactory_.getInstance().getMipmapEnabled())
-            GLES30.glGenerateMipmap(type);
+        /*if (TextureFactory.getMipmapEnabled())
+            GLES30.glGenerateMipmap(type);*/
 
         GLES30.glBindTexture(type, 0);
 
@@ -109,7 +111,6 @@ public class Texture {
 
         GLES30.glGenerateMipmap(TYPE);
 
-        //GLES30.glBindTexture(TYPE, 0);
 
         return true;
     }

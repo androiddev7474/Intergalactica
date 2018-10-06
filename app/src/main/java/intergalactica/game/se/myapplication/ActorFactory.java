@@ -1,5 +1,8 @@
 package intergalactica.game.se.myapplication;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 /**
@@ -9,11 +12,18 @@ import java.util.ArrayList;
  */
 public class ActorFactory {
 
-        private  ArrayList <Integer> unusedActorIDList = new ArrayList<>();;
-        ArrayList <String> 	actorTypeList = new ArrayList<>();;
-        int lastActorID;
+        public static final int LEVEL_BITMAP = 0;
 
-        public ActorFactory() {
+        private  ArrayList <Integer> unusedActorIDList = new ArrayList<>();
+        private ArrayList <String> 	actorTypeList = new ArrayList<>();
+        private int lastActorID;
+        private Context context;
+        private ResourceLoader resourceLoader;
+        private Bitmap[] bitmaps;
+
+        public ActorFactory(Bitmap[] bitmaps) {
+
+            this.bitmaps = bitmaps;
             unusedActorIDList 	= new ArrayList<>();
             actorTypeList 		= new ArrayList<>();
             lastActorID			= 0;
@@ -81,22 +91,48 @@ public class ActorFactory {
         {
             case "Background":
             {
-                TransformComponent transformComponent = (TransformComponent) factory.createComponent("TransformComponent");
+                TransformComponent transformComponent = (TransformComponent) factory.createComponent(ComponentFactory.TRANSFORMCOMPONENT);
 
                 // Sätt inställningar för varje individuell komponent
                 // Sätt transformens position
-                // Sätt render-komponentens textur
                 // Osv
+
+                transformComponent.setX(3.22f);
+                transformComponent.setY(5);
+                transformComponent.setZ(0);
+                transformComponent.setScaleX(6.43f);
+                transformComponent.setScaleY(10);
+                transformComponent.setScaleZ(0);
 
                 transformComponent.setOwner(actor);
                 actor.addComponent(transformComponent);
 
+                PolygonDataComponent polygonDataComponent = (PolygonDataComponent) factory.createComponent(ComponentFactory.MODELCOMPONENT);
+                polygonDataComponent.create2Dpolygon(0.5f, 0.5f, 0);
+                polygonDataComponent.setOwner(actor);
+                actor.addComponent(polygonDataComponent);
 
-                RenderComponent renderComponent = (RenderComponent) factory.createComponent("RenderComponent");
+                UVdataComponent UVdataComponent = (UVdataComponent) factory.createComponent(ComponentFactory.UVDATACOMPONENT);
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                UVdataComponent.createTextData(blc, brc, tlc, trc, 1);
+                UVdataComponent.setOwner(actor);
+                actor.addComponent(UVdataComponent);
+
+                TextureComponent textureComponent = (TextureComponent) factory.createComponent(ComponentFactory.TEXTURECOMPONENT);
+                Texture texture = TextureFactory.createTexture(bitmaps[0]);
+                textureComponent.setTexture(texture);
+                textureComponent.setOwner(actor);
+                actor.addComponent(textureComponent);
+
+                RenderComponent renderComponent = (RenderComponent) factory.createComponent(ComponentFactory.RENDERCOMPONENT);
                 renderComponent.setOwner(actor);
+                renderComponent.create();
                 actor.addComponent(renderComponent);
+
                 // Sätt inställningar för varje individuell komponent
-                // Sätt transformens position
                 // Sätt render-komponentens textur
                 // Osv
 
