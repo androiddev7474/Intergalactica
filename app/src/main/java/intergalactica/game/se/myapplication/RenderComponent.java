@@ -2,6 +2,7 @@ package intergalactica.game.se.myapplication;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -28,12 +29,15 @@ public class RenderComponent extends BaseComponent {
     private PolygonDataComponent polygonDataComponent;
     private UVdataComponent uVdataComponent;
     private TransformComponent transformComponent;
+    private AnimationComponent animationComponent;
 
     /** Den slutgiltiga matrisen som sedan används till multiplicering med respektive vertis. */
     private float[] mMVPMatrix = new float[16];
 
-    //handles
+    //handles - centrala
     private int mProgramHandle, mPositionHandle, mTextureCoordinateHandle, mMVPMatrixHandle;
+
+    private int uvOffset, wHfrac;
 
     public void create() {
 
@@ -48,6 +52,9 @@ public class RenderComponent extends BaseComponent {
         length_uvData = uv_data.length;
 
         transformComponent = (TransformComponent)getOwner().getComponent(ComponentFactory.TRANSFORMCOMPONENT);
+
+
+        animationComponent = (AnimationComponent)getOwner().getComponent(ComponentFactory.ANIMATIONCOMPONENT);
 
         initBuffers();
 
@@ -70,6 +77,13 @@ public class RenderComponent extends BaseComponent {
         this.mPositionHandle = mPositionHandle;
         this.mTextureCoordinateHandle = mTextureCoordinateHandle;
         this.mMVPMatrixHandle = mMVPMatrixHandle;
+
+    }
+
+    public void setUVcoordsHandles(int uvOffset, int wHfrac) {
+
+        this.uvOffset = uvOffset;
+        this.wHfrac = wHfrac;
 
     }
 
@@ -96,7 +110,7 @@ public class RenderComponent extends BaseComponent {
         // skicka matrisdata till GPUN
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
-
+        //Log.d("owner", getOwner().type);
 
         // rita kuben
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, gl_fields.getN_vertices_poly());

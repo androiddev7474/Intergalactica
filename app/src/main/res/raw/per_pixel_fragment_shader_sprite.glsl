@@ -12,10 +12,9 @@ vec4 PixelColor[2];
 
 out vec4 fragmentColor;
 
-void main()                    		
-{                              
+void main()
+{
 
     fragmentColor = texture(u_Texture, v_TexCoordinate);
 
-}                                                                     	
-
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="aliendata">
+        <item>alienshot_1 = 3311 1501 151 151</item>
+        <item>batbrains_1 = 0 1505 300 218</item>
+        <item>batbrains_2 = 301 1505 300 218</item>
+        <item>batbrains_3 = 602 1505 300 218</item>
+        <item>batbrains_4 = 903 1505 300 218</item>
+        <item>batbrains_5 = 1204 1495 300 218</item>
+        <item>batbrains_6 = 1505 1495 300 218</item>
+        <item>batpurple_1 = 1806 1455 300 265</item>
+        <item>batpurple_2 = 2107 1455 300 265</item>
+        <item>batpurple_3 = 2408 1164 300 265</item>
+        <item>batpurple_4 = 2709 873 300 265</item>
+        <item>batpurple_5 = 3010 582 300 265</item>
+        <item>batpurple_6 = 3311 291 300 265</item>
+        <item>batsquare_1 = 3311 557 300 235</item>
+        <item>batsquare_2 = 3612 266 300 235</item>
+        <item>batsquare_3 = 3311 793 300 235</item>
+        <item>batsquare_4 = 3612 502 300 235</item>
+        <item>batsquare_5 = 2709 1405 300 235</item>
+        <item>batsquare_6 = 3010 1114 300 235</item>
+        <item>batbooger_1 = 3311 1029 300 235</item>
+        <item>batbooger_2 = 3612 738 300 235</item>
+        <item>batbooger_3 = 3010 1350 300 235</item>
+        <item>batbooger_4 = 3311 1265 300 235</item>
+        <item>batbooger_5 = 3612 974 300 235</item>
+        <item>batbooger_6 = 3612 1210 300 235</item>
+        <item>batboogerx_1 = 0 0 300 300</item>
+        <item>batboogerx_2 = 301 0 300 300</item>
+        <item>batboogerx_3 = 602 0 300 300</item>
+        <item>batboogerx_4 = 0 301 300 300</item>
+        <item>batboogerx_5 = 301 301 300 300</item>
+        <item>batboogerx_6 = 0 602 300 300</item>
+        <item>batboogerx_7 = 301 602 300 300</item>
+        <item>batbrainsx_1 = 602 301 300 300</item>
+        <item>batbrainsx_2 = 602 602 300 300</item>
+        <item>batbrainsx_3 = 903 0 300 300</item>
+        <item>batbrainsx_4 = 903 301 300 300</item>
+        <item>batbrainsx_5 = 1204 0 300 300</item>
+        <item>batbrainsx_6 = 903 602 300 300</item>
+        <item>batbrainsx_7 = 1204 301 300 300</item>
+        <item>batpurplex_1 = 1505 0 300 300</item>
+        <item>batpurplex_2 = 1505 301 300 300</item>
+        <item>batpurplex_3 = 1204 602 300 300</item>
+        <item>batpurplex_4 = 1505 602 300 300</item>
+        <item>batpurplex_5 = 0 903 300 300</item>
+        <item>batpurplex_6 = 301 903 300 300</item>
+        <item>batpurplex_7 = 0 1204 300 300</item>
+        <item>batsquarex_1 = 602 903 300 300</item>
+        <item>batsquarex_2 = 301 1204 300 300</item>
+        <item>batsquarex_3 = 903 903 300 300</item>
+        <item>batsquarex_4 = 602 1204 300 300</item>
+        <item>batsquarex_5 = 903 1204 300 300</item>
+        <item>batsquarex_6 = 1204 903 300 300</item>
+        <item>batsquarex_7 = 1505 903 300 300</item>
+        <item>t_1 = 1204 1204 300 290</item>
+        <item>t_10 = 1505 1204 300 290</item>
+        <item>t_11 = 1806 0 300 290</item>
+        <item>t_12 = 1806 291 300 290</item>
+        <item>t_13 = 2107 0 300 290</item>
+        <item>t_14 = 1806 582 300 290</item>
+        <item>t_15 = 2107 291 300 290</item>
+        <item>t_16 = 2408 0 300 290</item>
+        <item>t_2 = 1806 873 300 290</item>
+        <item>t_3 = 2107 582 300 290</item>
+        <item>t_4 = 2408 291 300 290</item>
+        <item>t_5 = 2709 0 300 290</item>
+        <item>t_6 = 1806 1164 300 290</item>
+        <item>t_7 = 2107 873 300 290</item>
+        <item>t_8 = 2408 582 300 290</item>
+        <item>t_9 = 2709 291 300 290</item>
+        <item>tdeath_1 = 3612 0 300 265</item>
+        <item>tdeath_2 = 2408 1430 300 265</item>
+        <item>tdeath_3 = 2709 1139 300 265</item>
+        <item>tdeath_4 = 3010 848 300 265</item>
+        <item>thit_1 = 3010 0 300 290</item>
+        <item>thit_2 = 2107 1164 300 290</item>
+        <item>thit_3 = 2408 873 300 290</item>
+        <item>thit_4 = 2709 582 300 290</item>
+        <item>thit_5 = 3010 291 300 290</item>
+        <item>thit_6 = 3311 0 300 290</item>
+    </string-array>
+
+    <string-array name="alienatlas_dimen">
+        <item>3913</item> <!-- bredd -->
+        <item>1723</item> <!-- höjd -->
+    </string-array>
+
+
+</resources>

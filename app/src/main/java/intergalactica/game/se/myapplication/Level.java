@@ -8,6 +8,7 @@ public abstract class Level {
     private Context context;
     private int level;
     protected LevelMap levelMap;
+    protected boolean levelCreated;
 
 
     public Level(Context context, int level, ActorFactory actorFactory) {
@@ -23,6 +24,7 @@ public abstract class Level {
 
     public abstract void update();
     public abstract void draw();
+    public abstract void createLevel();
 
 
 }

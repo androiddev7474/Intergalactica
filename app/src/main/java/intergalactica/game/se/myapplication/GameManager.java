@@ -25,7 +25,7 @@ public class GameManager {
         this.context = context;
         resourceLoader = new ResourceLoader(context);
         preLoadResources();
-        actorFactory = new ActorFactory(bitmaps);
+        actorFactory = new ActorFactory(context, bitmaps);
         nextLevel(level_id);
 
 
@@ -84,8 +84,8 @@ public class GameManager {
 
         float width = context.getResources().getDisplayMetrics().widthPixels;
         float height = context.getResources().getDisplayMetrics().heightPixels;
-        float[][] bitmapDimens = { {width, height} };
-        String[] bitmapNames = {"level_map"};
+        float[][] bitmapDimens = { {width, height}, {width, height},{3913, 1723}};
+        String[] bitmapNames = {"level_map", "universe_1", "aliens_"};
         bitmaps = resourceLoader.createBitmaps(bitmapDimens, bitmapNames, "drawable");
 
     }

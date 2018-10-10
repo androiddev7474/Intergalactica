@@ -9,10 +9,10 @@ public class Texture {
 
     private TextureData data;
     //förinställda flaggor (=lättare anrop)
-    private static final int TYPE = GLES30.GL_TEXTURE_2D;
-    private static final int MINFILTER = GLES30.GL_LINEAR;
-    private static final int MAGFILTER = GLES30.GL_LINEAR;
-    private static final int WRAPMODE = GLES30.GL_CLAMP_TO_EDGE;
+    public static final int TYPE = GLES30.GL_TEXTURE_2D;
+    public static final int MINFILTER = GLES30.GL_LINEAR;
+    public static final int MAGFILTER = GLES30.GL_LINEAR;
+    public static final int WRAPMODE = GLES30.GL_CLAMP_TO_EDGE;
 
 
 
@@ -74,7 +74,7 @@ public class Texture {
         /*if (TextureFactory.getMipmapEnabled())
             GLES30.glGenerateMipmap(type);*/
 
-        GLES30.glBindTexture(type, 0);
+        //GLES30.glBindTexture(type, 0);
 
         return true;
     }

@@ -15,6 +15,10 @@ public class ComponentFactory
     public static final String MODELCOMPONENT = "PolygonDataComponent";
     public static final String UVDATACOMPONENT = "UVdataComponent";
     public static final String TEXTURECOMPONENT = "TextureComponent";
+    public static final String ANIMATIONCOMPONENT = "AnimationComponent";
+    public static final String BATBOOGERBEHAVIOURCOMPONENT = "BatBoogerBehaviourComponent";
+    public static final String BOXCOLLIDERCOMPONENT = "BoxColliderComponent";
+    public static final String MOTIONCOMPONENT = "MotionComponent";
 
     ArrayList <String> componentTypeList = new ArrayList<>();
 
@@ -28,6 +32,10 @@ public class ComponentFactory
         componentTypeList.add(MODELCOMPONENT);
         componentTypeList.add(UVDATACOMPONENT);
         componentTypeList.add(TEXTURECOMPONENT);
+        componentTypeList.add(ANIMATIONCOMPONENT);
+        componentTypeList.add(BATBOOGERBEHAVIOURCOMPONENT);
+        componentTypeList.add(BOXCOLLIDERCOMPONENT);
+        componentTypeList.add(MOTIONCOMPONENT);
     }
 
     public BaseComponent createComponent(String type)
@@ -85,6 +93,24 @@ public class ComponentFactory
                 component.setType(TEXTURECOMPONENT);
                 break;
             }
+            case ANIMATIONCOMPONENT: {
+                component = new AnimationComponent();
+                component.setType(ANIMATIONCOMPONENT);
+                break;
+            }
+            case BATBOOGERBEHAVIOURCOMPONENT: {
+                component = new BatBoogerBehaviourComponent();
+                component.setType(BATBOOGERBEHAVIOURCOMPONENT);
+                break;
+            } case BOXCOLLIDERCOMPONENT: {
+                component = new BoxColliderComponent();
+                component.setType(BOXCOLLIDERCOMPONENT);
+                break;
+            } case MOTIONCOMPONENT: {
+                component = new MotionComponent();
+                component.setType(MOTIONCOMPONENT);
+                break;
+    }
 
             default:
                 break;

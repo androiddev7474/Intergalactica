@@ -1,1 +1,1 @@
-include ':app', ':bitmapdec', ':renderlib', ':shadercompile'
+include ':app', ':bitmapdec', ':renderlib', ':shadercompile', ':renderlib1.0'

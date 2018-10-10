@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bitmapdec" />
             <option value="$PROJECT_DIR$/renderlib" />
+            <option value="$PROJECT_DIR$/renderlib1.0" />
             <option value="$PROJECT_DIR$/shadercompile" />
           </set>
         </option>
