@@ -1,6 +1,10 @@
 package intergalactica.game.se.myapplication;
 
 
+import android.opengl.Matrix;
+
+import java.util.ArrayList;
+
 /**
  * Skapad: 2018-10-04
  * Björn Hallström
@@ -10,11 +14,29 @@ package intergalactica.game.se.myapplication;
  */
 public class TransformComponent extends BaseComponent {
 
+
     private float[] mModelMatrix = new float[16];
     private float x, y, z; // positioner
+    private float x0, x1, y0, y1;
     private float scaleX, scaleY, scaleZ; // skalning
+    private float size;
+
+    private static ArrayList <Float> actorPositions = new ArrayList();
+
+    public void setList(float f) {
+
+        actorPositions.add(f);
+    }
+
+    public static ArrayList<Float> getActorPositions() {
+        return actorPositions;
+    }
 
 
+    public void set() {
+
+        actorPositions.get(0);
+    }
 
     public void create() {
 
@@ -28,6 +50,13 @@ public class TransformComponent extends BaseComponent {
 
     public void update() {
 
+        Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.translateM(mModelMatrix, 0, x, y, z);
+        //Matrix.scaleM(models.getmModelMatrix(), 0, 12.86f, 20f, 0f);
+        Matrix.scaleM(mModelMatrix, 0, scaleX, scaleY, scaleZ);
+
+        calcXYedges();
+
     }
 
     public float[] getMatrix() {
@@ -35,6 +64,17 @@ public class TransformComponent extends BaseComponent {
         return mModelMatrix;
     }
 
+    private void calcXYedges() {
+
+        float wFrac = scaleX / 2;
+        float hFrac = scaleY / 2;
+
+        x0 = x - wFrac;
+        x1 = x + wFrac;
+        y0 = y - hFrac;
+        y1 = y + hFrac;
+
+    }
 
     public float getX() {
         return x;
@@ -84,5 +124,27 @@ public class TransformComponent extends BaseComponent {
         this.scaleZ = scaleZ;
     }
 
+    public float getSize() {
+        return size;
+    }
 
+    public float getX0() {
+        return x0;
+    }
+
+    public float getX1() {
+        return x1;
+    }
+
+    public float getY0() {
+        return y0;
+    }
+
+    public float getY1() {
+        return y1;
+    }
+
+    public void setSize(float size) {
+        this.size = size;
+    }
 }

@@ -1,5 +1,7 @@
 package intergalactica.game.se.myapplication;
 
+import android.opengl.GLES30;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +17,27 @@ public class Actor {
     protected Map<String, BaseComponent> componentMap = new HashMap<>();
     protected ArrayList<String> collisionFilter = new ArrayList<>();
     private TransformComponent transformComponent;
+    private RenderComponent renderComponent;
+    private TextureComponent textureComponent;
+    private AnimationComponent animationComponent;
+    private BatBoogerBehaviourComponent batBoogerBehaviourComponent;
+    private int textureID;
     int id;
+
 
     public Actor() {
 
     }
 
     public void create() {
+
+        renderComponent = (RenderComponent)componentMap.get(ComponentFactory.RENDERCOMPONENT);
+        textureComponent = (TextureComponent)componentMap.get(ComponentFactory.TEXTURECOMPONENT);
+        if (textureComponent != null)
+            textureID = textureComponent.getTexture().getTextureData().ID[0];
+        animationComponent = (AnimationComponent)componentMap.get(ComponentFactory.ANIMATIONCOMPONENT);
+
+        batBoogerBehaviourComponent = (BatBoogerBehaviourComponent)componentMap.get(ComponentFactory.BATBOOGERBEHAVIOURCOMPONENT);
 
     }
 
@@ -30,6 +46,33 @@ public class Actor {
     }
 
     public void update() {
+
+
+
+        transformComponent.update();
+
+        if(batBoogerBehaviourComponent != null) {
+            batBoogerBehaviourComponent.update();
+        }
+
+        if (animationComponent != null)
+            animationComponent.update();
+
+
+
+    }
+
+    public void render() {
+
+
+
+
+        if (renderComponent != null) {
+            GLES30.glBindTexture(Texture.TYPE, textureID);
+            renderComponent.render();
+        }
+
+
 
     }
 
@@ -47,7 +90,7 @@ public class Actor {
             return true;
 
         // Spara denna actors transform för enkel och snabb åtkomst
-        if(type.equals("TransformComponent"))
+        if(type.equals(ComponentFactory.TRANSFORMCOMPONENT))
             this.transformComponent = (TransformComponent)component;
 
         return true;

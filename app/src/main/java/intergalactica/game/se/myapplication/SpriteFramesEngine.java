@@ -1,12 +1,6 @@
 package intergalactica.game.se.myapplication;
 
-/**
- * Skapad: 2018-10-04
- * Björn Hallström
- * Version: 1
- */
-
-public class Animation {
+public class SpriteFramesEngine {
 
     private int frameCounter;
     private int modulo; // anger hur ofta frame ska uppdateras
@@ -16,10 +10,6 @@ public class Animation {
     private boolean loop = true; // default dvs loopar om och om igen om inget annat anges
     private boolean oneShotAnimationDone = false;
 
-    public Animation() {
-
-        modulo = 1;
-    }
 
     /**
      * Skapar animation genom att räkna upp ett id för texturen för varje frame. Om loop är satt till false görs bara en rörelse hos spriten, tex en explosion
@@ -43,6 +33,30 @@ public class Animation {
     }
 
 
+    //räknar upp och sen tillbaka osv.
+    public void animateReverse() {
+
+        if (frameCounter % modulo == 0) {
+            if (incrementCounter)
+                id++;
+            else
+                id--;
+        }
+
+        if (id >= n_sprite_frames - 1) {
+            incrementCounter = false;
+        } else if (id <= 0) {
+            incrementCounter = true;
+        }
+
+        frameCounter++;
+    }
+
+    public void setNframes(int n_sprite_frames) {
+
+        this.n_sprite_frames = n_sprite_frames;
+    }
+
     public void setLoop(boolean loop) {
 
         this.loop = loop;
@@ -58,15 +72,12 @@ public class Animation {
         this.modulo = modulo;
     }
 
-
-    public void setN_sprite_frames(int n_sprite_frames) {
-
-        this.n_sprite_frames = n_sprite_frames;
-    }
-
     public int getID() {
 
         return this.id;
     }
+
+
+
 
 }

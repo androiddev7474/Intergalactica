@@ -19,10 +19,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private Context context;
     private GameManager gameManager;
     public static final int DEFAULT_LEVEL = 1;
-    private int level = DEFAULT_LEVEL;
+    private int level_id = DEFAULT_LEVEL;
     private int frameCounter = 5;
     private float xPos, yPos;
     private boolean down, up, move;
+
+    //globala parametrar för spelets koordinatsystem. Scenens högra kant räknas senare ut med hjälp av aspect ratio.
+    public static final float GAMESCENE_LEFT = 0;
+    public static final float GAMESCENE_TOP = 10;
+    public static final float GAMESCENE_BOTTOM = 0;
+    private static float gameSceneRight;
 
     private Bitmap levelMap;
 
@@ -47,9 +53,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
 
         SharedPreferences prefs = context.getSharedPreferences(GameActivity.MY_PREFS_NAME, MODE_PRIVATE);
-        level = prefs.getInt(GameActivity.MY_PREFS_STORED_LEVEL_ID, DEFAULT_LEVEL);
+        level_id = prefs.getInt(GameActivity.MY_PREFS_STORED_LEVEL_ID, DEFAULT_LEVEL);
 
-        gameManager = new GameManager(context, level);
+
         //gLprojection = gameManager.getgLprojection();
 
         GLES20.glEnable(GLES30.GL_BLEND);
@@ -64,7 +70,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         GLES30.glViewport(0, 0, width, height);
         //orthoProject(width, height, -1, 1);
-        GLprojection.orthoProject(width, height, -1, 1, 10, 0);
+        gameSceneRight = GLprojection.orthoProject(width, height, -1, 1, GAMESCENE_LEFT, GAMESCENE_TOP, GAMESCENE_BOTTOM);
+
+        gameManager = new GameManager(context, level_id);
     }
 
 
@@ -105,22 +113,28 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private void startGame() {
 
+        if(!getGameManager().getLevel().levelCreated) {
+            getGameManager().getLevel().createLevel();
+        }
 
-        if (frameCounter % 300 == 0) {
+        if (frameCounter % 300 == -1) {
 
-            level++;
-            if (level > 3)
-                level = 1;
+            level_id++;
+            if (level_id > 3)
+                level_id = 1;
 
-            getGameManager().nextLevel(level);
+
+            getGameManager().nextLevel(level_id);
+
             //nollställ
             getGameManager().getLevel().levelMap.setActive(true);
             yPos = -1;
         }
 
-
-        gameManager.getLevel().draw();
-        gameManager.getLevel().update();
+        if(!getGameManager().getLevel().levelMap.isActive()) {
+            gameManager.getLevel().draw();
+            gameManager.getLevel().update();
+        }
 
     }
 
@@ -152,5 +166,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     public void setMove(boolean move) {
         this.move = move;
+    }
+
+    public static float getGameSceneRight() {
+        return gameSceneRight;
     }
 }

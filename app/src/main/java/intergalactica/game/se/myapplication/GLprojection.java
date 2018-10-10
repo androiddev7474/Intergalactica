@@ -32,15 +32,16 @@ public class GLprojection {
         Matrix.perspectiveM(mProjectionMatrix, 0, fov, ratio, near, far);
     }
 
-    public static void orthoProject(int width, int height, float near, float far, float top, float bottom) {
+    public static float orthoProject(int width, int height, float near, float far, float left, float top, float bottom) {
 
         final float ratio = (float) height / width;
-        final float left = 0;
         final float right = top / ratio;
 
         Matrix.orthoM(mProjectionMatrix, 0,  left, right, bottom, top,  near, far);
 
         int y = 111;
+
+        return right;
     }
 
 
