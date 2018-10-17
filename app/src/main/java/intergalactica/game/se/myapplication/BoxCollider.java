@@ -259,6 +259,26 @@ public class BoxCollider {
         }
     }
 
+    /**
+     * Spara boxens kantvärden för att kunna utnyttja dessa nästa frame. På så sätt kan det avgöras om en kollision uppstårr
+     * @param actor
+     */
+    public static void savePositions(Actor actor) {
+
+        BoxColliderComponent collider = (BoxColliderComponent)actor.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
+
+        float leftBox = collider.getLeft();
+        float topBox = collider.getTop();
+        float rightBox = collider.getRight();
+        float bottomBox = collider.getBottom();
+
+        collider.setPreviousBoxLeft(leftBox);
+        collider.setPreviousBoxTop(topBox);
+        collider.setPreviousBoxRight(rightBox);
+        collider.setPreviousBoxBottom(bottomBox);
+
+    }
+
     public static float[] getVelocity(Actor actor) {
 
         MotionComponent motionComponent = (MotionComponent) actor.getComponent(ComponentFactory.MOTIONCOMPONENT);
