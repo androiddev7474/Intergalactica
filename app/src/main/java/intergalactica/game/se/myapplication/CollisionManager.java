@@ -62,8 +62,6 @@ public class CollisionManager {
             }
         }
 
-        //spara unden boxdata så att de kan användas till nästa frame
-        BoxCollider.savePositions(actorList);
 
     }
 
@@ -77,7 +75,18 @@ public class CollisionManager {
 
 
         }
+        //BoxCollider.savePositions(actorList);
+        //BoxCollider.savePositions(deathTouchActor);
 
+
+
+    }
+
+    public void save() {
+
+        //spara unden boxdata så att de kan användas till nästa frame
+        BoxCollider.savePositions(actorList);
+        BoxCollider.savePositions(deathTouchActor);
     }
 
 

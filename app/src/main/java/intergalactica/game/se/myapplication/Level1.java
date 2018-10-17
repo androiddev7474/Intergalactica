@@ -66,7 +66,7 @@ public class Level1 extends Level {
     private void createEnemies() {
 
         //batbooger
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
 
             TextureDataFormatter textureDataFormatter = new TextureDataFormatter(context);
             textureDataFormatter.getTextureData(R.array.aliendata, R.array.alienatlas_dimen);
@@ -96,18 +96,20 @@ public class Level1 extends Level {
     public void update() {
 
         //backgroundActor.update();
-
+        deathTouchActor.update();
         for (Actor actor : boogerList) {
 
             actor.update();
             CollisionManager.sceneCollider(actor);
 
         }
-        deathTouchActor.update();
+
 
         boogerCollisionManager.checkCollision();
-        boogerCollisionManager.reflectOnCollision();
         boogerCollisionManager.checkDeathActorCollision();
+        boogerCollisionManager.save();
+        boogerCollisionManager.reflectOnCollision();
+
 
         //deathTouchActor.update();
 
