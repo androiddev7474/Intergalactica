@@ -9,19 +9,28 @@ public class LifeComponent extends BaseComponent {
     int currentHealth;
     int maxHealth;
 
+    public void create() {
+
+
+    }
+
     public int getCurrentHealth() {
+
         return currentHealth;
     }
 
     public void setCurrentHealth(int currentHealth) {
+
         this.currentHealth = currentHealth;
     }
 
     public int getMaxHealth() {
+
         return maxHealth;
     }
 
-    public void setMaxHealth(int maxHealth) {
+    public void setMaxHealth(int maxHealth)
+    {
         this.maxHealth = maxHealth;
     }
 }

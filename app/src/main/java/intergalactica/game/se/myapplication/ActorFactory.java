@@ -18,6 +18,7 @@ public class ActorFactory {
 
     public static final String BACKGROUND_ACTOR = "Background";
     public static final String BATBOOGER_ACTOR = "Batbooger";
+    public static final String DEATHTOUCH_ACTOR = "DeathTouchActor";
 
     public static final String BAT_BOOGER_XMLNAME = "batbooger";
 
@@ -52,6 +53,7 @@ public class ActorFactory {
 
             actorTypeList.add(BACKGROUND_ACTOR);
             actorTypeList.add(BATBOOGER_ACTOR);
+            actorTypeList.add(DEATHTOUCH_ACTOR);
 
             //actorType.add("Player");
             //	actorType.add("BatBooger");
@@ -215,12 +217,35 @@ public class ActorFactory {
 
                 actorCreator.createBatBoogerBehaviourComponent();
 
+                int booger_start_health = 10;
+                int booger_max_health = 10;
+                actorCreator.createLifeComponent(booger_start_health, booger_max_health);
+
+
+
+                break;
+            case DEATHTOUCH_ACTOR:
+
+                float translateX = GameRenderer.getGameSceneRight() / 2;
+                float translateY = GameRenderer.GAMESCENE_TOP * 0.05f;
+                float[] xYz = {translateX, translateY, 0};
+                float[] scale_xyz = {GameRenderer.getGameSceneRight(), GameRenderer.GAMESCENE_TOP * 0.1f, 0};
+                actorCreator.createTransformComponent(1, xYz, scale_xyz);
+
+                actorCreator.createBoxColliderComponent();
+
+                int damageAmount = 100;
+                actorCreator.createDamageComponent(damageAmount);
+
+
+
 
 
                 break;
 
             default:
                 break;
+
         }
 
         return true;

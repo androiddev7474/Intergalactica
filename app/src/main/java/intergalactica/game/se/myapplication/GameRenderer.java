@@ -58,8 +58,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         //gLprojection = gameManager.getgLprojection();
 
-        GLES20.glEnable(GLES30.GL_BLEND);
-        GLES20.glBlendFunc(GLES30.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        //GLES20.glEnable(GLES30.GL_BLEND);
+        //GLES20.glBlendFunc(GLES30.GL_ONE, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
         GLcamera.createCamera();
 
@@ -132,8 +132,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         if(!getGameManager().getLevel().levelMap.isActive()) {
-            gameManager.getLevel().draw();
             gameManager.getLevel().update();
+            gameManager.getLevel().draw();
+
         }
 
     }

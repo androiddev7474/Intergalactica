@@ -7,17 +7,15 @@ public class BoxColliderComponent extends BaseComponent {
 
     private float left, right, bottom, top;
     private TransformComponent transformComponent;
-    private MotionComponent motionComponent;
 
-    public static final String COLLISION_LEFT = "collision_left";
-    public static final String COLLISION_RIGHT = "collision_right";
-    public static final String COLLISION_TOP = "collision_top";
-    public static final String COLLISION_BOTTOM = "collision_bottom";
+
+    //nya namn (kanter för respektive box föregående frame - sparas alltid undan inför nästa test
+    float  previousBox1Left, previousBox1Top, previousBox1Right, previousBox1Bottom;
 
     public void create() {
 
         transformComponent = (TransformComponent)getOwner().getComponent(ComponentFactory.TRANSFORMCOMPONENT);
-        motionComponent = (MotionComponent)getOwner().getComponent(ComponentFactory.MOTIONCOMPONENT);
+
 
 
     }
@@ -40,7 +38,7 @@ public class BoxColliderComponent extends BaseComponent {
         top = transformComponent.getY1();
         bottom = transformComponent.getY0();
 
-        Log.d("LEFT RIGHT TOP BOTTOM", "(" + actor + ")" + left + ", " + right + " ," + top + ", " + bottom);
+        //Log.d("LEFT RIGHT TOP BOTTOM", "(" + actor + ")" + left + ", " + right + " ," + top + ", " + bottom);
 
     }
 
@@ -61,64 +59,36 @@ public class BoxColliderComponent extends BaseComponent {
     }
 
 
-
-
-    public void setCollisionType(String type) {
-
-        if (type.equals(COLLISION_LEFT)) {
-
-
-        }
-
-        if (type.equals(COLLISION_RIGHT)) {
-
-            motionComponent.change_Xdirection();
-
-            //centrum x + halva bredden < högra scengränsen
-            float halfWidth = transformComponent.getScaleX() / 2;
-            float x = GameRenderer.getGameSceneRight() - halfWidth;
-
-
-            transformComponent.setX(x);
-        }
-
-        if (type.equals(COLLISION_LEFT)) {
-
-            motionComponent.change_Xdirection();
-
-            //centrum x + halva bredden < högra scengränsen
-            float halfWidth = transformComponent.getScaleX() / 2;
-            float x = GameRenderer.GAMESCENE_LEFT + halfWidth;
-
-            transformComponent.setX(x);
-
-        }
-
-        if (type.equals(COLLISION_TOP)) {
-
-            motionComponent.change_Ydirection();
-
-            //centrum x + halva bredden < högra scengränsen
-            float halfHeight = transformComponent.getScaleY() / 2;
-            float y = GameRenderer.GAMESCENE_TOP - halfHeight;
-
-            transformComponent.setY(y);
-
-        }
-
-        if (type.equals(COLLISION_BOTTOM)) {
-
-            motionComponent.change_Ydirection();
-
-            //centrum x + halva bredden < högra scengränsen
-            float halfHeight = transformComponent.getScaleY() / 2;
-            float y = GameRenderer.GAMESCENE_BOTTOM + halfHeight;
-
-            transformComponent.setY(y);
-
-        }
-
-
-
+    public float getPreviousBoxLeft() {
+        return previousBox1Left;
     }
+
+    public void setPreviousBoxLeft(float previousBox1Left) {
+        this.previousBox1Left = previousBox1Left;
+    }
+
+    public float getPreviousBoxTop() {
+        return previousBox1Top;
+    }
+
+    public void setPreviousBoxTop(float previousBox1Top) {
+        this.previousBox1Top = previousBox1Top;
+    }
+
+    public float getPreviousBoxRight() {
+        return previousBox1Right;
+    }
+
+    public void setPreviousBoxRight(float previousBox1Right) {
+        this.previousBox1Right = previousBox1Right;
+    }
+
+    public float getPreviousBoxBottom() {
+        return previousBox1Bottom;
+    }
+
+    public void setPreviousBoxBottom(float previousBox1Bottom) {
+        this.previousBox1Bottom = previousBox1Bottom;
+    }
+
 }
