@@ -20,6 +20,8 @@ public class DamageComponent extends BaseComponent {
 
     public void update() {
 
+
+
     }
 
     public int getDamageAmount() {
@@ -27,6 +29,7 @@ public class DamageComponent extends BaseComponent {
     }
 
     public void setDamageAmount(int damageAmount) {
+
         this.damageAmount = damageAmount;
     }
 }

@@ -198,6 +198,27 @@ public class ActorCreator {
         actor.addComponent(batBoogerBehaviourComponent);
     }
 
+    public void createDamageComponent(int damageAmount) {
+
+        DamageComponent damageComponent = (DamageComponent) componentFactory.createComponent(ComponentFactory.DAMAGECOMPONENT);
+        damageComponent.setOwner(actor);
+        damageComponent.create();
+        damageComponent.setDamageAmount(damageAmount);
+        actor.addComponent(damageComponent);
+
+    }
+
+    public void createLifeComponent(int maxHealth, int currentHealth) {
+
+        LifeComponent lifeComponent = (LifeComponent) componentFactory.createComponent(ComponentFactory.LIFECOMPONENT);
+        lifeComponent.setOwner(actor);
+        lifeComponent.create();
+        lifeComponent.setMaxHealth(maxHealth);
+        lifeComponent.setCurrentHealth(currentHealth);
+        actor.addComponent(lifeComponent);
+
+    }
+
 
 
 }

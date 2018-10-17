@@ -17,15 +17,16 @@ public class ComponentFactory
     public static final String TEXTURECOMPONENT = "TextureComponent";
     public static final String ANIMATIONCOMPONENT = "AnimationComponent";
     public static final String BATBOOGERBEHAVIOURCOMPONENT = "BatBoogerBehaviourComponent";
-    public static final String BOXCOLLIDERCOMPONENT = "BoxColliderComponent";
+    public static final String BOXCOLLIDERCOMPONENT = "BoxColliderComponent_notused";
     public static final String MOTIONCOMPONENT = "MotionComponent";
+    public static final String DAMAGECOMPONENT = "DamageComponent";
+    public static final String LIFECOMPONENT = "LifeComponent";
 
     ArrayList <String> componentTypeList = new ArrayList<>();
 
     public ComponentFactory()
     {
 
-        componentTypeList.add("DamageComponent");
         componentTypeList.add("LifeComponent");
         componentTypeList.add(RENDERCOMPONENT);
         componentTypeList.add(TRANSFORMCOMPONENT);
@@ -36,6 +37,8 @@ public class ComponentFactory
         componentTypeList.add(BATBOOGERBEHAVIOURCOMPONENT);
         componentTypeList.add(BOXCOLLIDERCOMPONENT);
         componentTypeList.add(MOTIONCOMPONENT);
+        componentTypeList.add(DAMAGECOMPONENT);
+        componentTypeList.add(LIFECOMPONENT);
     }
 
     public BaseComponent createComponent(String type)
@@ -55,66 +58,52 @@ public class ComponentFactory
         // Mer optimerat än if/else if-chain statement
 
         switch(type) {
-            case "DamageComponent": {
+            case DAMAGECOMPONENT:
                 component = new DamageComponent();
-
+                component.setType(DAMAGECOMPONENT);
                 break;
-            }
-
-            case "LifeComponent": {
-                component = new LifeComponent();
-
-                break;
-            }
-
-            case RENDERCOMPONENT: {
+            case RENDERCOMPONENT:
                 component = new RenderComponent();
                 component.setType(RENDERCOMPONENT);
                 break;
-            }
-
-            case TRANSFORMCOMPONENT: {
+            case TRANSFORMCOMPONENT:
                 component = new TransformComponent();
                 component.setType(TRANSFORMCOMPONENT);
                 break;
-            }
-            case MODELCOMPONENT: {
+            case MODELCOMPONENT:
                 component = new PolygonDataComponent();
                 component.setType(MODELCOMPONENT);
                 break;
-            }
-            case UVDATACOMPONENT: {
+            case UVDATACOMPONENT:
                 component = new UVdataComponent();
                 component.setType(UVDATACOMPONENT);
                 break;
-            }
-            case TEXTURECOMPONENT: {
+            case TEXTURECOMPONENT:
                 component = new TextureComponent();
                 component.setType(TEXTURECOMPONENT);
                 break;
-            }
-            case ANIMATIONCOMPONENT: {
+            case ANIMATIONCOMPONENT:
                 component = new AnimationComponent();
                 component.setType(ANIMATIONCOMPONENT);
                 break;
-            }
-            case BATBOOGERBEHAVIOURCOMPONENT: {
+            case BATBOOGERBEHAVIOURCOMPONENT:
                 component = new BatBoogerBehaviourComponent();
                 component.setType(BATBOOGERBEHAVIOURCOMPONENT);
                 break;
-            } case BOXCOLLIDERCOMPONENT: {
+            case BOXCOLLIDERCOMPONENT:
                 component = new BoxColliderComponent();
                 component.setType(BOXCOLLIDERCOMPONENT);
                 break;
-            } case MOTIONCOMPONENT: {
+            case MOTIONCOMPONENT:
                 component = new MotionComponent();
                 component.setType(MOTIONCOMPONENT);
                 break;
-    }
-
-            default:
+            case LIFECOMPONENT:
+                component = new LifeComponent();
+                component.setType(LIFECOMPONENT);
                 break;
         }
+
 
         return component;
     }

@@ -2,8 +2,8 @@ package intergalactica.game.se.myapplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.opengl.GLES20;
 import android.opengl.GLES30;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,11 +16,19 @@ public class Level1 extends Level {
     private ActorFactory actorFactory;
     private Context context;
 
+    private int frameCntr;
+
+
     private float[][] alienTextData, batBoogTextData;
     public static final String BAT_BOOGER = "batbooger";
 
-    private Actor backgroundActor, batboogerActor;
+    private Actor backgroundActor, batboogerActor, deathTouchActor;
     private ArrayList <Actor> boogerList = new ArrayList();
+    private ArrayList <Actor> boogerListTemp = new ArrayList();
+
+    private CollisionManager boogerCollisionManager;
+
+    private ArrayList<Integer> directionTypeList = new ArrayList<>();
 
     public Level1(Context context, ActorFactory actorFactory) {
 
@@ -41,6 +49,11 @@ public class Level1 extends Level {
         backgroundActor = actorFactory.createActor("Background");
         backgroundActor.create();
 
+        deathTouchActor = actorFactory.createActor(ActorFactory.DEATHTOUCH_ACTOR);
+        deathTouchActor.create();
+
+        boogerCollisionManager = new CollisionManager(boogerList, deathTouchActor);
+
 
 
         createEnemies();
@@ -53,7 +66,7 @@ public class Level1 extends Level {
     private void createEnemies() {
 
         //batbooger
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
 
             TextureDataFormatter textureDataFormatter = new TextureDataFormatter(context);
             textureDataFormatter.getTextureData(R.array.aliendata, R.array.alienatlas_dimen);
@@ -69,6 +82,7 @@ public class Level1 extends Level {
             batboogerActor = actorFactory.createActor(ActorFactory.BATBOOGER_ACTOR);
 
 
+
             batboogerActor.create();
 
             boogerList.add(batboogerActor);
@@ -77,73 +91,46 @@ public class Level1 extends Level {
 
     }
 
-    @Override
+
+
     public void update() {
 
-        backgroundActor.update();
-        //batboogerActor.update();
-        for (Actor actor: boogerList) {
+        //backgroundActor.update();
+
+        for (Actor actor : boogerList) {
 
             actor.update();
-            boxVsBox(actor);
+            CollisionManager.sceneCollider(actor);
+
         }
+        deathTouchActor.update();
+
+        boogerCollisionManager.checkCollision();
+        boogerCollisionManager.reflectOnCollision();
+        boogerCollisionManager.checkDeathActorCollision();
+
+        //deathTouchActor.update();
+
+
 
 
     }
+
 
     @Override
     public void draw() {
 
-        GLES30.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        //GLES30.glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         backgroundActor.render();
-        //batboogerActor.render();
         for (Actor actor: boogerList) {
 
             actor.render();
-            //boxVsBox(actor);
+
         }
 
     }
 
-    public void boxVsBox(Actor actor) {
-
-        BoxColliderComponent colliderC = (BoxColliderComponent)actor.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
-
-        if (colliderC.getLeft() < GameRenderer.GAMESCENE_LEFT) {
-
-            //float c = colliderC.getRight();
-            //float gr = GameRenderer.getGameSceneRight();
-
-            colliderC.setCollisionType(BoxColliderComponent.COLLISION_LEFT);
-
-        }
-
-        if (colliderC.getRight() > GameRenderer.getGameSceneRight()) {
-
-            colliderC.setCollisionType(BoxColliderComponent.COLLISION_RIGHT);
-        }
-
-        if (colliderC.getTop() > GameRenderer.GAMESCENE_TOP) {
-
-            //float c = colliderC.getRight();
-            //float gr = GameRenderer.getGameSceneRight();
-
-            colliderC.setCollisionType(BoxColliderComponent.COLLISION_TOP);
-
-        }
-
-        if (colliderC.getBottom() < GameRenderer.GAMESCENE_BOTTOM) {
-
-            //float c = colliderC.getRight();
-            //float gr = GameRenderer.getGameSceneRight();
-
-            colliderC.setCollisionType(BoxColliderComponent.COLLISION_BOTTOM);
-
-        }
-
-
-    }
 
 }

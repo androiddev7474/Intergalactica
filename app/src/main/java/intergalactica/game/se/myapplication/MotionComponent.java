@@ -9,6 +9,7 @@ public class MotionComponent extends BaseComponent {
     public static final int HEADING_WEST = -1; //-1
     public static final int HEADING_NORTH = 1; //-1
     public static final int HEADING_SOUTH = -1; //1
+    public static final int HEADING_NONE = 0;
 
     // actorns nuvarande riktning initieras till följande.
     private int xDirection = HEADING_WEST;

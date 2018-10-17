@@ -21,6 +21,10 @@ public class Actor {
     private TextureComponent textureComponent;
     private AnimationComponent animationComponent;
     private BatBoogerBehaviourComponent batBoogerBehaviourComponent;
+    private DamageComponent damageComponent;
+    private LifeComponent lifeComponent;
+    private BoxColliderComponent boxColliderComponent;
+
     private int textureID;
     int id;
 
@@ -39,6 +43,12 @@ public class Actor {
 
         batBoogerBehaviourComponent = (BatBoogerBehaviourComponent)componentMap.get(ComponentFactory.BATBOOGERBEHAVIOURCOMPONENT);
 
+        damageComponent = (DamageComponent)componentMap.get(ComponentFactory.DAMAGECOMPONENT);
+
+        lifeComponent = (LifeComponent)componentMap.get(ComponentFactory.LIFECOMPONENT);
+
+        boxColliderComponent = (BoxColliderComponent)componentMap.get(ComponentFactory.BOXCOLLIDERCOMPONENT);
+
     }
 
     public void destroy() {
@@ -51,14 +61,21 @@ public class Actor {
 
         transformComponent.update();
 
-        if(batBoogerBehaviourComponent != null) {
+        if(batBoogerBehaviourComponent != null)
             batBoogerBehaviourComponent.update();
+
+        if(boxColliderComponent != null) {
+            boxColliderComponent.update();
         }
 
         if (animationComponent != null)
             animationComponent.update();
 
+        if (damageComponent != null)
+            damageComponent.update();
 
+        if (lifeComponent != null)
+            lifeComponent.getCurrentHealth();
 
     }
 

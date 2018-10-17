@@ -21,22 +21,6 @@ public class TransformComponent extends BaseComponent {
     private float scaleX, scaleY, scaleZ; // skalning
     private float size;
 
-    private static ArrayList <Float> actorPositions = new ArrayList();
-
-    public void setList(float f) {
-
-        actorPositions.add(f);
-    }
-
-    public static ArrayList<Float> getActorPositions() {
-        return actorPositions;
-    }
-
-
-    public void set() {
-
-        actorPositions.get(0);
-    }
 
     public void create() {
 

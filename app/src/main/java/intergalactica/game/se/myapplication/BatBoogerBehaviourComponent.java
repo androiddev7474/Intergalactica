@@ -20,7 +20,8 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
     private MotionComponent motionComponent;
     private float xPos, yPos;
 
-
+    public static boolean booger1Created;
+    public static int incr;
 
     public void create() {
 
@@ -31,9 +32,360 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
         motionComponent = (MotionComponent)getOwner().getComponent(ComponentFactory.MOTIONCOMPONENT);
 
         initBehaviour();
+        /*switch (incr) {
 
+            case 0:
+                createBooger1();
+                break;
+            case 1:
+                createBooger2();
+                break;
+            case 2:
+                //createBooger3();
+                break;
+
+        }
+
+        incr++;
+
+        //testCollision6();
+        */
+
+        //testCollision2();
 
     }
+
+    private void createBooger1() {
+
+
+        motionComponent.set_velocityX(0.08f);
+        motionComponent.set_velocityY(0.04f);
+
+        //placering (första boogern vänstra kanten
+        transformComponent.setX(motionComponent.getSceneWallLeft());
+        //och y-led
+        float y = motionComponent.getSceneWallTop();
+        transformComponent.setY(y * 1.205f);
+
+        //riktning
+        motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+
+    }
+
+    private void createBooger2() {
+
+
+        motionComponent.set_velocityX(0.02f);
+        motionComponent.set_velocityY(0.02f);
+
+        //placering (första boogern vänstra kanten
+        transformComponent.setX(motionComponent.getSceneWallLeft());
+        //och y-led
+        float y = motionComponent.getSceneWallTop();
+        transformComponent.setY(y * 0.8f);
+
+        //riktning
+        motionComponent.set_xDirection(MotionComponent.HEADING_WEST);
+
+    }
+
+
+    private void createBooger3() {
+
+
+        motionComponent.set_velocityX(0.02f);
+        motionComponent.set_velocityY(0.02f);
+
+        //placering (första boogern vänstra kanten
+        transformComponent.setX(motionComponent.getSceneWallLeft());
+        //och y-led
+        float y = motionComponent.getSceneWallTop();
+        transformComponent.setY(y * 0.3f);
+
+        //riktning
+        motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+
+    }
+
+
+    private void testCollision() {
+
+
+        //booger1
+        if (!booger1Created) {
+
+            //hastighet
+            motionComponent.set_velocityX(0.02f);
+            motionComponent.set_velocityY(0.02f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallLeft());
+            //och y-led
+            float y = motionComponent.getSceneWallTop();
+            transformComponent.setY(y * 1.205f);
+
+            //riktning
+            motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+
+        //booger2
+        } else {
+
+            //hastighet
+            motionComponent.set_velocityX(0.02f);
+            motionComponent.set_velocityY(0.02f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallRight());
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 2;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_xDirection(MotionComponent.HEADING_WEST);
+
+
+
+        }
+
+        booger1Created = true;
+
+    }
+
+    //lodrätt upp och ner
+    //per 2018-10-14 och ändrad strategi så fungerar detta just nu dvs norr - syd
+    private void testCollision2() {
+
+
+        //booger1
+        if (!booger1Created) {
+
+            //hastighet
+            motionComponent.set_velocityX(0);
+            motionComponent.set_xDirection(MotionComponent.HEADING_NONE);
+            motionComponent.set_velocityY(0.01f);
+
+            //placering (första boogern vänstra kanten
+            float x = motionComponent.getSceneWallRight() / 2;
+            transformComponent.setX(x * 0.65f);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 3f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_NORTH);
+
+            //booger2
+        } else {
+
+            //hastighet
+            motionComponent.set_velocityX(0);
+            motionComponent.set_xDirection(MotionComponent.HEADING_NONE);
+            motionComponent.set_velocityY(0.01f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallRight() / 2);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 2;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_SOUTH);
+
+
+        }
+
+        booger1Created = true;
+
+    }
+
+
+    private void testCollision3() {
+
+
+        //booger1
+        if (!booger1Created) {
+
+            //hastighet
+            motionComponent.set_velocityX(0.005f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+            motionComponent.set_velocityY(0.02f);
+
+            //placering (första boogern vänstra kanten
+            float x = motionComponent.getSceneWallLeft();
+            transformComponent.setX(x * 0.75f);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 3f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_NORTH);
+
+            //booger2
+        } else {
+
+            //hastighet
+            motionComponent.set_velocityX(0);
+            motionComponent.set_xDirection(MotionComponent.HEADING_NONE);
+            motionComponent.set_velocityY(0.02f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallRight() / 2);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 1;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_SOUTH);
+
+
+        }
+
+        booger1Created = true;
+
+    }
+
+    private void testCollision4() {
+
+
+        //booger1
+        if (!booger1Created) {
+
+            //hastighet
+            motionComponent.set_velocityX(0.06f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+            motionComponent.set_velocityY(0.01f);
+
+            //placering (första boogern vänstra kanten
+            float x = motionComponent.getSceneWallLeft();
+            transformComponent.setX(x * 0.75f);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 3f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_NORTH);
+
+            //booger2
+        } else {
+
+            //hastighet
+            motionComponent.set_velocityX(0.09f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_WEST);
+            motionComponent.set_velocityY(0.03f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallRight() / 2);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 1;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_SOUTH);
+
+
+        }
+
+        booger1Created = true;
+
+    }
+
+
+    private void testCollision5() {
+
+
+        //booger1
+        if (!booger1Created) {
+
+            //hastighet
+            motionComponent.set_velocityX(0.01f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+            motionComponent.set_velocityY(0);
+
+            //placering (första boogern vänstra kanten
+            float x = motionComponent.getSceneWallLeft();
+            transformComponent.setX(x * 0.75f);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 2f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_NONE);
+
+            //booger2
+        } else {
+
+            //hastighet
+            motionComponent.set_velocityX(0.05f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_WEST);
+            motionComponent.set_velocityY(0.01f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallRight());
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 2.6f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_NORTH);
+
+
+        }
+
+        booger1Created = true;
+
+    }
+
+
+    private void testCollision6() {
+
+
+        //booger1
+        if (!booger1Created) {
+
+            //hastighet
+            motionComponent.set_velocityX(0.19f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+            motionComponent.set_velocityY(0.09f);
+
+            //placering (första boogern vänstra kanten
+            float x = motionComponent.getSceneWallLeft();
+            transformComponent.setX(x);
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 1f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_SOUTH);
+
+            //booger2
+        } else {
+
+            //hastighet
+            motionComponent.set_velocityX(0.01f);
+            motionComponent.set_xDirection(MotionComponent.HEADING_WEST);
+            motionComponent.set_velocityY(0.01f);
+
+            //placering (första boogern vänstra kanten
+            transformComponent.setX(motionComponent.getSceneWallRight());
+            //och y-led
+            float y = motionComponent.getSceneWallTop() / 2.6f;
+            transformComponent.setY(y);
+
+            //riktning
+            motionComponent.set_yDirection(MotionComponent.HEADING_NORTH);
+
+
+        }
+
+        booger1Created = true;
+
+    }
+
+
+
+
+
+
 
     private void initBehaviour() {
 
@@ -96,7 +448,7 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
         transformComponent.setX(x);
         transformComponent.setY(y);
 
-        boxColliderComponent.update();
+        //boxColliderComponent.update();
 
     }
 
