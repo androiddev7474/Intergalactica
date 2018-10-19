@@ -31,6 +31,8 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
 
         motionComponent = (MotionComponent)getOwner().getComponent(ComponentFactory.MOTIONCOMPONENT);
 
+
+
         initBehaviour();
         /*switch (incr) {
 

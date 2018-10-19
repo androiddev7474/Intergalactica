@@ -94,4 +94,8 @@ public class UVdataComponent extends BaseComponent {
 
         return textVerts;
     }
+
+    public void update() {
+
+    }
 }

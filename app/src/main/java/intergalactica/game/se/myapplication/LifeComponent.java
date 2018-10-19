@@ -14,6 +14,10 @@ public class LifeComponent extends BaseComponent {
 
     }
 
+    public void update() {
+
+    }
+
     public int getCurrentHealth() {
 
         return currentHealth;
@@ -28,6 +32,12 @@ public class LifeComponent extends BaseComponent {
 
         return maxHealth;
     }
+
+    public void damage(int amount) {
+
+        currentHealth = Math.max(0, currentHealth - amount);
+    }
+
 
     public void setMaxHealth(int maxHealth)
     {

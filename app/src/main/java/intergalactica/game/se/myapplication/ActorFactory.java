@@ -16,11 +16,18 @@ import libkitv1.opengles.se.opengllibkit1.TextureDataFormatter;
  */
 public class ActorFactory {
 
-    public static final String BACKGROUND_ACTOR = "Background";
-    public static final String BATBOOGER_ACTOR = "Batbooger";
+    public static final String BACKGROUND_ACTOR = "BackgroundActor";
+    public static final String PLAYER_ACTOR = "PlayerActor";
+    public static final String BATBOOGER_ACTOR = "BatboogerActor";
     public static final String DEATHTOUCH_ACTOR = "DeathTouchActor";
+    public static final String EXPLOSION_ACTOR = "ExplosionActor";
+    public static final String SHIPBURNER_ACTOR = "ShipBurnerActor";
 
     public static final String BAT_BOOGER_XMLNAME = "batbooger";
+    public static final String BOOGER_EXPLOSION = "batboogerx";
+    public static final String BOOGER_EXPLOSION2 = "batpurplex";
+    public static final String PLAYER_XMLNAME = "playership";
+    public static final String SHIPBURNER_XMLNAME = "shipfire";
 
     public static final int LEVEL_BITMAP = 0;
     private static final int MVP_MATRIX_ATTRIBUTE_NAME_IDX = 0;
@@ -52,13 +59,12 @@ public class ActorFactory {
             lastActorID			= 0;
 
             actorTypeList.add(BACKGROUND_ACTOR);
+            actorTypeList.add(PLAYER_ACTOR);
             actorTypeList.add(BATBOOGER_ACTOR);
             actorTypeList.add(DEATHTOUCH_ACTOR);
+            actorTypeList.add(EXPLOSION_ACTOR);
+            actorTypeList.add(SHIPBURNER_ACTOR);
 
-            //actorType.add("Player");
-            //	actorType.add("BatBooger");
-            //	actorType.add("TentacleAlien");
-            //	Osv
         }
 
     public Bitmap[] getBitmaps() {
@@ -162,25 +168,103 @@ public class ActorFactory {
 
 
 
-            case "Player":
-            {
-                TransformComponent 	transformComponent 	= (TransformComponent) factory.createComponent("TransformComponent");
-                RenderComponent 	renderComponent 	= (RenderComponent) factory.createComponent("RenderComponent");
-                LifeComponent 		lifeComponent 		= (LifeComponent) factory.createComponent("LifeComponent");
-                DamageComponent 	damageComponent 	= (DamageComponent) factory.createComponent("DamageComponent");
+            case PLAYER_ACTOR:
 
-                // Sätt inställningar för varje individuell komponent
-                // Sätt transformens position
-                // Sätt liv till det värde spelaren ska ha (LifeComponent)
-                // Sätt hur mycket skada spelaren ska göra mot andra actors (DamageComponent)
-                // Osv
+                float[][] textureDataPlayer = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, PLAYER_XMLNAME);
+                ArrayList <float[][]> textureDataPlayerList = new ArrayList<>();
+                textureDataPlayerList.add(textureDataPlayer);
+                int playerListID = 0; // vilka ttextdata ska användas?
+
+                float playerSize = 2;
+                float[] playerXyz = {GameRenderer.getGameSceneRight() / 2, GameRenderer.GAMESCENE_TOP * 0.2f, 0}; // defaultvärden
+                float[] scalePlayerXyz = {1, 1, 0}; //defaultvärden
+                actorCreator.createTransformComponent(playerSize, playerXyz, scalePlayerXyz);
+
+                final float playerPolygonSize = 0.5f;
+                float[] polySizePlayer = {playerPolygonSize, playerPolygonSize, 0};
+                actorCreator.createPolygonComponent(polySizePlayer);
+
+                float[] player_blc = {0, 0};
+                float[] player_brc = {1, 0};
+                float[] player_tlc = {0, 1};
+                float[] player_trc = {1, 1};
+                actorCreator.createUVdataComponent(player_blc, player_brc, player_tlc, player_trc, 1);
+
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int playerProgramHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                String player_name_xy_offset = "xyOffset";
+                String player_name_wh_frac = "whFrac";
+                int pModulo = 1;
+                actorCreator.createAnimationComponent(textureDataPlayerList, playerListID, playerProgramHandle, player_name_xy_offset, player_name_wh_frac, pModulo, true);
+
+                //LIFECOMPONENT
+                int player_start_health = 10;
+                int player_max_health = 10;
+                actorCreator.createLifeComponent(player_start_health, player_max_health);
+
+
+                DamageComponent damageComponent = (DamageComponent) factory.createComponent(ComponentFactory.DAMAGECOMPONENT);
+
+
+                ControlComponent controlComponent = (ControlComponent) factory.createComponent(ComponentFactory.CONTROLCOMPONENT);
+                controlComponent.setOwner(actor);
+                controlComponent.create();
+                actor.addComponent(controlComponent);
+
+
 
                 break;
-            }
+
+            case SHIPBURNER_ACTOR:
+
+                float[][] textureDataPBurner = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, SHIPBURNER_XMLNAME);
+                ArrayList <float[][]> textureDataPBurnerList = new ArrayList<>();
+                textureDataPBurnerList.add(textureDataPBurner);
+                int pBurnerListID = 0; // vilka ttextdata ska användas?
+
+                float pBurnerSize = 2;
+                float[] pBurnerXyz = {GameRenderer.getGameSceneRight() / 2, GameRenderer.GAMESCENE_TOP * 0.2f, 0}; // defaultvärden
+                float[] scalePBurnerXyz = {1, 1, 0}; //defaultvärden
+                actorCreator.createTransformComponent(pBurnerSize, pBurnerXyz, scalePBurnerXyz);
+
+                final float pBurnerPolygonSize = 0.5f;
+                float[] polySizePBurner = {pBurnerPolygonSize, pBurnerPolygonSize, 0};
+                actorCreator.createPolygonComponent(polySizePBurner);
+
+                float[] pBurner_blc = {0, 0};
+                float[] pBurner_brc = {1, 0};
+                float[] pBurner_tlc = {0, 1};
+                float[] pBurner_trc = {1, 1};
+                actorCreator.createUVdataComponent(pBurner_blc, pBurner_brc, pBurner_tlc, pBurner_trc, 1);
+
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int pBurnerProgramHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                String pBurner_name_xy_offset = "xyOffset";
+                String pBurner_name_wh_frac = "whFrac";
+                int pBurnerModulo = 1;
+                actorCreator.createAnimationComponent(textureDataPBurnerList, pBurnerListID, pBurnerProgramHandle, pBurner_name_xy_offset, pBurner_name_wh_frac, pBurnerModulo, true);
+
+                //LIFECOMPONENT
+                int pBurner_start_health = 10;
+                int pBurner_max_health = 10;
+                actorCreator.createLifeComponent(pBurner_start_health, pBurner_max_health);
+
+
+                break;
 
             case BATBOOGER_ACTOR:
 
-                float[][] textureData = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BAT_BOOGER_XMLNAME);
+                float[][] textureDataBooger = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BAT_BOOGER_XMLNAME);
+
+                ArrayList <float[][]> textDataBoogerList = new ArrayList<>();
+                textDataBoogerList.add(textureDataBooger);
+                int listID = 0; // vilka ttextdata ska användas?
 
                 float batBoogerSize = 1;
                 float[] xyz = {0, 0, 0}; // defaultvärden
@@ -196,7 +280,6 @@ public class ActorFactory {
                 float[] tlc = {0, 1};
                 float[] trc = {1, 1};
                 actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
-
                 actorCreator.createTextureComponent(bitmaps[bitmapID]);
 
                 int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
@@ -205,7 +288,7 @@ public class ActorFactory {
                 String u_name_xy_offset = "xyOffset";
                 String u_name_wh_frac = "whFrac";
                 int modulo = 4;
-                actorCreator.createAnimationComponent(textureData, programHandle, u_name_xy_offset, u_name_wh_frac, modulo);
+                actorCreator.createAnimationComponent(textDataBoogerList, listID, programHandle, u_name_xy_offset, u_name_wh_frac, modulo, true);
 
                 // default värden, hastighet o position bestäms sedan i batboogerbehaviourcomponent.
                 float[] velocXY = {0.04f, 0.025f};
@@ -237,18 +320,50 @@ public class ActorFactory {
                 int damageAmount = 100;
                 actorCreator.createDamageComponent(damageAmount);
 
-
-
-
-
                 break;
 
             default:
+                break;
+
+            case EXPLOSION_ACTOR:
+
+                float[][] textureDataExp0 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BOOGER_EXPLOSION);
+                float[][] textureDataExp1 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BOOGER_EXPLOSION2);
+
+                ArrayList <float[][]> textDataList = new ArrayList<>();
+                textDataList.add(textureDataExp0);
+                textDataList.add(textureDataExp1);
+                int explistID = 0; // vilka ttextdata ska användas?
+
+                float[] xYzExp = {3, 5, 0};
+                float[] scale_xyzExp = {1, 1, 0};
+                actorCreator.createTransformComponent(2, xYzExp, scale_xyzExp);
+
+                final float polygonSizeExp = 0.5f;
+                float[] polySizeExp = {polygonSizeExp, polygonSizeExp, 0};
+                actorCreator.createPolygonComponent(polySizeExp);
+
+                float[] blcExp = {0, 0};
+                float[] brcExp = {1, 0};
+                float[] tlcExp = {0, 1};
+                float[] trcExp = {1, 1};
+                actorCreator.createUVdataComponent(blcExp, brcExp, tlcExp, trcExp, 1);
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int programHandleExp = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+                String u_name_xy_offsetExp = "xyOffset";
+                String u_name_wh_fracExp = "whFrac";
+                int moduloExp = 4;
+                actorCreator.createAnimationComponent(textDataList, explistID, programHandleExp, u_name_xy_offsetExp, u_name_wh_fracExp, moduloExp, false);
+
+
                 break;
 
         }
 
         return true;
     }
+
 }
 

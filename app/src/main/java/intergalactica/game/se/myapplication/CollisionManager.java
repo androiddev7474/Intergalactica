@@ -1,6 +1,7 @@
 package intergalactica.game.se.myapplication;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -13,32 +14,36 @@ public class CollisionManager {
 
     private ArrayList <Actor> actorList; // listan med befintliga actors, hämtas från Level
     private ArrayList <Actor> actorTempList = new ArrayList<>(); // används för tillfällig lagring av ihoparade actors (boxar) som jämförs.
+    private ArrayList <Actor> explosionList;
     private ArrayList <Integer> directionTypeList = new ArrayList<>(); //samma användningsområde som ovan
 
-    private Actor deathTouchActor;
+    private Actor deathTouchActor, explosionActor;
+    private ExplosionManager explosionManager;
 
-    public CollisionManager (ArrayList<Actor> actorList, Actor deathTouchActor) {
+
+    public CollisionManager (ArrayList<Actor> actorList, Actor deathTouchActor, ArrayList <Actor> explosionList, ExplosionManager explosionManager) {
 
         this.actorList = actorList;
         this.deathTouchActor = deathTouchActor;
-
+        this.explosionManager = explosionManager;
+        this.explosionList = explosionList;
     }
 
 
     /*
-    * Så här paras actors (boxar) ihop vid testning, de testas 2 om 2 i tager - alla kombinationer. Funktionen BoxCollision returnerar heltal (-1, 0, 1, 2, 3) där -1 är utebliven kollision
-    * Nedan visas antalet möjliga kombinationer av 5 aktors (10 tänkbara kombinationer). Inom parentes utgår från index från 0 och uppåt (dvs hur det lagras i listor)
-    * 1-2 (0-1)
-    * 1-3 (0-2)
-    * 1-4 (0-3)
-    * 1-5 (0-4)
-    * 2-3 (1-2)
-    * 2-4 (1-3)
-    * 2-5 (1-4)
-    * 3-4 (2-3)
-    * 3-5 (2-4)
-    * 4-5 (3-4)
-    */
+     * Så här paras actors (boxar) ihop vid testning, de testas 2 om 2 i tager - alla kombinationer. Funktionen BoxCollision returnerar heltal (-1, 0, 1, 2, 3) där -1 är utebliven kollision
+     * Nedan visas antalet möjliga kombinationer av 5 aktors (10 tänkbara kombinationer). Inom parentes utgår från index från 0 och uppåt (dvs hur det lagras i listor)
+     * 1-2 (0-1)
+     * 1-3 (0-2)
+     * 1-4 (0-3)
+     * 1-5 (0-4)
+     * 2-3 (1-2)
+     * 2-4 (1-3)
+     * 2-5 (1-4)
+     * 3-4 (2-3)
+     * 3-5 (2-4)
+     * 4-5 (3-4)
+     */
     public void checkCollision() {
 
         int size = actorList.size();
@@ -68,16 +73,27 @@ public class CollisionManager {
     public void checkDeathActorCollision() {
 
 
-        for (Actor actor: actorList) {
+        Iterator<Actor> iter = actorList.iterator();
+
+        while (iter.hasNext()) {
+            Actor actor = iter.next();
+
+            int[] type = BoxCollider.boxCollision(actor, deathTouchActor);
+
+            if (type[0] != -1 ) {
+                System.err.println("DEAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                DamageComponent damageComponent = ((DamageComponent)deathTouchActor.getComponent(ComponentFactory.DAMAGECOMPONENT));
+                ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).damage(damageComponent.getDamageAmount());
 
 
-            BoxCollider.boxCollision(actor, deathTouchActor);
+                explosionManager.manageExplosions(actor, actor.getType());
 
+                iter.remove();
+
+            }
 
         }
-        //BoxCollider.savePositions(actorList);
-        //BoxCollider.savePositions(deathTouchActor);
-
 
 
     }

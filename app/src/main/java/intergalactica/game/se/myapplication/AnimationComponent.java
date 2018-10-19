@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public class AnimationComponent extends BaseComponent {
     private int uvOffset, wHfrac;
     private int mProgramHandle;
     private TransformComponent transformComponent;
+    private ArrayList<float[][]> spriteTextDataList;
+    private int listID;
 
     public void create() {
 
@@ -52,22 +55,22 @@ public class AnimationComponent extends BaseComponent {
         transformComponent.setScaleY(height);
 
 
-
         GLES30.glUniform2fv(uvOffset, 1, xyOffsets, 0);
         GLES30.glUniform2fv(wHfrac, 1, whFracs, 0);
 
 
-        Log.d("frame", "" + id);
 
     }
 
+
     /**
      *
-     * @param spriteTextData
+     * @param spriteTextDataList
      */
-    public void setSpriteTextData(float[][] spriteTextData) {
+    public void setSpriteTextData(ArrayList<float[][]> spriteTextDataList, int listID) {
 
-        this.spriteTextData = spriteTextData;
+        this.spriteTextDataList = spriteTextDataList;
+        this.spriteTextData = spriteTextDataList.get(listID);
         this.nFrames = spriteTextData.length;
     }
 

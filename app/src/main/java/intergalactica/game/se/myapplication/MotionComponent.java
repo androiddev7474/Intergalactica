@@ -28,6 +28,7 @@ public class MotionComponent extends BaseComponent {
     }
 
 
+
     /**
      * mutator hastighet i x-led
      * @param velocityX
@@ -155,5 +156,9 @@ public class MotionComponent extends BaseComponent {
 
     public void setSceneWallBottom(float sceneWallBottom) {
         this.sceneWallBottom = sceneWallBottom;
+    }
+
+    public void update() {
+
     }
 }

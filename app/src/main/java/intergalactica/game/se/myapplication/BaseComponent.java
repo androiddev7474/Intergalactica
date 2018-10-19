@@ -9,11 +9,12 @@ import java.util.Map;
  * Björn Hallström
  * Version: 1
  */
-public class BaseComponent {
+public abstract class BaseComponent {
 
     private String type = ""; //	→ komponentens typ (t.ex “TransformComponent”)
     private Actor owner;  //→ den actor som äger komponenten
 
+    public abstract void update();
 
     public String getType() {
         return type;

@@ -20,7 +20,7 @@ public class LevelMap {
         String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
         actorFactory.setShaders(shaders, attrsUnifs, attributes);
         actorFactory.setBitmapID(ActorFactory.LEVEL_BITMAP);
-        backgroundActor = actorFactory.createActor("Background");
+        backgroundActor = actorFactory.createActor(ActorFactory.BACKGROUND_ACTOR);
         backgroundActor.create();
 
     }

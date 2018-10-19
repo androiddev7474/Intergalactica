@@ -48,6 +48,10 @@ public class TransformComponent extends BaseComponent {
         return mModelMatrix;
     }
 
+    public void setmModelMatrix(float[] mModelMatrix) {
+        this.mModelMatrix = mModelMatrix;
+    }
+
     private void calcXYedges() {
 
         float wFrac = scaleX / 2;

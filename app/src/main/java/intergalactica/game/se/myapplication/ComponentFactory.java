@@ -21,13 +21,14 @@ public class ComponentFactory
     public static final String MOTIONCOMPONENT = "MotionComponent";
     public static final String DAMAGECOMPONENT = "DamageComponent";
     public static final String LIFECOMPONENT = "LifeComponent";
+    public static final String CONTROLCOMPONENT = "ControlComponent";
 
     ArrayList <String> componentTypeList = new ArrayList<>();
 
     public ComponentFactory()
     {
 
-        componentTypeList.add("LifeComponent");
+        componentTypeList.add(LIFECOMPONENT);
         componentTypeList.add(RENDERCOMPONENT);
         componentTypeList.add(TRANSFORMCOMPONENT);
         componentTypeList.add(MODELCOMPONENT);
@@ -39,6 +40,7 @@ public class ComponentFactory
         componentTypeList.add(MOTIONCOMPONENT);
         componentTypeList.add(DAMAGECOMPONENT);
         componentTypeList.add(LIFECOMPONENT);
+        componentTypeList.add(CONTROLCOMPONENT);
     }
 
     public BaseComponent createComponent(String type)
@@ -101,6 +103,10 @@ public class ComponentFactory
             case LIFECOMPONENT:
                 component = new LifeComponent();
                 component.setType(LIFECOMPONENT);
+                break;
+            case CONTROLCOMPONENT:
+                component = new ControlComponent();
+                component.setType(CONTROLCOMPONENT);
                 break;
         }
 
