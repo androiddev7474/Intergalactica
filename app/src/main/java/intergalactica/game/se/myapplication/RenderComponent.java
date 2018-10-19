@@ -1,6 +1,7 @@
 package intergalactica.game.se.myapplication;
 
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.Matrix;
 import android.util.Log;
 
@@ -70,6 +71,11 @@ public class RenderComponent extends BaseComponent {
 
     }
 
+    public void setTextureID(int textID) {
+
+        GLES30.glBindTexture(Texture.TYPE, textID);
+    }
+
     public void setHandles(int mProgramHandle, int mPositionHandle, int mTextureCoordinateHandle, int mMVPMatrixHandle) {
 
 
@@ -88,6 +94,11 @@ public class RenderComponent extends BaseComponent {
     }
 
     public void render() {
+
+
+        TextureComponent textureComponent = (TextureComponent)getOwner().getComponent(ComponentFactory.TEXTURECOMPONENT);
+        int textureID = textureComponent.getTexture().getTextureData().ID[0];
+        GLES30.glBindTexture(Texture.TYPE, textureID);
 
         GLES20.glUseProgram(mProgramHandle);
 
@@ -111,6 +122,11 @@ public class RenderComponent extends BaseComponent {
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
         //Log.d("owner", getOwner().type);
+        String owner = getOwner().type;
+        int id = -1;
+        if (((AnimationComponent)getOwner().getComponent(ComponentFactory.ANIMATIONCOMPONENT) != null)) {
+            id = ((AnimationComponent) getOwner().getComponent(ComponentFactory.ANIMATIONCOMPONENT)).getCurrentAnimation().getID();
+        }
 
         // rita kuben
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, gl_fields.getN_vertices_poly());

@@ -35,10 +35,13 @@ public class Actor {
 
     public void create() {
 
-        renderComponent = (RenderComponent)componentMap.get(ComponentFactory.RENDERCOMPONENT);
+
         textureComponent = (TextureComponent)componentMap.get(ComponentFactory.TEXTURECOMPONENT);
         if (textureComponent != null)
             textureID = textureComponent.getTexture().getTextureData().ID[0];
+
+        renderComponent = (RenderComponent)componentMap.get(ComponentFactory.RENDERCOMPONENT);
+
         animationComponent = (AnimationComponent)componentMap.get(ComponentFactory.ANIMATIONCOMPONENT);
 
         batBoogerBehaviourComponent = (BatBoogerBehaviourComponent)componentMap.get(ComponentFactory.BATBOOGERBEHAVIOURCOMPONENT);
@@ -58,8 +61,24 @@ public class Actor {
     public void update() {
 
 
+        /*for(HashMap<String, BaseComponent> map : componentMap)
+        {
+            if(comp != null)
+                comp.update();
+        }*/
 
-        transformComponent.update();
+        for (Map.Entry<String, BaseComponent> entry : componentMap.entrySet())
+        {
+
+            BaseComponent component = entry.getValue();
+            component.update();
+        }
+
+
+
+
+
+        /*transformComponent.update();
 
         if(batBoogerBehaviourComponent != null)
             batBoogerBehaviourComponent.update();
@@ -76,6 +95,7 @@ public class Actor {
 
         if (lifeComponent != null)
             lifeComponent.getCurrentHealth();
+        */
 
     }
 
@@ -85,7 +105,7 @@ public class Actor {
 
 
         if (renderComponent != null) {
-            GLES30.glBindTexture(Texture.TYPE, textureID);
+            //GLES30.glBindTexture(Texture.TYPE, textureID);
             renderComponent.render();
         }
 

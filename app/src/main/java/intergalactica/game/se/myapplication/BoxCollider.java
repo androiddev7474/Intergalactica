@@ -23,6 +23,8 @@ public class BoxCollider {
         BoxColliderComponent collider1 = (BoxColliderComponent)actor1.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
         BoxColliderComponent collider2 = (BoxColliderComponent)actor2.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
 
+
+
         float previousBox1Left = collider1.getPreviousBoxLeft();
         float previousBox1Top = collider1.getPreviousBoxTop();
         float previousBox1Right = collider1.getPreviousBoxRight();

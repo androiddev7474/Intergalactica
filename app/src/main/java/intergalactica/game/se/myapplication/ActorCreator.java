@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
+import java.util.ArrayList;
+
 import compileshaders.opengles.se.shader_compile.Compile;
 import libkitv1.opengles.se.opengllibkit1.TextureDataFormatter;
 
@@ -133,18 +135,19 @@ public class ActorCreator {
      * @param widthHeightFrac
      * @param modulo
      */
-    public void createAnimationComponent(float[][] textureData, int mProgramHandle, String xyOffset, String widthHeightFrac, int modulo) {
+    public void createAnimationComponent(ArrayList<float[][]> textureData, int listID, int mProgramHandle, String xyOffset, String widthHeightFrac, int modulo, boolean loop) {
 
         AnimationComponent animationComponent = (AnimationComponent) componentFactory.createComponent(ComponentFactory.ANIMATIONCOMPONENT);
-        animationComponent.setSpriteTextData(textureData);
+        animationComponent.setSpriteTextData(textureData, listID);
         int offsetLoc = GLES30.glGetUniformLocation(mProgramHandle, xyOffset);
         int wHfracLoc =  GLES30.glGetUniformLocation(mProgramHandle, widthHeightFrac);
         animationComponent.setUVcoordsHandles(offsetLoc, wHfracLoc);
         animationComponent.setmProgramHandle(mProgramHandle);
         animationComponent.setOwner(actor);
         animationComponent.create();
-        animationComponent.getCurrentAnimation().setN_sprite_frames(textureData.length);
+        animationComponent.getCurrentAnimation().setN_sprite_frames(textureData.get(listID).length);
         animationComponent.getCurrentAnimation().setModulo(modulo);
+        animationComponent.getCurrentAnimation().setLoop(loop);
         actor.addComponent(animationComponent);
 
     }

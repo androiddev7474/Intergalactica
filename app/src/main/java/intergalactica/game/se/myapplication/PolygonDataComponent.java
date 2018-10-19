@@ -117,4 +117,10 @@ public class PolygonDataComponent extends BaseComponent {
     public GL_fields getgLfields() {
         return gLfields;
     }
+
+    public void update() {
+
+    }
+
+
 }

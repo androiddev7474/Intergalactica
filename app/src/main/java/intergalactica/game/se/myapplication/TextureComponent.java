@@ -14,4 +14,8 @@ public class TextureComponent extends BaseComponent {
         return this.texture;
     }
 
+    public void update() {
+
+    }
+
 }
