@@ -201,6 +201,14 @@ public class ActorCreator {
         actor.addComponent(batBoogerBehaviourComponent);
     }
 
+    public void createShotBehaviourComponent() {
+
+        ShotBehaviourComponent shotBehaviourComponent = (ShotBehaviourComponent) componentFactory.createComponent(ComponentFactory.SHOTBEHAVIOURCOMPONENT);
+        shotBehaviourComponent.setOwner(actor);
+        shotBehaviourComponent.create();
+        actor.addComponent(shotBehaviourComponent);
+    }
+
     public void createDamageComponent(int damageAmount) {
 
         DamageComponent damageComponent = (DamageComponent) componentFactory.createComponent(ComponentFactory.DAMAGECOMPONENT);

@@ -22,12 +22,15 @@ public class ActorFactory {
     public static final String DEATHTOUCH_ACTOR = "DeathTouchActor";
     public static final String EXPLOSION_ACTOR = "ExplosionActor";
     public static final String SHIPBURNER_ACTOR = "ShipBurnerActor";
+    public static final String SHOT_ACTOR = "ShotActor";
+    public static final String WEAPON_ACTOR = "WeaponActor";
 
     public static final String BAT_BOOGER_XMLNAME = "batbooger";
     public static final String BOOGER_EXPLOSION = "batboogerx";
     public static final String BOOGER_EXPLOSION2 = "batpurplex";
     public static final String PLAYER_XMLNAME = "playership";
     public static final String SHIPBURNER_XMLNAME = "shipfire";
+    public static final String SHOT_XMLNAME = "weapon1shot";
 
     public static final int LEVEL_BITMAP = 0;
     private static final int MVP_MATRIX_ATTRIBUTE_NAME_IDX = 0;
@@ -64,6 +67,7 @@ public class ActorFactory {
             actorTypeList.add(DEATHTOUCH_ACTOR);
             actorTypeList.add(EXPLOSION_ACTOR);
             actorTypeList.add(SHIPBURNER_ACTOR);
+            actorTypeList.add(SHOT_ACTOR);
 
         }
 
@@ -168,7 +172,7 @@ public class ActorFactory {
 
 
 
-            case PLAYER_ACTOR:
+            case PLAYER_ACTOR: {
 
                 float[][] textureDataPlayer = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, PLAYER_XMLNAME);
                 ArrayList <float[][]> textureDataPlayerList = new ArrayList<>();
@@ -216,7 +220,57 @@ public class ActorFactory {
 
 
 
-                break;
+                break;}
+
+            case SHOT_ACTOR: {
+
+                float[][] textureData = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, SHOT_XMLNAME);
+
+                ArrayList <float[][]> textDataList = new ArrayList<>();
+                textDataList.add(textureData);
+                int listID = 0; // vilka ttextdata ska användas?
+
+                float size = 0.5f;
+                float[] xyz = {GameRenderer.getGameSceneRight() / 2, 0, 0}; // defaultvärden
+                float[] scaleXyz = {1, 1, 0}; //defaultvärden
+                actorCreator.createTransformComponent(size, xyz, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                String u_name_xy_offset = "xyOffset";
+                String u_name_wh_frac = "whFrac";
+                int modulo = 1;
+                actorCreator.createAnimationComponent(textDataList, listID, programHandle, u_name_xy_offset, u_name_wh_frac, modulo, true);
+
+                // default värden, hastighet o position bestäms sedan i batboogerbehaviourcomponent.
+                float[] velocXY = {0.0f, 0.15f};
+                int[] dirXY = {MotionComponent.HEADING_NONE, MotionComponent.HEADING_NORTH};
+                float[] sceneWalls = {GameRenderer.GAMESCENE_LEFT, GameRenderer.getGameSceneRight(), GameRenderer.GAMESCENE_TOP, GameRenderer.GAMESCENE_BOTTOM};
+                actorCreator.createMotionComponent(velocXY[0], velocXY[1], dirXY[0], dirXY[1], sceneWalls);
+
+                actorCreator.createShotBehaviourComponent();
+
+                actorCreator.createBoxColliderComponent();
+
+
+
+                int damageAmount = 10;
+                actorCreator.createDamageComponent(damageAmount);
+
+
+                break; }
 
             case SHIPBURNER_ACTOR:
 
@@ -303,7 +357,6 @@ public class ActorFactory {
                 int booger_start_health = 10;
                 int booger_max_health = 10;
                 actorCreator.createLifeComponent(booger_start_health, booger_max_health);
-
 
 
                 break;

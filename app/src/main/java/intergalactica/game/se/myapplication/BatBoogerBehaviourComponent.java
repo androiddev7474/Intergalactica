@@ -33,7 +33,7 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
 
 
 
-        initBehaviour();
+        //initBehaviour();
         /*switch (incr) {
 
             case 0:
@@ -54,23 +54,25 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
         */
 
         //testCollision2();
+        createBooger1();
 
     }
 
     private void createBooger1() {
 
 
-        motionComponent.set_velocityX(0.08f);
-        motionComponent.set_velocityY(0.04f);
+        motionComponent.set_velocityX(0.01f);
+        motionComponent.set_velocityY(0.01f);
 
         //placering (första boogern vänstra kanten
         transformComponent.setX(motionComponent.getSceneWallLeft());
         //och y-led
         float y = motionComponent.getSceneWallTop();
-        transformComponent.setY(y * 1.205f);
+        transformComponent.setY(y * 1f);
 
         //riktning
         motionComponent.set_xDirection(MotionComponent.HEADING_EAST);
+        motionComponent.set_yDirection(MotionComponent.HEADING_SOUTH);
 
     }
 

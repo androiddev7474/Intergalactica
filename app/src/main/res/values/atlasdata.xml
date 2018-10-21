@@ -80,9 +80,9 @@
         <item>weapon_1 = 301 1806 70 71</item>
         <item>weapon1shot_1 = 1204 1786 50 109</item>
         <item>weapon_2 = 372 1806 70 71</item>
-        <item>weapon2shot_1 = 1505 1776 50 121</item>
+        <item>weapon2shot_2 = 1505 1776 50 121</item>
         <item>weapon_3 = 443 1806 70 71</item>
-        <item>weapon3shot_1 = 514 1806 50 91</item>
+        <item>weapon3shot_3 = 514 1806 50 91</item>
         <item>t_1 = 602 1505 300 290</item>
         <item>t_10 = 1204 1204 300 290</item>
         <item>t_11 = 903 1505 300 290</item>
