@@ -14,9 +14,70 @@ public class BoxCollider {
     public static final int HEADING_NORTH_TOP_TOUCHES_BOTTOM = 2;
     public static final int HEADING_SOUTH_BOTTOM_TOUCHES_TOP = 3;
 
+    /*
+    bool boxVsBox(collisionBox box1, collisionBox box2)
+    {
+        int box1Top 	= box1.y;
+        int box1Bottom 	= box1.y + box1.height;
+        int box1Left 	= box1.x;
+        int box1Right 	= box1.x + box1.width;
+
+        int box2Top 	= box2.y;
+        int box2Bottom 	= box2.y + box2.height;
+        int box2Left 	= box2.x;
+        int box2Right 	= box2.x + box2.width;
+
+        if	(
+                (box1Top 	< box2Bottom) 	&&
+                        (box1Bottom	> box2Top) 		&&
+                        (box1Left 	< box2Right) 	&&
+                        (box1Right 	< box2Left) 	&&
+                )
+            return true;
+
+        return false;
+    }
+    */
+
+    public static boolean boxVsBox(Actor actor1, Actor actor2) {
+
+        BoxColliderComponent collider1 = (BoxColliderComponent)actor1.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
+        BoxColliderComponent collider2 = (BoxColliderComponent)actor2.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
+
+        float box1Left = collider1.getLeft();
+        float box1Top = collider1.getTop();
+        float box1Right = collider1.getRight();
+        float box1Bottom = collider1.getBottom();
+
+        float box2Left = collider2.getLeft();
+        float box2Top = collider2.getTop();
+        float box2Right = collider2.getRight();
+        float box2Bottom = collider2.getBottom();
+
+        /*int box1Top 	= box1.y;
+        int box1Bottom 	= box1.y + box1.height;
+        int box1Left 	= box1.x;
+        int box1Right 	= box1.x + box1.width;
+
+        int box2Top 	= box2.y;
+        int box2Bottom 	= box2.y + box2.height;
+        int box2Left 	= box2.x;
+        int box2Right 	= box2.x + box2.width;
+        */
+
+        //if	((box1Top 	< box2Bottom) 	&& (box1Bottom	> box2Top) && (box1Left < box2Right) && (box1Right 	< box2Left))
+        if	((box1Top 	> box2Bottom) 	&& (box1Bottom	< box2Top) && (box1Left < box2Right) && (box1Right 	< box2Left))
+            return true;
+
+        return false;
 
 
-    public static int[] boxCollision(Actor actor1, Actor actor2) {
+
+    }
+
+
+
+    public static int[] boxCollision_(Actor actor1, Actor actor2) {
 
         Actor[] actors = {actor1, actor2};
 
@@ -154,11 +215,17 @@ public class BoxCollider {
      * Version2 (2018-10-16) - Båda actors testas på en och samma gång till skillnad från tidigare.
      *
      */
-    public static int[] boxCollision_(Actor actor1, Actor actor2) {
+    public static int[] boxCollision(Actor actor1, Actor actor2) {
 
 
         BoxColliderComponent collider1 = (BoxColliderComponent)actor1.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
         BoxColliderComponent collider2 = (BoxColliderComponent)actor2.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
+
+        int[] types = {-1, -1};
+
+        //båda aktörerna måste ha en kollider
+        if (collider1 == null || collider2 == null)
+            return types;
 
         float[] previousBoxLeft = {collider1.getPreviousBoxLeft(), collider2.getPreviousBoxLeft()};
         float[] previousBoxTop = {collider1.getPreviousBoxTop(), collider2.getPreviousBoxTop()};
@@ -171,7 +238,7 @@ public class BoxCollider {
         float[] bottomBox = {collider1.getBottom(), collider2.getBottom()};
 
 
-        int[] types = {-1, -1};
+
 
         /**
          * AKTOR 1
@@ -193,7 +260,7 @@ public class BoxCollider {
             //aktuell aktor kolliderar med andra aktorn underifrån
             if ((previousBoxTop[box1ID] < previousBoxBottom[box2ID]) && topBox[box1ID] >= bottomBox[box2ID]) {
 
-                if ((leftBox[box1ID] >= leftBox[box2ID] && leftBox[box1ID] <= rightBox[box2ID]) || (rightBox[box1ID] >= leftBox[box2ID] && rightBox[box1ID] <= rightBox[box2ID])) {
+                if ((leftBox[box1ID] >= leftBox[box2ID] && leftBox[box1ID] <= rightBox[box2ID]) || (rightBox[box1ID] >= leftBox[box2ID] && rightBox[box1ID] <= rightBox[box2ID]) || (leftBox[box1ID] < leftBox[box2ID] && rightBox[box1ID] > rightBox[box2ID])) {
 
                     types[i] = HEADING_NORTH_TOP_TOUCHES_BOTTOM;
                 }
@@ -202,7 +269,7 @@ public class BoxCollider {
             //aktuell aktor kolliderar med andra aktorn överifrån
             if (previousBoxBottom[box1ID] > previousBoxTop[box2ID] && bottomBox[box1ID] <= topBox[box2ID]) {
 
-                if ((leftBox[box1ID] >= leftBox[box2ID] && leftBox[box1ID] <= rightBox[box2ID]) || (rightBox[box1ID] >= leftBox[box2ID] && rightBox[box1ID] <= rightBox[box2ID])) {
+                if ((leftBox[box1ID] >= leftBox[box2ID] && leftBox[box1ID] <= rightBox[box2ID]) || (rightBox[box1ID] >= leftBox[box2ID] && rightBox[box1ID] <= rightBox[box2ID]) /*|| (leftBox[box1ID] < leftBox[box2ID] && rightBox[box1ID] > rightBox[box2ID])*/) {
 
                     types[i] = HEADING_SOUTH_BOTTOM_TOUCHES_TOP;
                 }
@@ -213,27 +280,21 @@ public class BoxCollider {
             // aktuell aktor rör sig västerut och kolliderar med sidan
             if (previousBoxLeft[box1ID] > previousBoxRight[box2ID] && leftBox[box1ID] <= rightBox[box2ID]) {
 
-                if ((topBox[box1ID] >= bottomBox[box2ID] && topBox[box1ID] <= topBox[box2ID]) || (bottomBox[box1ID] >= bottomBox[box2ID] && bottomBox[box1ID] <= topBox[box2ID])) {
+                if ((topBox[box1ID] >= bottomBox[box2ID] && topBox[box1ID] <= topBox[box2ID]) || (bottomBox[box1ID] >= bottomBox[box2ID] && bottomBox[box1ID] <= topBox[box2ID]) || (topBox[box1ID] > topBox[box2ID] && bottomBox[box1ID] < bottomBox[box2ID]) ) {
 
                     types[i] = HEADING_WEST_LEFT_TOUCHES_RIGHT;
                 }
-
             }
 
             //aktuell aktor rör sig österut och kolliderar med sidan
             if (previousBoxRight[box1ID] < previousBoxLeft[box2ID] && rightBox[box1ID] >= leftBox[box2ID]) {
 
-                if ((topBox[box1ID] >= bottomBox[box2ID] && topBox[box1ID] <= topBox[box2ID]) || (bottomBox[box1ID] >= bottomBox[box2ID] && bottomBox[box1ID] <= topBox[box2ID])) {
+                if ((topBox[box1ID] >= bottomBox[box2ID] && topBox[box1ID] <= topBox[box2ID]) || (bottomBox[box1ID] >= bottomBox[box2ID] && bottomBox[box1ID] <= topBox[box2ID]) || (topBox[box1ID] > topBox[box2ID] && bottomBox[box1ID] < bottomBox[box2ID]) ) {
+
                     types[i] = HEADING_EAST_RIGHT_TOUCHES_LEFT;
                 }
-
             }
-
-
         }
-
-
-
 
         return types;
     }
@@ -243,7 +304,10 @@ public class BoxCollider {
      * Spara boxens kantvärden för att kunna utnyttja dessa nästa frame. På så sätt kan det avgöras om en kollision uppstårr
      * @param actors
      */
-    public static void savePositions(ArrayList<Actor> actors) {
+    public static boolean savePositions(ArrayList<Actor> actors) {
+
+        if (actors == null)
+            return false;
 
         for (Actor actor: actors) {
 
@@ -259,6 +323,8 @@ public class BoxCollider {
             collider.setPreviousBoxRight(rightBox);
             collider.setPreviousBoxBottom(bottomBox);
         }
+
+        return true;
     }
 
     /**

@@ -12,25 +12,27 @@ import java.util.Iterator;
 
 public class CollisionManager {
 
-    private ArrayList <Actor> actorList; // listan med befintliga actors, hämtas från Level
-    private ArrayList <Actor> actorTempList = new ArrayList<>(); // används för tillfällig lagring av ihoparade actors (boxar) som jämförs.
+    //private ArrayList <Actor> actorList; // listan med befintliga actors, hämtas från Level
+    //private ArrayList <Actor> actorList2;
+    private ArrayList <Actor> actorSingleList = new ArrayList<>(); // används för tillfällig lagring av ihoparade actors (boxar) som jämförs. En och samma lista
     private ArrayList <Actor> explosionList;
     private ArrayList <Integer> directionTypeList = new ArrayList<>(); //samma användningsområde som ovan
 
-    private Actor deathTouchActor, explosionActor;
+    //private Actor deathTouchActor, explosionActor;
     private ExplosionManager explosionManager;
 
 
-    public CollisionManager (ArrayList<Actor> actorList, Actor deathTouchActor, ArrayList <Actor> explosionList, ExplosionManager explosionManager) {
+    public CollisionManager (ArrayList <Actor> explosionList, ExplosionManager explosionManager) {
 
-        this.actorList = actorList;
-        this.deathTouchActor = deathTouchActor;
+        //this.actorList = actorList;
+        //this.deathTouchActor = deathTouchActor;
         this.explosionManager = explosionManager;
         this.explosionList = explosionList;
     }
 
 
     /*
+     * Kollisionskontroll INOM en och samma lista
      * Så här paras actors (boxar) ihop vid testning, de testas 2 om 2 i tager - alla kombinationer. Funktionen BoxCollision returnerar heltal (-1, 0, 1, 2, 3) där -1 är utebliven kollision
      * Nedan visas antalet möjliga kombinationer av 5 aktors (10 tänkbara kombinationer). Inom parentes utgår från index från 0 och uppåt (dvs hur det lagras i listor)
      * 1-2 (0-1)
@@ -44,7 +46,7 @@ public class CollisionManager {
      * 3-5 (2-4)
      * 4-5 (3-4)
      */
-    public void checkCollision() {
+    public void checkSingleListCollision(ArrayList <Actor> actorList) {
 
         int size = actorList.size();
         int n = size;
@@ -58,19 +60,41 @@ public class CollisionManager {
 
                 int act1_id = i;
                 int act2_id = j + i + 1;
-                actorTempList.add(actorList.get(act1_id));
-                actorTempList.add(actorList.get(act2_id));
+                actorSingleList.add(actorList.get(act1_id));
+                actorSingleList.add(actorList.get(act2_id));
 
                 int[] cTypeAct1 = BoxCollider.boxCollision(actorList.get(act1_id), actorList.get(act2_id));
                 directionTypeList.add(new Integer(cTypeAct1[ACTOR1IDX]));
                 directionTypeList.add(new Integer(cTypeAct1[ACTOR2IDX]));
             }
         }
+    }
 
+
+    /**
+     * Kollisionskontroll mellan två listor med actors
+     * @param actorList1
+     * @param actorList2
+     */
+    public void checkDualListCollision(ArrayList <Actor> actorList1, ArrayList <Actor> actorList2) {
+
+
+        for (Actor actor1: actorList1) {
+
+            for (Actor actor2: actorList2) {
+
+                int[] types = BoxCollider.boxCollision(actor1, actor2);
+
+                int xx = 0;
+                if (types[0] != -1 || types[1] != -1)
+                    xx = 1;
+            }
+
+        }
 
     }
 
-    public void checkDeathActorCollision() {
+    public void checkDeathActorCollision(Actor deathTouchActor, ArrayList <Actor> actorList) {
 
 
         Iterator<Actor> iter = actorList.iterator();
@@ -95,15 +119,52 @@ public class CollisionManager {
 
         }
 
+    }
+
+    /**
+     * Kollisionskontroll mellan två listor med actors
+     * @param actorList1
+     * @param actorList2
+     */
+    public void checkDualListCollision2(ArrayList <Actor> actorList1, ArrayList <Actor> actorList2) {
+
+
+        for (Actor actor1: actorList1) {
+
+            for (Actor actor2: actorList2) {
+
+                boolean b = BoxCollider.boxVsBox(actor1, actor2);
+
+                int xxx = 0;
+                if(b) {
+                    xxx = 1;
+                }
+
+
+            }
+
+        }
 
     }
 
-    public void save() {
+    public void save(ArrayList <Actor> actorList) {
 
         //spara unden boxdata så att de kan användas till nästa frame
         BoxCollider.savePositions(actorList);
-        BoxCollider.savePositions(deathTouchActor);
+
     }
+
+    /**
+     *
+     * @param actor tex deathtouch
+     */
+    public void save(Actor actor) {
+
+        BoxCollider.savePositions(actor);
+    }
+
+
+
 
 
     /**
@@ -112,18 +173,18 @@ public class CollisionManager {
     public void reflectOnCollision() {
 
         //hantera kollision
-        int len = actorTempList.size();
+        int len = actorSingleList.size();
         for (int i = 0; i < len; i++) {
 
-            BoxCollider.reflectActor(actorTempList.get(i), actorTempList.get(i + 1), directionTypeList.get(i));
-            BoxCollider.reflectActor(actorTempList.get(i + 1), actorTempList.get(i), directionTypeList.get(i + 1));
+            BoxCollider.reflectActor(actorSingleList.get(i), actorSingleList.get(i + 1), directionTypeList.get(i));
+            BoxCollider.reflectActor(actorSingleList.get(i + 1), actorSingleList.get(i), directionTypeList.get(i + 1));
 
             i++;
         }
 
         //nollställ listorna då de proceduren ovan kommer att upprepas varje frame
         directionTypeList.clear();
-        actorTempList.clear();
+        actorSingleList.clear();
 
     }
 

@@ -6,6 +6,7 @@ import android.opengl.GLES30;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +14,8 @@ import libkitv1.opengles.se.opengllibkit1.TextureDataFormatter;
 
 public class Level1 extends Level {
 
-    private static final int N_BOOGERS = 20;
+    private static final int N_BOOGERS = 1;
+    private static final int N_SHOTS = 60;
     private final static int PENDING_STATE = 0;
     private final static int BOOGER_ATTACK1 = 1;
     private final static int BOOGER_ATTACK2 = 2;
@@ -33,15 +35,19 @@ public class Level1 extends Level {
     public static final String BAT_BOOGER = "batbooger";
 
 
-    private Actor backgroundActor, playerActor, playerBurnerActor, batboogerActor, deathTouchActor;
+    private Actor backgroundActor, playerActor, playerBurnerActor, shotActor, batboogerActor, deathTouchActor;
     private ArrayList <ActorHolder> boogerPoolList = new ArrayList();
     private ArrayList <ActorHolder> explosionPoolList = new ArrayList<>();
+    private ArrayList <ActorHolder> shotPoolList = new ArrayList<>();
     private ArrayList <Actor> boogerList = new ArrayList<>();
     private ArrayList <Actor> explosionList = new ArrayList();
+    private ArrayList <Actor> shotList = new ArrayList();
 
     private CollisionManager boogerCollisionManager;
+    private CollisionManager boogerVSplayerShotCollision;
     private ExplosionManager explosionManager;
     private SpaceShipManager spaceShipManager;
+    private ShotManager shotManager;
 
     Timer timer = new Timer();
 
@@ -67,16 +73,20 @@ public class Level1 extends Level {
         createPlayer();
         createPlayerBurner();
 
-        spaceShipManager = new SpaceShipManager(playerActor, playerBurnerActor);
+
 
         deathTouchActor = actorFactory.createActor(ActorFactory.DEATHTOUCH_ACTOR);
         deathTouchActor.create();
 
         createActorPool();
+        //createShots();
         //createObstacle();
 
         explosionManager = new ExplosionManager(explosionPoolList, explosionList);
-        boogerCollisionManager = new CollisionManager(boogerList, deathTouchActor, explosionList, explosionManager);
+        boogerCollisionManager = new CollisionManager(explosionList, explosionManager);
+        boogerVSplayerShotCollision = new CollisionManager(explosionList, explosionManager);
+        shotManager = new ShotManager(shotList, shotPoolList, playerActor);
+        spaceShipManager = new SpaceShipManager(playerActor, playerBurnerActor);
 
 
 
@@ -114,34 +124,12 @@ public class Level1 extends Level {
 
     }
 
-    /*private int createEnemies() {
-
-        final int N_BOOGERS = 7;
-        //batbooger
-        for (int i = 0; i < N_BOOGERS; i++) {
-
-            TextureDataFormatter textureDataFormatter = new TextureDataFormatter(context);
-            textureDataFormatter.getTextureData(R.array.aliendata, R.array.alienatlas_dimen);
-            batBoogTextData = textureDataFormatter.getSortedSpriteData(BAT_BOOGER);
-
-            String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
-            int[] shaders = {R.raw.per_pixel_vertex_shader_sprite, R.raw.per_pixel_fragment_shader_sprite};
-            String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
-            actorFactory.setShaders(shaders, attrsUnifs, attributes);
-            actorFactory.setBitmapID(ActorFactory.TEXTUREATLAS_IDX);
-            batboogerActor = actorFactory.createActor(ActorFactory.BATBOOGER_ACTOR);
-            batboogerActor.create();
-
-            boogerList.add(batboogerActor);
-
-        }
-
-        return N_BOOGERS;
-    }*/
 
 
 
     public void update() {
+
+        ((ControlComponent)playerActor.getComponent(ComponentFactory.CONTROLCOMPONENT)).setTouchCoords(touchX * fractionWidth , touchY * fractionHeight);
 
         backgroundActor.update();
         playerBurnerActor.update();
@@ -154,23 +142,44 @@ public class Level1 extends Level {
             CollisionManager.sceneCollider(actor);
         }
 
-        for (Actor actor: explosionList) {
+        for (Actor actor: explosionList)
             actor.update();
 
-        }
+
         explosionManager.removeExplosions();
 
+        shotManager.shotIssuer();
+        Iterator<Actor> iter = shotList.iterator();
+        while (iter.hasNext()) {
+            Actor actor = iter.next();
+            actor.update();
+
+            TransformComponent transformComponent = (TransformComponent)actor.getComponent(ComponentFactory.TRANSFORMCOMPONENT);
+
+            float y = transformComponent.getY1();
+
+            int xx = 0;
+            if (y > 9) {
+                xx = 1;
+            }
+
+        }
+        shotManager.removeShot();
 
 
-        boogerCollisionManager.checkCollision();
-        boogerCollisionManager.checkDeathActorCollision();
-        boogerCollisionManager.save();
+        boogerVSplayerShotCollision.checkDualListCollision2(shotList, boogerList);
+
+
+        boogerCollisionManager.checkSingleListCollision(boogerList);
+        boogerCollisionManager.checkDeathActorCollision(deathTouchActor, boogerList);
+        boogerCollisionManager.save(boogerList);
+        boogerCollisionManager.save(deathTouchActor);
+        boogerVSplayerShotCollision.save(shotList);
         boogerCollisionManager.reflectOnCollision();
 
-        float y_ = touchY * fractionHeight;
 
-        ((ControlComponent)playerActor.getComponent(ComponentFactory.CONTROLCOMPONENT)).setTouchCoords(touchX * fractionWidth , touchY * fractionHeight);
-        //deathTouchActor.update();
+
+
 
 
     }
@@ -182,7 +191,7 @@ public class Level1 extends Level {
         //GLES30.glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
-        backgroundActor.render();
+        //backgroundActor.render();
         playerBurnerActor.render();
         playerActor.render();
         for (Actor actor: boogerList)
@@ -190,16 +199,12 @@ public class Level1 extends Level {
 
         nextObstacle(nextObstacle);
 
-
-
-        for (Actor actor: explosionList) {
-
-            int id = ((AnimationComponent)actor.getComponent(ComponentFactory.ANIMATIONCOMPONENT)).getCurrentAnimation().getID();
+        for (Actor actor: shotList)
             actor.render();
-            id = ((AnimationComponent)actor.getComponent(ComponentFactory.ANIMATIONCOMPONENT)).getCurrentAnimation().getID();
-            System.err.println("image id = " + id);
 
-        }
+        for (Actor actor: explosionList)
+            actor.render();
+
 
 
 
@@ -279,6 +284,21 @@ public class Level1 extends Level {
 
     }
 
+    public void createShots() {
+
+        for (ActorHolder actorHolder: shotPoolList) {
+
+            if ( actorHolder.isAvailable()) {
+                shotList.add(actorHolder.getActor());
+                actorHolder.setAvailable(false);
+            }
+
+            if (shotList.size() == 7)
+                break;
+        }
+
+    }
+
     public void reInitBoogerPool() {
 
         for (ActorHolder holder: boogerPoolList) {
@@ -291,22 +311,19 @@ public class Level1 extends Level {
 
     public void createActorPool() {
 
-        createBoogers();
+        createBoogerPool();
         createExplosions(ActorFactory.BATBOOGER_ACTOR);
+        createShotPool();
 
 
 
     }
 
-    private int createBoogers() {
+    private int createBoogerPool() {
 
 
         //batbooger
         for (int i = 0; i < N_BOOGERS; i++) {
-
-            TextureDataFormatter textureDataFormatter = new TextureDataFormatter(context);
-            textureDataFormatter.getTextureData(R.array.aliendata, R.array.alienatlas_dimen);
-            batBoogTextData = textureDataFormatter.getSortedSpriteData(BAT_BOOGER);
 
             String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
             int[] shaders = {R.raw.per_pixel_vertex_shader_sprite, R.raw.per_pixel_fragment_shader_sprite};
@@ -322,6 +339,27 @@ public class Level1 extends Level {
 
         return N_BOOGERS;
     }
+
+
+    private int createShotPool() {
+
+
+        for (int i = 0; i < N_SHOTS; i++) {
+
+            String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
+            int[] shaders = {R.raw.per_pixel_vertex_shader_sprite, R.raw.per_pixel_fragment_shader_sprite};
+            String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
+            actorFactory.setShaders(shaders, attrsUnifs, attributes);
+            actorFactory.setBitmapID(ActorFactory.TEXTUREATLAS_IDX);
+            shotActor = actorFactory.createActor(ActorFactory.SHOT_ACTOR);
+            shotActor.create();
+            shotPoolList.add(new ActorHolder(shotActor, true));
+
+        }
+
+        return N_SHOTS;
+    }
+
 
     public void createExplosions(String actorName) {
 
