@@ -45,10 +45,10 @@ public class AnimationComponent extends BaseComponent {
 
         GLES30.glUseProgram(mProgramHandle);
         //animationstest
-        float[] xyOffsets = {spriteTextData[id][0], spriteTextData[id][1]};
-        float[] whFracs = {spriteTextData[id][2], spriteTextData[id][3]};
+        float[] xyOffsets = {spriteTextDataList.get(listID)[id][0], spriteTextDataList.get(listID)[id][1]};
+        float[] whFracs = {spriteTextDataList.get(listID)[id][2], spriteTextDataList.get(listID)[id][3]};
 
-        float wHratio = spriteTextData[id][4];
+        float wHratio = spriteTextDataList.get(listID)[id][4];
         float width = wHratio * transformComponent.getSize();
         float height = transformComponent.getSize();
         transformComponent.setScaleX(width);
@@ -70,8 +70,9 @@ public class AnimationComponent extends BaseComponent {
     public void setSpriteTextData(ArrayList<float[][]> spriteTextDataList, int listID) {
 
         this.spriteTextDataList = spriteTextDataList;
-        this.spriteTextData = spriteTextDataList.get(listID);
-        this.nFrames = spriteTextData.length;
+        this.listID = listID;
+        //this.spriteTextData = spriteTextDataList.get(listID);
+        this.nFrames = spriteTextDataList.size();
     }
 
     public float[][] getSpriteTextData() {
@@ -99,5 +100,13 @@ public class AnimationComponent extends BaseComponent {
 
     public void setmProgramHandle(int mProgramHandle) {
         this.mProgramHandle = mProgramHandle;
+    }
+
+    public void setListID(int listID) {
+        this.listID = listID;
+    }
+
+    public int getListID() {
+        return listID;
     }
 }

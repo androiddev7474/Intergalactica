@@ -93,6 +93,18 @@ public class ActorCreator {
 
         TextureComponent textureComponent = (TextureComponent) componentFactory.createComponent(ComponentFactory.TEXTURECOMPONENT);
         Texture texture = TextureFactory.createTexture(textBitmap);
+
+        textureComponent.setTexture(texture);
+        textureComponent.setOwner(actor);
+        actor.addComponent(textureComponent);
+
+    }
+
+
+    public void createTextureComponent(Bitmap bitmap, int type, int minFilter, int magFilter, int wrapMode) {
+
+        TextureComponent textureComponent = (TextureComponent) componentFactory.createComponent(ComponentFactory.TEXTURECOMPONENT);
+        Texture texture = TextureFactory.createTexture(bitmap, type, minFilter, magFilter, wrapMode);
         textureComponent.setTexture(texture);
         textureComponent.setOwner(actor);
         actor.addComponent(textureComponent);
@@ -201,6 +213,15 @@ public class ActorCreator {
         actor.addComponent(batBoogerBehaviourComponent);
     }
 
+
+    public void createBatBrainsBehaviourComponent() {
+
+        BatBrainsBehaviourComponent batBrainsBehaviourComponent = (BatBrainsBehaviourComponent) componentFactory.createComponent(ComponentFactory.BATBRAINSBEHAVIOURCOMPONENT);
+        batBrainsBehaviourComponent.setOwner(actor);
+        batBrainsBehaviourComponent.create();
+        actor.addComponent(batBrainsBehaviourComponent);
+    }
+
     public void createShotBehaviourComponent() {
 
         ShotBehaviourComponent shotBehaviourComponent = (ShotBehaviourComponent) componentFactory.createComponent(ComponentFactory.SHOTBEHAVIOURCOMPONENT);
@@ -219,17 +240,46 @@ public class ActorCreator {
 
     }
 
-    public void createLifeComponent(int maxHealth, int currentHealth) {
+    public void createLifeComponent(int maxHealth, int currentHealth, int score) {
 
         LifeComponent lifeComponent = (LifeComponent) componentFactory.createComponent(ComponentFactory.LIFECOMPONENT);
         lifeComponent.setOwner(actor);
         lifeComponent.create();
         lifeComponent.setMaxHealth(maxHealth);
         lifeComponent.setCurrentHealth(currentHealth);
+        lifeComponent.setScore(score);
         actor.addComponent(lifeComponent);
 
     }
 
+    public void createPositionComponent(int nPositions) {
 
+        PositionComponent positionComponent = (PositionComponent) componentFactory.createComponent(ComponentFactory.POSITIONCOMPONENT);
+        positionComponent.setOwner(actor);
+        positionComponent.create();
+        positionComponent.setN_positions(nPositions);
+        actor.addComponent(positionComponent);
+
+    }
+
+    public void createUVscrollComponent(int programHandle, float velocity ) {
+
+        UVscrollComponent uVscrollComponent = (UVscrollComponent) componentFactory.createComponent(ComponentFactory.UVSCROLLCOMPONENT);
+        uVscrollComponent.setOwner(actor);
+        uVscrollComponent.create();
+        uVscrollComponent.setmProgramHandle(programHandle);
+        uVscrollComponent.setVelocityY(velocity);
+        actor.addComponent(uVscrollComponent);
+
+    }
+
+    public void createScoreComponent() {
+
+        ScoreComponent scoreComponent = (ScoreComponent) componentFactory.createComponent(ComponentFactory.SCORECOMPONENT);
+        scoreComponent.setOwner(actor);
+        scoreComponent.create();
+        actor.addComponent(scoreComponent);
+
+    }
 
 }

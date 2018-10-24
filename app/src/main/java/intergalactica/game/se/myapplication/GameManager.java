@@ -17,6 +17,7 @@ public class GameManager {
     private ResourceLoader resourceLoader;
     private Bitmap[] bitmaps;
 
+    ActorLoader actorLoader;
     private ActorFactory actorFactory;
 
     public GameManager(Context context, int level_id) {
@@ -26,6 +27,7 @@ public class GameManager {
         resourceLoader = new ResourceLoader(context);
         preLoadResources();
         actorFactory = new ActorFactory(context, bitmaps);
+        actorLoader = new ActorLoader(actorFactory);
         nextLevel(level_id);
 
 
@@ -42,18 +44,18 @@ public class GameManager {
         switch (level) {
 
             case 1:
-                this.level = new Level1(context, actorFactory);
+                this.level = new Level1(context, actorLoader);
                 //initLevelMap(gLprojection);
                 infoNewLevel("level1");
 
                 break;
             case 2:
-                this.level = new Level2(context, actorFactory);
+                this.level = new Level2(context, actorLoader);
                 //initLevelMap(gLprojection);
                 infoNewLevel("level2");
                 break;
             case 3:
-                this.level = new Level3(context, actorFactory);
+                //this.level = new Level3(context, actorFactory);
                 //initLevelMap(gLprojection);
                 infoNewLevel("level3");
                 break;
@@ -84,8 +86,8 @@ public class GameManager {
 
         float width = context.getResources().getDisplayMetrics().widthPixels;
         float height = context.getResources().getDisplayMetrics().heightPixels;
-        float[][] bitmapDimens = { {width, height}, {width, height},{3913, 1723}};
-        String[] bitmapNames = {"level_map", "universe_1", "aliens_"};
+        float[][] bitmapDimens = { {width, height}, {width, height},{width, height}, {width, height}, {3913, 1723}, {1024, 989}};
+        String[] bitmapNames = {"level_map", "universe_1", "universe_2", "universe_3", "aliens_", "scoreatlas"};
         bitmaps = resourceLoader.createBitmaps(bitmapDimens, bitmapNames, "drawable");
 
     }

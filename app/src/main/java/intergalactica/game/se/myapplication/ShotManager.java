@@ -10,16 +10,16 @@ public class ShotManager {
     private Timer timer = new Timer();
     private ArrayList<Actor> shotList;
     private ArrayList<ActorHolder> shotPoolList;
-    private Actor playerActor;
+    private ArrayList <Actor> playerActorList;
 
     int frameCntr = 1;
     int modulo = 10;
 
-    public ShotManager(ArrayList<Actor> shotList, ArrayList<ActorHolder> shotPoolList, Actor playerActor) {
+    public ShotManager(ArrayList<Actor> shotList, ArrayList<ActorHolder> shotPoolList, ArrayList <Actor> playerActorList) {
 
         this.shotList = shotList;
         this.shotPoolList = shotPoolList;
-        this.playerActor = playerActor;
+        this.playerActorList = playerActorList;
 
     }
 
@@ -28,7 +28,7 @@ public class ShotManager {
 
         if (frameCntr % modulo == 0) {
             addShot_(true);
-            //addShot_(false);
+            addShot_(false);
         }
 
         frameCntr++;
@@ -36,7 +36,7 @@ public class ShotManager {
 
 
 
-    private void addShot() {
+    /*private void addShot() {
 
         Iterator<ActorHolder> iter = shotPoolList.iterator();
         while (iter.hasNext()) {
@@ -59,35 +59,39 @@ public class ShotManager {
                 break;
             }
         }
-    }
+    }*/
 
     private void addShot_(boolean left) {
 
-        Iterator<ActorHolder> iter = shotPoolList.iterator();
-        while (iter.hasNext()) {
-            ActorHolder actorHolder = iter.next();
+        for (Actor playerActor: playerActorList) {
 
-            if ( actorHolder.isAvailable()) {
+            Iterator<ActorHolder> iter = shotPoolList.iterator();
+            while (iter.hasNext()) {
+                ActorHolder actorHolder = iter.next();
 
-                Actor actor = actorHolder.getActor();
-                TransformComponent shotTransform = (TransformComponent)actor.getComponent(ComponentFactory.TRANSFORMCOMPONENT);
-                TransformComponent shipTransform = (TransformComponent)playerActor.getComponent(ComponentFactory.TRANSFORMCOMPONENT);
+                if (actorHolder.isAvailable()) {
 
-                float xPos = 0;
-                float yPos = shipTransform.getY();
-                if (left) {
+                    Actor actor = actorHolder.getActor();
+                    TransformComponent shotTransform = (TransformComponent) actor.getComponent(ComponentFactory.TRANSFORMCOMPONENT);
+                    TransformComponent shipTransform = (TransformComponent) playerActor.getComponent(ComponentFactory.TRANSFORMCOMPONENT);
 
-                    xPos = shipTransform.getX() - 0.5f;
-                } else {
+                    float xPos = 0;
+                    float yPos = shipTransform.getY();
+                    if (left) {
 
-                    xPos = shipTransform.getX() + 0.5f;
+                        xPos = shipTransform.getX() - 0.5f;
+                    } else {
+
+                        xPos = shipTransform.getX() + 0.5f;
+                    }
+                    shotTransform.setY(yPos + 0.5f);
+                    shotTransform.setX(xPos);
+                    shotList.add(actor);
+                    actorHolder.setAvailable(false);
+                    break;
                 }
-                shotTransform.setY(yPos + 0.5f);
-                shotTransform.setX(xPos);
-                shotList.add(actor);
-                actorHolder.setAvailable(false);
-                break;
             }
+
         }
     }
 
@@ -109,6 +113,19 @@ public class ShotManager {
                 iter.remove();
             }
         }
+    }
+
+    public void removeShot(Actor actor, Iterator shotIterator) {
+
+        for (ActorHolder actorHolder : shotPoolList) {
+
+            if (actorHolder.getActor() == actor) {
+                actorHolder.setAvailable(true);
+                break;
+            }
+        }
+        shotIterator.remove();
+
     }
 
 

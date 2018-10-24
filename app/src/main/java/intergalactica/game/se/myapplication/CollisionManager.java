@@ -20,14 +20,18 @@ public class CollisionManager {
 
     //private Actor deathTouchActor, explosionActor;
     private ExplosionManager explosionManager;
+    private ShotManager shotManager;
+    private ScoreManager scoreManager;
 
 
-    public CollisionManager (ArrayList <Actor> explosionList, ExplosionManager explosionManager) {
+    public CollisionManager (ArrayList <Actor> explosionList, ExplosionManager explosionManager, ShotManager shotManager, ScoreManager scoreManager) {
 
         //this.actorList = actorList;
         //this.deathTouchActor = deathTouchActor;
         this.explosionManager = explosionManager;
         this.explosionList = explosionList;
+        this.shotManager = shotManager;
+        this.scoreManager = scoreManager;
     }
 
 
@@ -72,11 +76,12 @@ public class CollisionManager {
 
 
     /**
+     * upplägget med kollsionstest baserat på successiva frames fungerar inte i nuläget då skotten testas mot en annan actor.
      * Kollisionskontroll mellan två listor med actors
      * @param actorList1
      * @param actorList2
      */
-    public void checkDualListCollision(ArrayList <Actor> actorList1, ArrayList <Actor> actorList2) {
+    public void checkDualListCollision_(ArrayList <Actor> actorList1, ArrayList <Actor> actorList2) {
 
 
         for (Actor actor1: actorList1) {
@@ -89,63 +94,123 @@ public class CollisionManager {
                 if (types[0] != -1 || types[1] != -1)
                     xx = 1;
             }
-
         }
-
     }
 
-    public void checkDeathActorCollision(Actor deathTouchActor, ArrayList <Actor> actorList) {
+
+    public static boolean checkCollisionPlayer(ArrayList <Actor> playerActorList, ArrayList <Actor> actorList) {
+
+        for (Actor playerActor: playerActorList) {
+
+            boolean hit = false;
+            Iterator<Actor> iter = actorList.iterator();
+            while (iter.hasNext()) {
+                Actor actor = iter.next();
+
+                hit = BoxCollider.boxVsBox(playerActor, actor);
+                int x = 0;
+                if (hit) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     *
+     * @param deathTouchActor
+     * @param actorList
+     */
+    public void checkDeathActorCollision(Actor deathTouchActor, ArrayList <Actor> actorList, ArrayList <ActorHolder> actorPoolList) {
 
 
         Iterator<Actor> iter = actorList.iterator();
-
         while (iter.hasNext()) {
             Actor actor = iter.next();
 
-            int[] type = BoxCollider.boxCollision(actor, deathTouchActor);
+            //int[] type = BoxCollider.boxCollision(actor, deathTouchActor);
+            boolean hit = BoxCollider.boxVsBox(actor, deathTouchActor);
 
-            if (type[0] != -1 ) {
+            if (hit) {
                 System.err.println("DEAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 DamageComponent damageComponent = ((DamageComponent)deathTouchActor.getComponent(ComponentFactory.DAMAGECOMPONENT));
-                ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).damage(damageComponent.getDamageAmount());
-
-
+                ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).damage(damageComponent.getDamageAmount()); // sätt STOR skada på aktorn, så stor att dess hälsa blir 0
                 explosionManager.manageExplosions(actor, actor.getType());
+                for (ActorHolder actorHolder : actorPoolList) {
+                    if (actorHolder.getActor() == actor) {
+                        actorHolder.setAvailable(true);
+                        break;
+                    }
+                }
 
                 iter.remove();
-
             }
-
         }
 
+
     }
+
 
     /**
      * Kollisionskontroll mellan två listor med actors
-     * @param actorList1
-     * @param actorList2
+     * @param shotActorList
+     * @param actorList
      */
-    public void checkDualListCollision2(ArrayList <Actor> actorList1, ArrayList <Actor> actorList2) {
+    public boolean checkShotCollision(ArrayList <Actor> shotActorList, ArrayList <Actor> actorList, ArrayList <ActorHolder> actorPoolList) {
 
+        boolean hit = false;
+        Iterator<Actor> shotIterator = shotActorList.iterator();
+        while (shotIterator.hasNext()) {
+            Actor shotActor = shotIterator.next();
 
-        for (Actor actor1: actorList1) {
+            Iterator<Actor> actorIterator = actorList.iterator();
+            while (actorIterator.hasNext()) {
+                Actor actor = actorIterator.next();
 
-            for (Actor actor2: actorList2) {
+                hit = BoxCollider.boxVsBox(shotActor, actor);
+                if (hit) {
 
-                boolean b = BoxCollider.boxVsBox(actor1, actor2);
+                    int amount = ((DamageComponent)shotActor.getComponent(ComponentFactory.DAMAGECOMPONENT)).getDamageAmount();
+                    ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).damage(amount);
+                    int health = ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).getCurrentHealth();
+                    if (health <= 0) {
+                        //lämna tillbaka till poolen
+                        int score =  ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).getScore();
+                        int gameScore = Level.gameScore += score;
+                        scoreManager.generateScore(gameScore);
+                        for (ActorHolder actorHolder : actorPoolList) {
+                            if (actorHolder.getActor() == actor) {
+                                actorHolder.setAvailable(true);
+                                break;
+                            }
+                        }
 
-                int xxx = 0;
-                if(b) {
-                    xxx = 1;
+                        actorIterator.remove();
+                        explosionManager.manageExplosions(actor, actor.getType());
+                        break;
+                    }
                 }
 
-
+                if (hit) {
+                    shotManager.removeShot(shotActor, shotIterator);
+                    return true; // måste returnera - annars uppstår ett ConcurrencyModificationException
+                }
             }
+
 
         }
 
+        return false;
     }
+
+
+
+
+
 
     public void save(ArrayList <Actor> actorList) {
 

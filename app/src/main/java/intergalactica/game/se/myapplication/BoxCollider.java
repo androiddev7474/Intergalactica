@@ -54,7 +54,8 @@ public class BoxCollider {
         float box2Right = collider2.getRight();
         float box2Bottom = collider2.getBottom();
 
-        /*int box1Top 	= box1.y;
+        /*
+        int box1Top 	= box1.y;
         int box1Bottom 	= box1.y + box1.height;
         int box1Left 	= box1.x;
         int box1Right 	= box1.x + box1.width;
@@ -63,10 +64,21 @@ public class BoxCollider {
         int box2Bottom 	= box2.y + box2.height;
         int box2Left 	= box2.x;
         int box2Right 	= box2.x + box2.width;
+
+
+        if	(
+                (box1Top 	< box2Bottom) 	&&
+                        (box1Bottom	> box2Top) 		&&
+                        (box1Left 	< box2Right) 	&&
+                        (box1Right 	> box2Left)
+                )
+            return true;
+
+        return false;
         */
 
         //if	((box1Top 	< box2Bottom) 	&& (box1Bottom	> box2Top) && (box1Left < box2Right) && (box1Right 	< box2Left))
-        if	((box1Top 	> box2Bottom) 	&& (box1Bottom	< box2Top) && (box1Left < box2Right) && (box1Right 	< box2Left))
+        if	((box1Top 	> box2Bottom) 	&& (box1Bottom	< box2Top) && (box1Left < box2Right) && (box1Right 	> box2Left))
             return true;
 
         return false;

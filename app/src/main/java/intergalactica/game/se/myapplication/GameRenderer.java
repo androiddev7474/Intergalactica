@@ -1,5 +1,6 @@
 package intergalactica.game.se.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Handler;
 import android.util.Log;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -42,6 +44,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     public GameRenderer(Context context) {
 
         this.context = context;
+        Level.setGame_over(false);
     }
 
     public GameManager getGameManager() {
@@ -58,8 +61,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         //gLprojection = gameManager.getgLprojection();
 
-        //GLES20.glEnable(GLES30.GL_BLEND);
-        //GLES20.glBlendFunc(GLES30.GL_ONE, GLES30.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glEnable(GLES30.GL_BLEND);
+        GLES20.glBlendFunc(GLES30.GL_ONE, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
         GLcamera.createCamera();
 
@@ -117,7 +120,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
             getGameManager().getLevel().createLevel();
         }
 
-        if (frameCounter % 300 == -1) {
+        if (gameManager.getLevel().advanceToNextLevel) {
 
             level_id++;
             if (level_id > 3)
@@ -129,12 +132,27 @@ public class GameRenderer implements GLSurfaceView.Renderer {
             //nollställ
             getGameManager().getLevel().levelMap.setActive(true);
             yPos = -1;
+            gameManager.getLevel().advanceToNextLevel = false;
         }
 
         if(!getGameManager().getLevel().levelMap.isActive()) {
 
-            gameManager.getLevel().update();
+            if (getGameManager().getLevel().isGameOver()) {
+
+                    //fungerar inte i nuläget
+                    /*Handler handler = new Handler();
+                    handler.post( new Runnable() {
+                        public void run() {
+                            ((Activity)context).finish();
+                        }
+                    } );*/
+                getGameManager().getLevel().setGame_over(false);
+                ((Activity)context).finish();
+
+            }
+
             gameManager.getLevel().draw();
+            gameManager.getLevel().update();
 
 
         }
@@ -147,9 +165,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
             Log.i("ACTION", "TOUCH" + " x, y: " + xPos + ", " + yPos);
         if (move)
             Log.i("ACTION", "MOVE" + " x, y: " + xPos + ", " + yPos );
+        if (up)
+            Log.i("ACTION", "UP = " + up);
 
         gameManager.getLevel().touchX = xPos;
         gameManager.getLevel().touchY = yPos;
+        gameManager.getLevel().isNotTouching = up;
     }
 
     public void setXpos(float xPos) {

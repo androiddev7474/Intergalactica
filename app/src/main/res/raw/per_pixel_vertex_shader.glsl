@@ -5,6 +5,7 @@ uniform mat4 u_MVMatrix;
 uniform vec2 xyOffset; // offset koord för x, y
 uniform vec2 whFrac; // texturend storlek i fraktion mot colormap (w resp h)
 uniform int textID;
+uniform float yCoord; //används för uvscroll i y-led
 
 in vec4 a_Position;
 in vec4 a_Color;
@@ -19,12 +20,9 @@ vec2 offset_vec;
 void main()
 {
 
-    /*text_coord = a_TexCoordinate * whFrac;
-    text_coord = text_coord + xyOffset;
-    v_TexCoordinate = text_coord;
-    */
+    offset_vec = vec2(0, yCoord);
 
-    v_TexCoordinate = a_TexCoordinate;
+    v_TexCoordinate = a_TexCoordinate + offset_vec;
 
 	gl_Position = u_MVPMatrix * a_Position;
 }

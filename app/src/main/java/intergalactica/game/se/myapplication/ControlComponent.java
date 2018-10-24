@@ -13,8 +13,11 @@ public class ControlComponent extends BaseComponent {
 
     public void update() {
 
-        transformComponent.setX(x);
-        transformComponent.setY(y);
+        //uppdateras endast vid touch
+        if (x != 0 && y != 0) {
+            transformComponent.setX(x);
+            transformComponent.setY(y);
+        }
 
 
     }

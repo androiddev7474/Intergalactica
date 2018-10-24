@@ -30,13 +30,32 @@ public class BoxColliderComponent extends BaseComponent {
 
         //float x = transformComponent.getX();
         //Log.d("x", "" + x);
-
         String actor = getOwner().getType();
 
-        left = transformComponent.getX0();
+        float x = transformComponent.getX();
+        float y = transformComponent.getY();
+        float wFrac = transformComponent.getScaleX() / 2;
+        float hFrac = transformComponent.getScaleY() / 2;
+
+        left = x - wFrac;
+        right = x + wFrac;
+        bottom = y - hFrac;
+        top = y + hFrac;
+
+        /*float wFrac = scaleX / 2;
+        float hFrac = scaleY / 2;
+
+        x0 = x - wFrac;
+        x1 = x + wFrac;
+        y0 = y - hFrac;
+        y1 = y + hFrac;*/
+
+
+        /*left = transformComponent.getX0();
         right = transformComponent.getX1();
         top = transformComponent.getY1();
         bottom = transformComponent.getY0();
+        */
 
         //Log.d("LEFT RIGHT TOP BOTTOM", "(" + actor + ")" + left + ", " + right + " ," + top + ", " + bottom);
 

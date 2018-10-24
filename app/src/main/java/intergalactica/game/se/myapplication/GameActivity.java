@@ -23,7 +23,7 @@ public class GameActivity extends AppCompatActivity {
         gameGLsurfaceView = findViewById(R.id.glsurface_id);
 
         resourceLoader = new ResourceLoader(this);
-        preLoadResources();
+        //preLoadResources();
 
 
     }
