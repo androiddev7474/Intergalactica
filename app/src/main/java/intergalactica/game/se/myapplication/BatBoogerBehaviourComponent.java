@@ -10,13 +10,12 @@ import java.util.Random;
  */
 public class BatBoogerBehaviourComponent extends BaseComponent {
 
-    private static final float MAX_SPEED_X_DIRECTION = 0.065f;
-    private static final float MIN_SPEED_X_DIRECTION = 0.035f;
-    private static final float MAX_SPEED_Y_DIRECTION = 0.065f;
-    private static final float MIN_SPEED_Y_DIRECTION = 0.035f;
+    private static final float MAX_SPEED_X_DIRECTION = 0.025f;
+    private static final float MIN_SPEED_X_DIRECTION = 0.015f;
+    private static final float MAX_SPEED_Y_DIRECTION = 0.025f;
+    private static final float MIN_SPEED_Y_DIRECTION = 0.015f;
 
     private TransformComponent transformComponent;
-    private BoxColliderComponent boxColliderComponent;
     private MotionComponent motionComponent;
     private float xPos, yPos;
 
@@ -26,14 +25,11 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
     public void create() {
 
         transformComponent = (TransformComponent)getOwner().getComponent(ComponentFactory.TRANSFORMCOMPONENT);
-
-        boxColliderComponent = (BoxColliderComponent)getOwner().getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
-
         motionComponent = (MotionComponent)getOwner().getComponent(ComponentFactory.MOTIONCOMPONENT);
 
 
 
-        //initBehaviour();
+        initBehaviour();
         /*switch (incr) {
 
             case 0:
@@ -54,7 +50,7 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
         */
 
         //testCollision2();
-        createBooger1();
+        //createBooger1();
 
     }
 
@@ -445,6 +441,8 @@ public class BatBoogerBehaviourComponent extends BaseComponent {
 
     public void update() {
 
+        //float x_ = motionComponent.get_velocityX();
+        //System.err.println("x_ i batboo.." + x_);
         float x = transformComponent.getX();
         float y = transformComponent.getY();
         x += motionComponent.get_velocityX() * motionComponent.get_xDirection();

@@ -17,12 +17,16 @@ public class ComponentFactory
     public static final String TEXTURECOMPONENT = "TextureComponent";
     public static final String ANIMATIONCOMPONENT = "AnimationComponent";
     public static final String BATBOOGERBEHAVIOURCOMPONENT = "BatBoogerBehaviourComponent";
+    public static final String BATBRAINSBEHAVIOURCOMPONENT = "BatBrainsBehaviourComponent";
     public static final String BOXCOLLIDERCOMPONENT = "BoxColliderComponent_notused";
     public static final String MOTIONCOMPONENT = "MotionComponent";
     public static final String DAMAGECOMPONENT = "DamageComponent";
     public static final String LIFECOMPONENT = "LifeComponent";
     public static final String CONTROLCOMPONENT = "ControlComponent";
     public static final String SHOTBEHAVIOURCOMPONENT = "ShotBehaviourComponent";
+    public static final String POSITIONCOMPONENT = "PositionComponent";
+    public static final String UVSCROLLCOMPONENT = "UVscrollComponent";
+    public static final String SCORECOMPONENT = "ScoreComponent";
 
     ArrayList <String> componentTypeList = new ArrayList<>();
 
@@ -37,12 +41,16 @@ public class ComponentFactory
         componentTypeList.add(TEXTURECOMPONENT);
         componentTypeList.add(ANIMATIONCOMPONENT);
         componentTypeList.add(BATBOOGERBEHAVIOURCOMPONENT);
+        componentTypeList.add(BATBRAINSBEHAVIOURCOMPONENT);
         componentTypeList.add(BOXCOLLIDERCOMPONENT);
         componentTypeList.add(MOTIONCOMPONENT);
         componentTypeList.add(DAMAGECOMPONENT);
         componentTypeList.add(LIFECOMPONENT);
         componentTypeList.add(CONTROLCOMPONENT);
         componentTypeList.add(SHOTBEHAVIOURCOMPONENT);
+        componentTypeList.add(POSITIONCOMPONENT);
+        componentTypeList.add(UVSCROLLCOMPONENT);
+        componentTypeList.add(SCORECOMPONENT);
     }
 
     public BaseComponent createComponent(String type)
@@ -94,6 +102,10 @@ public class ComponentFactory
                 component = new BatBoogerBehaviourComponent();
                 component.setType(BATBOOGERBEHAVIOURCOMPONENT);
                 break;
+            case BATBRAINSBEHAVIOURCOMPONENT:
+                component = new BatBrainsBehaviourComponent();
+                component.setType(BATBRAINSBEHAVIOURCOMPONENT);
+                break;
             case BOXCOLLIDERCOMPONENT:
                 component = new BoxColliderComponent();
                 component.setType(BOXCOLLIDERCOMPONENT);
@@ -113,8 +125,20 @@ public class ComponentFactory
             case SHOTBEHAVIOURCOMPONENT:
                 component = new ShotBehaviourComponent();
                 component.setType(SHOTBEHAVIOURCOMPONENT);
+                break;
+            case POSITIONCOMPONENT:
+                component = new PositionComponent();
+                component.setType(POSITIONCOMPONENT);
+                break;
+            case UVSCROLLCOMPONENT:
+                component = new UVscrollComponent();
+                component.setType(UVSCROLLCOMPONENT);
+                break;
+            case SCORECOMPONENT:
+                component = new ScoreComponent();
+                component.setType(SCORECOMPONENT);
+                break;
         }
-
 
         return component;
     }

@@ -16,21 +16,31 @@ import libkitv1.opengles.se.opengllibkit1.TextureDataFormatter;
  */
 public class ActorFactory {
 
+    public static final String STATIC_BACKGROUND_ACTOR = "StaticBackgroundActor";
     public static final String BACKGROUND_ACTOR = "BackgroundActor";
+    public static final String BACKGROUND_L2_ACTOR = "BackgroundActor_layer2";
+    public static final String BACKGROUND_L3_ACTOR = "BackgroundActor_layer3";
     public static final String PLAYER_ACTOR = "PlayerActor";
     public static final String BATBOOGER_ACTOR = "BatboogerActor";
+    public static final String BATBRAINS_ACTOR = "BatBrains";
     public static final String DEATHTOUCH_ACTOR = "DeathTouchActor";
     public static final String EXPLOSION_ACTOR = "ExplosionActor";
     public static final String SHIPBURNER_ACTOR = "ShipBurnerActor";
     public static final String SHOT_ACTOR = "ShotActor";
     public static final String WEAPON_ACTOR = "WeaponActor";
+    public static final String PLAYERLIFE_ACTOR = "PlayerLifeActor";
+    public static final String SCORE_ACTOR = "ScoreActor";
 
     public static final String BAT_BOOGER_XMLNAME = "batbooger";
+    public static final String BAT_BRAINS_XMLNAME = "batbrains";
     public static final String BOOGER_EXPLOSION = "batboogerx";
     public static final String BOOGER_EXPLOSION2 = "batpurplex";
+    public static final String BRAINS_EXPLOSION_XMLNAME = "batbrainsx";
     public static final String PLAYER_XMLNAME = "playership";
     public static final String SHIPBURNER_XMLNAME = "shipfire";
     public static final String SHOT_XMLNAME = "weapon1shot";
+    public static final String SHIP_EXPLOSION_XMLNAME = "explosionc";
+    public static final String NUMBER_XMLNAME = "number";
 
     public static final int LEVEL_BITMAP = 0;
     private static final int MVP_MATRIX_ATTRIBUTE_NAME_IDX = 0;
@@ -40,7 +50,10 @@ public class ActorFactory {
     private static final int FRAGMENT_SHADER_IDX = 1;
     public static final int LEVELMAP_BITMAP_IDX = 0;
     public static final int LEVEL1_BITMAP_IDX = 1;
-    public static final int TEXTUREATLAS_IDX = 2;
+    public static final int LEVEL1_L2_BITMAP_IDX = 2;
+    public static final int LEVEL1_L3_BITMAP_IDX = 3;
+    public static final int TEXTUREATLAS_IDX = 4;
+    public static final int SCOREATLAS_IDX = 5;
 
     private  ArrayList <Integer> unusedActorIDList = new ArrayList<>();
         private ArrayList <String> actorTypeList = new ArrayList<>();
@@ -62,12 +75,18 @@ public class ActorFactory {
             lastActorID			= 0;
 
             actorTypeList.add(BACKGROUND_ACTOR);
+            actorTypeList.add(BACKGROUND_L2_ACTOR);
+            actorTypeList.add(BACKGROUND_L3_ACTOR);
             actorTypeList.add(PLAYER_ACTOR);
             actorTypeList.add(BATBOOGER_ACTOR);
             actorTypeList.add(DEATHTOUCH_ACTOR);
             actorTypeList.add(EXPLOSION_ACTOR);
             actorTypeList.add(SHIPBURNER_ACTOR);
             actorTypeList.add(SHOT_ACTOR);
+            actorTypeList.add(PLAYERLIFE_ACTOR);
+            actorTypeList.add(BATBRAINS_ACTOR);
+            actorTypeList.add(STATIC_BACKGROUND_ACTOR);
+            actorTypeList.add(SCORE_ACTOR);
 
         }
 
@@ -144,6 +163,33 @@ public class ActorFactory {
         switch(actor.getType())
         {
 
+            case STATIC_BACKGROUND_ACTOR: {
+
+                float translateX = GameRenderer.getGameSceneRight() / 2;
+                float translateY = GameRenderer.GAMESCENE_TOP / 2;
+                float[] xyx = {translateX, translateY, 0};
+                float[] scaleXyz = {GameRenderer.getGameSceneRight(), GameRenderer.GAMESCENE_TOP, 0};
+                actorCreator.createTransformComponent(1, xyx, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+
+
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+
+                break;
+            }
             case BACKGROUND_ACTOR: {
 
                 float translateX = GameRenderer.getGameSceneRight() / 2;
@@ -162,13 +208,110 @@ public class ActorFactory {
                 float[] trc = {1, 1};
                 actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
 
-                actorCreator.createTextureComponent(bitmaps[bitmapID]);
 
-                actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                actorCreator.createTextureComponent(bitmaps[bitmapID], GLES30.GL_TEXTURE_2D, GLES30.GL_LINEAR, GLES30.GL_LINEAR, GLES30.GL_MIRRORED_REPEAT);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
                         attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                float velocity = 0.001f;
+                actorCreator.createUVscrollComponent(programHandle, velocity);
 
                 break;
             }
+            case BACKGROUND_L2_ACTOR: {
+
+                float translateX = GameRenderer.getGameSceneRight() / 2;
+                float translateY = GameRenderer.GAMESCENE_TOP / 2;
+                float[] xyx = {translateX, translateY, 0};
+                float[] scaleXyz = {GameRenderer.getGameSceneRight(), GameRenderer.GAMESCENE_TOP, 0};
+                actorCreator.createTransformComponent(1, xyx, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+
+                actorCreator.createTextureComponent(bitmaps[bitmapID], GLES30.GL_TEXTURE_2D, GLES30.GL_LINEAR, GLES30.GL_LINEAR, GLES30.GL_MIRRORED_REPEAT);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                float velocity = 0.0005f;
+                actorCreator.createUVscrollComponent(programHandle, velocity);
+
+                break;
+            }
+            case BACKGROUND_L3_ACTOR: {
+
+                float translateX = GameRenderer.getGameSceneRight() / 2;
+                float translateY = GameRenderer.GAMESCENE_TOP / 2;
+                float[] xyx = {translateX, translateY, 0};
+                float[] scaleXyz = {GameRenderer.getGameSceneRight(), GameRenderer.GAMESCENE_TOP, 0};
+                actorCreator.createTransformComponent(1, xyx, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+
+                actorCreator.createTextureComponent(bitmaps[bitmapID], GLES30.GL_TEXTURE_2D, GLES30.GL_LINEAR, GLES30.GL_LINEAR, GLES30.GL_MIRRORED_REPEAT);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                float velocity = 0.00025f;
+                actorCreator.createUVscrollComponent(programHandle, velocity);
+
+                break;
+            }
+            case PLAYERLIFE_ACTOR: {
+
+                float[][] textureData = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, PLAYER_XMLNAME);
+
+                ArrayList <float[][]> textDataList = new ArrayList<>();
+                textDataList.add(textureData);
+                int listID = 0; // vilka ttextdata ska användas?
+
+                float size = 0.75f;
+                float[] xyz = {GameRenderer.getGameSceneRight() / 2, 2, 0}; // defaultvärden
+                float[] scaleXyz = {1, 1, 0}; //defaultvärden
+                actorCreator.createTransformComponent(size, xyz, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                String u_name_xy_offset = "xyOffset";
+                String u_name_wh_frac = "whFrac";
+                int modulo = 1;
+                actorCreator.createAnimationComponent(textDataList, listID, programHandle, u_name_xy_offset, u_name_wh_frac, modulo, true);
+
+                actorCreator.createPositionComponent(3);
+
+                break;
+            }
+
 
 
 
@@ -207,7 +350,7 @@ public class ActorFactory {
                 //LIFECOMPONENT
                 int player_start_health = 10;
                 int player_max_health = 10;
-                actorCreator.createLifeComponent(player_start_health, player_max_health);
+                actorCreator.createLifeComponent(player_start_health, player_max_health, 0);
 
 
                 DamageComponent damageComponent = (DamageComponent) factory.createComponent(ComponentFactory.DAMAGECOMPONENT);
@@ -219,6 +362,7 @@ public class ActorFactory {
                 actor.addComponent(controlComponent);
 
 
+                actorCreator.createBoxColliderComponent();
 
                 break;}
 
@@ -307,12 +451,12 @@ public class ActorFactory {
                 //LIFECOMPONENT
                 int pBurner_start_health = 10;
                 int pBurner_max_health = 10;
-                actorCreator.createLifeComponent(pBurner_start_health, pBurner_max_health);
+                actorCreator.createLifeComponent(pBurner_start_health, pBurner_max_health, 0);
 
 
                 break;
 
-            case BATBOOGER_ACTOR:
+            case BATBOOGER_ACTOR: {
 
                 float[][] textureDataBooger = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BAT_BOOGER_XMLNAME);
 
@@ -355,11 +499,59 @@ public class ActorFactory {
                 actorCreator.createBatBoogerBehaviourComponent();
 
                 int booger_start_health = 10;
-                int booger_max_health = 10;
-                actorCreator.createLifeComponent(booger_start_health, booger_max_health);
+                int booger_max_health = 50;
+                actorCreator.createLifeComponent(booger_start_health, booger_max_health, 2000);
 
 
-                break;
+                break;}
+            case BATBRAINS_ACTOR: {
+
+                float[][] textureDataBrains = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BAT_BRAINS_XMLNAME);
+
+                ArrayList <float[][]> textDataBrainsList = new ArrayList<>();
+                textDataBrainsList.add(textureDataBrains);
+                int listID = 0; // vilka ttextdata ska användas?
+
+                float BrainsSize = 1;
+                float[] xyz = {0, 0, 0}; // defaultvärden
+                float[] scaleXyz = {1, 1, 0}; //defaultvärden
+                actorCreator.createTransformComponent(BrainsSize, xyz, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                String u_name_xy_offset = "xyOffset";
+                String u_name_wh_frac = "whFrac";
+                int modulo = 4;
+                actorCreator.createAnimationComponent(textDataBrainsList, listID, programHandle, u_name_xy_offset, u_name_wh_frac, modulo, true);
+
+                // default värden, hastighet o position bestäms sedan i batboogerbehaviourcomponent.
+                float[] velocXY = {0.04f, 0.025f};
+                int[] dirXY = {MotionComponent.HEADING_EAST, MotionComponent.HEADING_SOUTH};
+                float[] sceneWalls = {GameRenderer.GAMESCENE_LEFT, GameRenderer.getGameSceneRight(), GameRenderer.GAMESCENE_TOP, GameRenderer.GAMESCENE_BOTTOM};
+                actorCreator.createMotionComponent(velocXY[0], velocXY[1], dirXY[0], dirXY[1], sceneWalls);
+
+                actorCreator.createBoxColliderComponent();
+
+                actorCreator.createBatBrainsBehaviourComponent();
+
+                int brains_start_health = 200;
+                int brains_max_health = 200;
+                actorCreator.createLifeComponent(brains_start_health, brains_max_health, 5000);
+
+
+                break;}
             case DEATHTOUCH_ACTOR:
 
                 float translateX = GameRenderer.getGameSceneRight() / 2;
@@ -378,14 +570,19 @@ public class ActorFactory {
             default:
                 break;
 
-            case EXPLOSION_ACTOR:
+            case EXPLOSION_ACTOR: {
 
                 float[][] textureDataExp0 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BOOGER_EXPLOSION);
                 float[][] textureDataExp1 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BOOGER_EXPLOSION2);
+                float[][] textureDataExp2 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, SHIP_EXPLOSION_XMLNAME);
+                float[][] textureDataExp3 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BRAINS_EXPLOSION_XMLNAME);
+
 
                 ArrayList <float[][]> textDataList = new ArrayList<>();
                 textDataList.add(textureDataExp0);
                 textDataList.add(textureDataExp1);
+                textDataList.add(textureDataExp2);
+                textDataList.add(textureDataExp3);
                 int explistID = 0; // vilka ttextdata ska användas?
 
                 float[] xYzExp = {3, 5, 0};
@@ -411,7 +608,47 @@ public class ActorFactory {
                 actorCreator.createAnimationComponent(textDataList, explistID, programHandleExp, u_name_xy_offsetExp, u_name_wh_fracExp, moduloExp, false);
 
 
-                break;
+                break;}
+            case SCORE_ACTOR: {
+
+                float[][] textureData = actorCreator.cropTexturesFromAtlas(R.array.coinsatlas, R.array.coinsatlas_dimen, NUMBER_XMLNAME);
+                ArrayList <float[][]> textDataList = new ArrayList<>();
+
+                for (int i = 0; i < textureData.length; i++) {
+
+                    float[] f = textureData[i];
+                    float[][] iNumb = { textureData[i]  };
+                    textDataList.add(iNumb);
+                }
+                int listID = 5; // vilka ttextdata ska användas? //ad hoc
+
+                float size = 0.5f;
+                float[] xyz = {-10, -10, 0}; // defaultvärden
+                float[] scaleXyz = {1, 1, 0}; //defaultvärden
+                actorCreator.createTransformComponent(size, xyz, scaleXyz);
+
+                final float polygonSize = 0.5f;
+                float[] polySize = {polygonSize, polygonSize, 0};
+                actorCreator.createPolygonComponent(polySize);
+
+                float[] blc = {0, 0};
+                float[] brc = {1, 0};
+                float[] tlc = {0, 1};
+                float[] trc = {1, 1};
+                actorCreator.createUVdataComponent(blc, brc, tlc, trc, 1);
+                actorCreator.createTextureComponent(bitmaps[bitmapID]);
+
+                int programHandle = actorCreator.createRenderComponent(shaders[PIXEL_SHADER_IDX], shaders[FRAGMENT_SHADER_IDX], attributesExtras, attrsUnifs[MVP_MATRIX_ATTRIBUTE_NAME_IDX],
+                        attrsUnifs[VERTEX_POSITION_ATTRIBUTE_NAME_IDX], attrsUnifs[TEXT_POSITION_ATTRIBUTE_NAME_IDX]);
+
+                String u_name_xy_offset = "xyOffset";
+                String u_name_wh_frac = "whFrac";
+                int modulo = 10;
+                actorCreator.createAnimationComponent(textDataList, listID, programHandle, u_name_xy_offset, u_name_wh_frac, modulo, true);
+
+                actorCreator.createScoreComponent();
+
+            break;}
 
         }
 

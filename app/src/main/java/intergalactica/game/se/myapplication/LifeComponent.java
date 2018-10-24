@@ -8,6 +8,7 @@ public class LifeComponent extends BaseComponent {
 
     int currentHealth;
     int maxHealth;
+    int score;
 
     public void create() {
 
@@ -42,5 +43,14 @@ public class LifeComponent extends BaseComponent {
     public void setMaxHealth(int maxHealth)
     {
         this.maxHealth = maxHealth;
+    }
+
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

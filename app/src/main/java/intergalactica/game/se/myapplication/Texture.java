@@ -63,12 +63,12 @@ public class Texture {
             return false;
         }
 
+        //GLES30.glActiveTexture(GLES30.GL_TEXTURE0 + 20);
         GLES30.glBindTexture(type, data.ID[0]);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_MIN_FILTER, minFilter);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_MAG_FILTER, magFilter);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_WRAP_S, wrapMode);
         GLES30.glTexParameteri(type, GLES30.GL_TEXTURE_WRAP_T, wrapMode);
-
         GLUtils.texImage2D(type, 0, bitmap, 0);
 
         /*if (TextureFactory.getMipmapEnabled())
@@ -99,6 +99,7 @@ public class Texture {
             }
             return false;
         }
+
 
         GLES30.glBindTexture(TYPE, data.ID[0]);
         GLES30.glTexParameteri(TYPE, GLES30.GL_TEXTURE_MIN_FILTER, MINFILTER);

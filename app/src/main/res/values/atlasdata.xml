@@ -117,4 +117,55 @@
     </string-array>
 
 
+    <string-array name="coinsatlas">
+        <item>gcoinskull_1 = 0 476 150 150</item>
+        <item>gcoinskull_10 = 0 627 150 150</item>
+        <item>gcoinskull_2 = 151 476 150 150</item>
+        <item>gcoinskull_3 = 0 778 150 150</item>
+        <item>gcoinskull_4 = 151 627 150 150</item>
+        <item>gcoinskull_5 = 302 476 150 150</item>
+        <item>gcoinskull_6 = 453 476 150 150</item>
+        <item>gcoinskull_7 = 302 627 150 150</item>
+        <item>gcoinskull_8 = 151 778 150 150</item>
+        <item>gcoinskull_9 = 453 627 150 150</item>
+        <item>number_0 = 726 119 105 105</item>
+        <item>number_1 = 832 119 105 105</item>
+        <item>number_2 = 732 627 105 105</item>
+        <item>number_3 = 582 778 105 105</item>
+        <item>number_4 = 896 476 105 105</item>
+        <item>number_5 = 732 733 105 105</item>
+        <item>number_6 = 838 627 105 105</item>
+        <item>number_7 = 582 884 105 105</item>
+        <item>number_8 = 838 733 105 105</item>
+        <item>number_9 = 688 839 105 105</item>
+        <item>scoinheart_1 = 302 778 150 150</item>
+        <item>scoinheart_10 = 604 476 145 150</item>
+        <item>scoinheart_2 = 750 476 145 150</item>
+        <item>scoinheart_3 = 453 778 128 150</item>
+        <item>scoinheart_4 = 794 839 101 150</item>
+        <item>scoinheart_5 = 955 119 68 150</item>
+        <item>scoinheart_6 = 944 582 47 150</item>
+        <item>scoinheart_7 = 955 270 68 150</item>
+        <item>scoinheart_8 = 896 839 101 150</item>
+        <item>scoinheart_9 = 604 627 127 150</item>
+        <item>score_1 = 646 238 308 118</item>
+        <item>score_10 = 0 0 407 118</item>
+        <item>score_11 = 0 119 400 118</item>
+        <item>score_2 = 643 357 303 118</item>
+        <item>score_3 = 329 357 313 118</item>
+        <item>score_4 = 408 0 324 118</item>
+        <item>score_5 = 0 238 328 118</item>
+        <item>score_6 = 401 119 324 118</item>
+        <item>score_7 = 0 357 328 118</item>
+        <item>score_8 = 733 0 288 118</item>
+        <item>score_9 = 329 238 316 118</item>
+    </string-array>
+
+
+    <string-array name="coinsatlas_dimen">
+        <item>1024</item> <!-- bredd -->
+        <item>989</item> <!-- höjd -->
+    </string-array>
+
+
 </resources>
