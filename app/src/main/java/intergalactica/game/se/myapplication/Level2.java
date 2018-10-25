@@ -2,6 +2,7 @@ package intergalactica.game.se.myapplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.opengl.GLES30;
 import android.util.Log;
 
@@ -34,6 +35,7 @@ public class Level2 extends Level {
 
     private int frameCntr;
 
+    private MediaPlayer mediaPlayer;
 
     private float[][] alienTextData, batBoogTextData;
     public static final String BAT_BOOGER = "batbooger";
@@ -53,13 +55,31 @@ public class Level2 extends Level {
 
     public void createLevel() {
 
-        String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
-        int[] shadersBackground = {R.raw.per_pixel_vertex_shader, R.raw.per_pixel_fragment_shader};
-        String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
-        createBackground(attributes, shadersBackground, attrsUnifs, ActorFactory.LEVEL1_BITMAP_IDX, ActorFactory.BACKGROUND_ACTOR, 0);
+        {
+            String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
+            int[] shadersBackground = {R.raw.per_pixel_vertex_shader, R.raw.per_pixel_fragment_shader};
+            String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
+            createBackground(attributes, shadersBackground, attrsUnifs, ActorFactory.LEVEL1_BITMAP_IDX, ActorFactory.BACKGROUND_ACTOR, 0);
+        }
+
+        {
+            String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
+            int[] shadersBackground = {R.raw.per_pixel_vertex_shader, R.raw.per_pixel_fragment_shader};
+            String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
+            createBackground(attributes, shadersBackground, attrsUnifs, ActorFactory.LEVEL1_L2_BITMAP_IDX, ActorFactory.BACKGROUND_L2_ACTOR, 1);
+        }
+
+        {
+            String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
+            int[] shadersBackground = {R.raw.per_pixel_vertex_shader, R.raw.per_pixel_fragment_shader};
+            String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
+            createBackground(attributes, shadersBackground, attrsUnifs, ActorFactory.LEVEL1_L3_BITMAP_IDX, ActorFactory.BACKGROUND_L3_ACTOR, 2);
+        }
 
 
-
+        mediaPlayer = MediaPlayer.create(context, R.raw.minimal);
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
 
         levelCreated = true;
 
@@ -74,6 +94,8 @@ public class Level2 extends Level {
         }
 
         backgroundActor[0].update();
+        backgroundActor[1].update();
+        backgroundActor[2].update();
 
         for (Actor actor: scoreActorList)
             actor.update();
@@ -141,12 +163,14 @@ public class Level2 extends Level {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         backgroundActor[0].render();
+        backgroundActor[1].render();
+        backgroundActor[2].render();
 
         for (Actor actor: scoreActorList)
             actor.render();
 
         for (Actor playerBurnerActor: playerBurnerActorList)
-            playerBurnerActor.update();
+            playerBurnerActor.render();
 
         for (Actor playerActor: playerActorList)
             playerActor.render();
@@ -215,14 +239,16 @@ public class Level2 extends Level {
                     createObstacle();
                     break;
                 case BOOGER_ATTACK2:
-                    //createObstacle();
-                    advanceToNextLevel = true;
+                    createObstacle2();
+                    //advanceToNextLevel = true;
                     break;
                 case BOOGER_ATTACK3:
-                    createObstacle();
+                    createObstacle2();
                     break;
                 case BOOGER_ATTACK4:
-                    createObstacle();
+                    mediaPlayer.stop();
+                    advanceToNextLevel = true;
+                    //createObstacle2();
                     break;
                 case NEXT_LEVEL:
                     advanceToNextLevel = true;
@@ -237,8 +263,6 @@ public class Level2 extends Level {
 
     public void createObstacle() {
 
-
-
         for (ActorHolder actorHolder: boogerPoolList) {
 
             if ( actorHolder.isAvailable()) {
@@ -247,6 +271,7 @@ public class Level2 extends Level {
                 ((BatBoogerBehaviourComponent)actor.getComponent(ComponentFactory.BATBOOGERBEHAVIOURCOMPONENT)).create();
                 BoxColliderComponent collider = (BoxColliderComponent)actor.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
                 ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).setCurrentHealth(50);
+                ((AnimationComponent)actor.getComponent(ComponentFactory.ANIMATIONCOMPONENT)).setListID(0);
                 collider.setPreviousBoxLeft(0);
                 collider.setPreviousBoxTop(0);
                 collider.setPreviousBoxRight(0);
@@ -258,30 +283,64 @@ public class Level2 extends Level {
             if (boogerList.size() == 7)
                 break;
         }
+    }
 
+
+    public void createObstacle2() {
+
+        for (ActorHolder actorHolder: boogerPoolList) {
+
+            if ( actorHolder.isAvailable()) {
+
+                Actor actor = actorHolder.getActor();
+                ((BatBoogerBehaviourComponent)actor.getComponent(ComponentFactory.BATBOOGERBEHAVIOURCOMPONENT)).create();
+                BoxColliderComponent collider = (BoxColliderComponent)actor.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
+                ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).setCurrentHealth(50);
+                ((AnimationComponent)actor.getComponent(ComponentFactory.ANIMATIONCOMPONENT)).setListID(0);
+                ((MotionComponent)actor.getComponent(ComponentFactory.MOTIONCOMPONENT)).set_velocityX(0.03f);
+                ((MotionComponent)actor.getComponent(ComponentFactory.MOTIONCOMPONENT)).set_velocityY(0.12f);
+                collider.setPreviousBoxLeft(0);
+                collider.setPreviousBoxTop(0);
+                collider.setPreviousBoxRight(0);
+                collider.setPreviousBoxBottom(0);
+                boogerList.add(actorHolder.getActor());
+                actorHolder.setAvailable(false);
+            }
+
+            if (boogerList.size() == 2)
+                break;
+        }
     }
 
     private void handlePlayerHit() {
 
-        boogerList.clear();
-        reInitActorPools();
-        playerLifeManager.removeLife();
-        String[] attributes = new String[]{"a_Position", "a_Color", "a_Normal", "a_TexCoordinate"};
-        int[] shaders = {R.raw.per_pixel_vertex_shader_sprite, R.raw.per_pixel_fragment_shader_sprite};
-        String[] attrsUnifs = {"u_MVPMatrix", "a_Position", "a_TexCoordinate"};
-        actorLoader.createPlayer(attributes, shaders, attrsUnifs, ActorFactory.TEXTUREATLAS_IDX, ActorFactory.PLAYER_ACTOR);
-        playerOnScene = false;
+        boolean b = playerLifeManager.removeLife();
+        if (b) {
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                playerActorList.add(playerActor);
-                playerOnScene = true;
-            }
-        }, 5000);
+            boogerList.clear();
+            brainsList.clear();
+            reInitActorPools();
 
-        current_obstacle--; // börja om
+            playerOnScene = false;
+            //actorLoader.createPlayerBurner(attributes, shaders, attrsUnifs, ActorFactory.TEXTUREATLAS_IDX, ActorFactory.SHIPBURNER_ACTOR);
 
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    playerActorList.add(playerActor);
+                    playerBurnerActorList.add(playerBurnerActor);
+                    playerOnScene = true;
+                }
+            }, 5000);
+
+            current_obstacle--; // börja om
+            //return true;
+        } else {
+            mediaPlayer.stop();
+            game_over = true;
+        }
+        //return false;
     }
 
 }

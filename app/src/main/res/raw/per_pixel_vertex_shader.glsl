@@ -20,9 +20,11 @@ vec2 offset_vec;
 void main()
 {
 
+    //vec2(0.4, 0.7108); för inzooming = göra bakgrunden större
+
     offset_vec = vec2(0, yCoord);
 
-    v_TexCoordinate = a_TexCoordinate + offset_vec;
+    v_TexCoordinate = (a_TexCoordinate + offset_vec) * vec2(1, 1);
 
 	gl_Position = u_MVPMatrix * a_Position;
 }

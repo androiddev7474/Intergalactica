@@ -55,7 +55,7 @@ public class GameManager {
                 infoNewLevel("level2");
                 break;
             case 3:
-                //this.level = new Level3(context, actorFactory);
+                this.level = new Level3(context, actorLoader);
                 //initLevelMap(gLprojection);
                 infoNewLevel("level3");
                 break;
@@ -86,8 +86,8 @@ public class GameManager {
 
         float width = context.getResources().getDisplayMetrics().widthPixels;
         float height = context.getResources().getDisplayMetrics().heightPixels;
-        float[][] bitmapDimens = { {width, height}, {width, height},{width, height}, {width, height}, {3913, 1723}, {1024, 989}};
-        String[] bitmapNames = {"level_map", "universe_1", "universe_2", "universe_3", "aliens_", "scoreatlas"};
+        float[][] bitmapDimens = { {width, height}, {width, height},{width, height}, {width, height}, {3913, 1723}, {1024, 989}, {width, height}};
+        String[] bitmapNames = {"level_map", "universe_1", "universe_2", "universe_3", "aliens_", "scoreatlas", "djungle"};
         bitmaps = resourceLoader.createBitmaps(bitmapDimens, bitmapNames, "drawable");
 
     }
