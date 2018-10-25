@@ -2,6 +2,7 @@ package intergalactica.game.se.myapplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.opengl.GLES30;
 import android.util.Log;
 
@@ -42,6 +43,7 @@ public class Level1 extends Level {
 
     Timer timer = new Timer();
 
+    MediaPlayer mediaPlayer;
 
     int testVal;
 
@@ -79,7 +81,9 @@ public class Level1 extends Level {
 
 
 
-
+        mediaPlayer = MediaPlayer.create(context, R.raw.minimal);
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
 
         levelCreated = true;
 
@@ -263,14 +267,16 @@ public class Level1 extends Level {
                     createObstacle();
                     break;
                 case BOOGER_ATTACK2:
-                    //createObstacle();
-                    advanceToNextLevel = true;
+                    createObstacle2();
+
                     break;
                 case BOOGER_ATTACK3:
-                    createObstacle();
+                    //createObstacle();
+                    mediaPlayer.stop();
+                    advanceToNextLevel = true;
                     break;
                 case BOOGER_ATTACK4:
-                    createObstacle();
+                    //createObstacle();
                     break;
                 case NEXT_LEVEL:
                     advanceToNextLevel = true;
@@ -283,7 +289,7 @@ public class Level1 extends Level {
         frameCntr++;
     }
 
-    public void createObstacle_() {
+    public void createObstacle2() {
 
 
 
@@ -295,6 +301,7 @@ public class Level1 extends Level {
                 ((BatBoogerBehaviourComponent)actor.getComponent(ComponentFactory.BATBOOGERBEHAVIOURCOMPONENT)).create();
                 BoxColliderComponent collider = (BoxColliderComponent)actor.getComponent(ComponentFactory.BOXCOLLIDERCOMPONENT);
                 ((LifeComponent)actor.getComponent(ComponentFactory.LIFECOMPONENT)).setCurrentHealth(50);
+                ((AnimationComponent)actor.getComponent(ComponentFactory.ANIMATIONCOMPONENT)).setListID(1); //booger purple
                 collider.setPreviousBoxLeft(0);
                 collider.setPreviousBoxTop(0);
                 collider.setPreviousBoxRight(0);
@@ -303,7 +310,7 @@ public class Level1 extends Level {
                 actorHolder.setAvailable(false);
             }
 
-            if (boogerList.size() == 3)
+            if (boogerList.size() == 6)
                 break;
         }
     }
@@ -360,6 +367,7 @@ public class Level1 extends Level {
             //return true;
         } else {
 
+            mediaPlayer.stop();
             game_over = true;
         }
         //return false;

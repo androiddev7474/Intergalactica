@@ -32,6 +32,7 @@ public class ActorFactory {
     public static final String SCORE_ACTOR = "ScoreActor";
 
     public static final String BAT_BOOGER_XMLNAME = "batbooger";
+    public static final String BAT_PURPLE_XMLNAME = "batpurple";
     public static final String BAT_BRAINS_XMLNAME = "batbrains";
     public static final String BOOGER_EXPLOSION = "batboogerx";
     public static final String BOOGER_EXPLOSION2 = "batpurplex";
@@ -54,6 +55,7 @@ public class ActorFactory {
     public static final int LEVEL1_L3_BITMAP_IDX = 3;
     public static final int TEXTUREATLAS_IDX = 4;
     public static final int SCOREATLAS_IDX = 5;
+    public static final int DJUNGLE_BACKGROUND_IDX = 6;
 
     private  ArrayList <Integer> unusedActorIDList = new ArrayList<>();
         private ArrayList <String> actorTypeList = new ArrayList<>();
@@ -459,9 +461,11 @@ public class ActorFactory {
             case BATBOOGER_ACTOR: {
 
                 float[][] textureDataBooger = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BAT_BOOGER_XMLNAME);
+                float[][] textureDataBooger2 = actorCreator.cropTexturesFromAtlas(R.array.aliendata, R.array.alienatlas_dimen, BAT_PURPLE_XMLNAME);
 
                 ArrayList <float[][]> textDataBoogerList = new ArrayList<>();
                 textDataBoogerList.add(textureDataBooger);
+                textDataBoogerList.add(textureDataBooger2);
                 int listID = 0; // vilka ttextdata ska användas?
 
                 float batBoogerSize = 1;
