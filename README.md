@@ -38,7 +38,7 @@ Varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas i
 
 ![alt text](http://fininfo.se/images_/20190217-115255_Intergalactica.jpg)
 
-2) Nivå 1 (spelet har börjat - inga fiender syns än)
+###### YTTRE RYMDEN (NIVÅ 1 - spelet har börjat, inga fiender syns än)
 
 ![alt text](http://fininfo.se/images_/20190217-115306_Intergalactica.jpg)
 
