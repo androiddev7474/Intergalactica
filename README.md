@@ -20,7 +20,9 @@ Spelet är programmerat i OpenGL ES 3.0 och scenen projiceras orthografiskt.
 
 ## PROGRAMMERING
 
-Koden grundar sig på ECS (Entity Component System) i huvudsak men använder även mönster som Object-Pooling (bra vid exempelvis allokering av fiender och skott) och FactoryPattern (generera Actors och Components). 
+Koden grundar sig på ECS (Entity Component System) i huvudsak men använder även mönster som Object-Pooling (bra vid exempelvis allokering av fiender och skott) och FactoryPattern (generera Actors och Components). Vidare tillämpas dynamisk bindning (polymorfism) på Levelklasserna - Level1, Level2 osv ärver gemensam central kod av basklassen Level men bestämmer själva hur de abstrakta metoderna draw() och update() ska se ut. På så sätt kan man bygga en level lite som man själv vill utan att påverka övrig kod.
+
+
 
 ------------------------------------------------------------------------------------------------------------------------
 
