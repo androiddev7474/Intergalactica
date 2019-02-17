@@ -36,30 +36,30 @@ Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns s
 
 2) Nivå 1 (spelet har börjat - inga fiender syns än)
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115306_Intergalactica.jpg)
+![alt text](http://fininfo.se/images_/20190217-115306_Intergalactica.jpg)
 
 3) Nivå 1 (första attacken)
 - Batbrains, som ser ut att vara mycket slöa - rör sig horisontell långsamt, men kan göra mycket plötsliga utfall söderut mot skeppet.
 Se upp, de kan vara mycket aggressiva :-o
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115310_Intergalactica.jpg)
+![alt text](http://fininfo.se/images_/20190217-115310_Intergalactica.jpg)
 
 4)Nivå1 (andra attacken)
 - Batbooger-attack. De kan ha olika attackmönster beroende på var man befinner sig i spelet - i början rör de sig långsamt mot skeppet men är de på humör kan de attackera blixtsnabbt.
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115339_Intergalactica.jpg)
+![alt text](http://fininfo.se/images_/20190217-115339_Intergalactica.jpg)
 
 5) Nivå 3 (Djungleplanet)
 Skeppet har nu nått den beryktade djungelplaneten där 90% av planetens yta täcks av regnskog. Här återfinns diverse monster.
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115414_Intergalactica.jpg)
+![alt text](http://fininfo.se/images_/20190217-115414_Intergalactica.jpg)
 
 6) Nivå 3 (Djungleplanet)
 
 **Batbrains**
 
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115417_Intergalactica.jpg)
+![alt text](http://fininfo.se/images_/20190217-115417_Intergalactica.jpg)
 
 
 
