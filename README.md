@@ -30,7 +30,9 @@ Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns s
 
 ## SCREENSHOTS
 
-1) Nivåkarta (Levelmap) - varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas innan varje nivå.
+###### Nivåkarta (Levelmap)
+
+Varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas innan varje nivå.
 
 ![alt text](http://fininfo.se/images_/20190217-115255_Intergalactica.jpg)
 
