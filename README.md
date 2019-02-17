@@ -30,7 +30,7 @@ Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns s
 
 ## SCREENSHOTS
 
-###### Nivåkarta (Levelmap)
+###### NIVÅKARTA
 
 Varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas innan varje nivå.
 
