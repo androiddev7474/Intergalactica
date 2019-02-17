@@ -2,7 +2,7 @@
 
 **Projekt HT 2018 Nackademin - (v. 38 - 43)
 
-**SPELIDÈ**
+## SPELIDÈ
 
 Året är 3466 e.kr och jorden har blivit obeboelig pga en överhettad jord och fullt med krig mellan olika civilisationer. Några få överlevande lyckas lämna planeten i sista stund med en rymdfarkost utvecklad med den senaste tekniken. Den kan färdas över ljusets hastighet och har ett utstakat mål - stjärnan Utopia med tillhörande planetsystem. I utopia råder total harmoni mellan civilisationerna och krig har aldrig existerat.
 .<br>
@@ -12,19 +12,19 @@
 
 -------------------------------------------------------------------------------------------------------------------
 
-**API**
+## API
 
 Spelet är programmerat i OpenGL ES 3.0 och scenen projiceras orthografiskt. 
 
 -------------------------------------------------------------------------------------------------------------------
 
-**PROGRAMMERING**
+## PROGRAMMERING
 
 Koden grundar sig på ECS (Entity Component System) i huvudsak men använder även mönster som Object-Pooling (bra vid exempelvis allokering av fiender och skott) och FactoryPattern (generera Actors och Components). 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-**TID**
+## TID
 
 Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns spelet endast på prototypnivå - en begränsad uppsättning fiender och 3 nivåer. Men med tanke på att koden är baserad på ECS så är det relativt lätt att bygga vidare på den "ryggrad" som finns och med tiden lansera spelet på Google Play.
 
