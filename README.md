@@ -28,7 +28,7 @@ Koden grundar sig på ECS (Entity Component System) i huvudsak men använder äv
 
 Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns spelet endast på prototypnivå - en begränsad uppsättning fiender och 3 nivåer. Men med tanke på att koden är baserad på ECS så är det relativt lätt att bygga vidare på den "ryggrad" som finns och med tiden lansera spelet på Google Play.
 
-**SCREENSHOTS**
+## SCREENSHOTS
 
 1) Nivåkarta (Levelmap) - varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas innan varje nivå.
 
