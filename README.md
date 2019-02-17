@@ -1,10 +1,10 @@
 
 
-# spelprojekt HT 2018 Nackademin - (v. 38 - 43)
+# SPELPROJEKT HT 2018 (v. 38 - 43, Nackademin)
 
 ## SPELIDÈ
 
-Året är 3466 e.kr och jorden har blivit obeboelig pga en överhettad jord och fullt med krig mellan olika civilisationer. Några få överlevande lyckas lämna planeten i sista stund med en rymdfarkost utvecklad med den senaste tekniken. Den kan färdas över ljusets hastighet och har ett utstakat mål - stjärnan Utopia med tillhörande planetsystem. I utopia råder total harmoni mellan civilisationerna och krig har aldrig existerat.
+Året är 3466 e.kr. och jorden har blivit obeboelig pga en överhettad jord och fullt med krig mellan olika civilisationer. Några få överlevande lyckas lämna planeten i sista stund med en rymdfarkost utvecklad med den senaste tekniken. Den kan färdas över ljusets hastighet och har ett utstakat mål - stjärnan Utopia med tillhörande planetsystem. I utopia råder total harmoni mellan civilisationerna och krig har aldrig existerat.
 .<br>
 
 ![alt text](http://fininfo.se/images/spaceshooter.jpg)
