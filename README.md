@@ -54,9 +54,7 @@ Skeppet har nu nått den beryktade djungelplaneten där 90% av planetens yta tä
 
 ![alt text](http://fininfo.se/images/Screenshot_20190217-115414_Intergalactica.jpg)
 
-6) Nivå 4 (Djungleplanet)
-
-![alt text](http://fininfo.se/images/Screenshot_20190217-115421_Intergalactica.jpg)
+6) Nivå 3 (Djungleplanet)
 
 **Batbrains**
 
