@@ -26,4 +26,41 @@ Koden grundar sig på ECS (Entity Component System) i huvudsak men använder äv
 
 **TID**
 
-Då tiden är mycket knapp med tanke på vad som ska göras så det kommer sannolikt bli enkelt MEN tanken är att det ska vara så pass bra uppbyggt kodmässigt att det relativt lätt ska kunna byggas ut och förfinas.
+Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns spelet endast på prototypnivå - en begränsad uppsättning fiender och 3 nivåer. Men med tanke på att koden är baserad på ECS så är det relativt lätt att bygga vidare på den "ryggrad" som finns och med tiden lansera spelet på Google Play.
+
+**SCREENSHOTS**
+
+1) Nivåkarta (Levelmap) - varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas innan varje nivå.
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115255_Intergalactica.jpg)
+
+2) Nivå 1 (spelet har börjat - inga fiender syns än)
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115306_Intergalactica.jpg)
+
+3) Nivå 1 (första attacken)
+- Batbrains, som ser ut att vara mycket slöa - rör sig horisontell långsamt, men kan göra mycket plötsliga utfall söderut mot skeppet.
+Se upp, de kan vara mycket aggressiva :-o
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115316_Intergalactica.jpg)
+
+4)Nivå1 (andra attacken)
+- Batbooger-attack. De kan ha olika attackmönster beroende på var man befinner sig i spelet - i början rör de sig långsamt mot skeppet men är de på humör kan de attackera blixtsnabbt.
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115339_Intergalactica.jpg)
+
+5) Nivå 3 (Djungleplanet)
+Skeppet har nu nått den beryktade djungelplaneten där 90% av planetens yta täcks av regnskog. Här återfinns diverse monster.
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115414_Intergalactica.jpg)
+
+6) Nivå 4 (Djungleplanet)
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115421_Intergalactica.jpg)
+
+**Batbrains**
+
+![alt text](http://fininfo.se/images/Screenshot_20190217-115417_Intergalactica.jpg)
+
+
+
