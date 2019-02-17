@@ -32,7 +32,7 @@ Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns s
 
 1) Nivåkarta (Levelmap) - varje level rör sig likt en spiral in mot stjärnan Utopia. Nivåkartan visas innan varje nivå.
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115255_Intergalactica.jpg | width=100)
+![alt text](http://fininfo.se/images/Screenshot_20190217-115255_Intergalactica.jpg)
 
 2) Nivå 1 (spelet har börjat - inga fiender syns än)
 
