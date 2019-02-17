@@ -1,28 +1,26 @@
+
+
+**Projekt HT 2018 Nackademin - (v. 38 - 43)
+
 **SPELIDÈ**
 
-Shoot em up spel
+Året är 3466 e.kr och jorden har blivit obeboelig pga en överhettad jord och fullt med krig mellan olika civilisationer. Några få överlevande lyckas lämna planeten i sista stund med en rymdfarkost utvecklad med den senaste tekniken. Den kan färdas över ljusets hastighet och har ett utstakat mål - stjärnan Utopia med tillhörande planetsystem. I utopia råder total harmoni mellan civilisationerna och krig har aldrig existerat.
+.<br>
 
-Man skulle kunna kalla det spaceshooter initialt så blir det lätt att förstå vad det handlar om.
+![alt text](http://fininfo.se/images/spaceshooter.jpg)
 
-Skeppet färdas i yttre rymden eller främmande världar och stöter på diverse hinder på vägen som meteoriter, 
-fiender men även goda föremål som kan ge fler liv. poäng med mera.
-
-Det ska finnas olika nivåer (levels) och olika nivåer har olika svårighetsgrader
-
-Målet skulle kunna vara att nå Utopia - en värld långt bortom denna där evig lycka och perfektion råder. 
-Skeppet har precis lämnat jorden som står i brand.<br>
 
 -------------------------------------------------------------------------------------------------------------------
 
 **API**
 
-Spelet kommer att programmeras i OpenGL ES 3.0 och scenen kommer att projiceras orthografiskt. 
+Spelet är programmerat i OpenGL ES 3.0 och scenen projiceras orthografiskt. 
 
 -------------------------------------------------------------------------------------------------------------------
 
 **PROGRAMMERING**
 
-Rent programmeringsmässigt kommer spelet att baseras på komponenter så långt det går och även försöka använda ett designmönster utöver det komponentbaserade.
+Koden grundar sig på ECS (Entity Component System) i huvudsak men använder även mönster som Object-Pooling (bra vid exempelvis allokering av fiender och skott) och FactoryPattern (generera Actors och Components). 
 
 ------------------------------------------------------------------------------------------------------------------------
 
