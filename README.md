@@ -42,7 +42,7 @@ Då tiden har varit mycket begränsad och tekniken (ramverket) avancerat finns s
 - Batbrains, som ser ut att vara mycket slöa - rör sig horisontell långsamt, men kan göra mycket plötsliga utfall söderut mot skeppet.
 Se upp, de kan vara mycket aggressiva :-o
 
-![alt text](http://fininfo.se/images/Screenshot_20190217-115316_Intergalactica.jpg)
+![alt text](http://fininfo.se/images/Screenshot_20190217-115310_Intergalactica.jpg)
 
 4)Nivå1 (andra attacken)
 - Batbooger-attack. De kan ha olika attackmönster beroende på var man befinner sig i spelet - i början rör de sig långsamt mot skeppet men är de på humör kan de attackera blixtsnabbt.
