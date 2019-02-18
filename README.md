@@ -25,7 +25,7 @@ Alla som tycker om lite barnsliga spel med action i högt tempo.
 
 ## API
 
-Spelet är programmerat i OpenGL ES 3.0 och scenen projiceras orthografiskt. 
+Spelet är programmerat i Java/Android och använder ramverket OpenGL ES 3.0. Scenen projiceras orthografiskt - således 2D. 
 
 -------------------------------------------------------------------------------------------------------------------
 
