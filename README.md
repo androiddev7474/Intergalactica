@@ -13,7 +13,7 @@
 ## SPELTYP, STIL OCH MÅLGRUPP
 
 ###### SPELTYP
-Spelet är ett typiskt shoot 'em up spel i 2D - ett skepp som färdas i rymden och konfronteras med diverse monster som det försöker skjuta ner.
+Spelet är ett typiskt *shoot 'em up spel* i 2D - ett skepp som färdas i rymden och konfronteras med diverse monster som det försöker skjuta ner.
 
 ###### GRAFISK STIL SAMT KÄNSLA
 Cartoonish.
